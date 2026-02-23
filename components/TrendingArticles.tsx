@@ -30,46 +30,48 @@ interface Article {
 }
 
 // Fallback articles in case API fails
-const fallbackArticles: Article[] = [
-  {
-    id: 1,
-    title: 'AI Regulation Debate Intensifies: EU Proposes Stricter Rules for Generative AI',
-    excerpt: 'European Commission announces new AI Act amendments targeting large language models. Tech giants express concerns over compliance costs.',
+// We'll generate fallback articles dynamically to ensure varied images
+const generateFallbackArticles = (): Article[] => {
+  const fallbackTitles = [
+    'AI Regulation Debate Intensifies: EU Proposes Stricter Rules for Generative AI',
+    'Bitcoin Surges 15% Following ETF Approval: Market Analysis & Predictions',
+  ];
+  
+  const fallbackCategories = ['Tech', 'Finance'];
+  
+  return fallbackTitles.map((title, index) => ({
+    id: index + 1,
+    title,
+    excerpt: index === 0 
+      ? 'European Commission announces new AI Act amendments targeting large language models. Tech giants express concerns over compliance costs.'
+      : 'Cryptocurrency markets rally as SEC approves spot Bitcoin ETFs. Analysts predict continued growth with institutional adoption.',
     content: '',
-    category: 'Tech',
-    readTime: '6 min',
-    views: 42500,
-    trendingScore: 98,
-    tags: ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance'],
-    publishedAt: '2026-02-22T14:30:00.000Z',
-    publishedAtSite: '2026-02-22T14:30:00.000Z',
-    color: 'from-blue-600 to-cyan-600',
+    category: fallbackCategories[index],
+    readTime: index === 0 ? '6 min' : '8 min',
+    views: index === 0 ? 42500 : 38200,
+    trendingScore: index === 0 ? 98 : 95,
+    tags: index === 0 
+      ? ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance']
+      : ['Bitcoin', 'ETF', 'Cryptocurrency', 'Market Analysis'],
+    publishedAt: index === 0 
+      ? '2026-02-22T14:30:00.000Z'
+      : '2026-02-22T11:15:00.000Z',
+    publishedAtSite: index === 0 
+      ? '2026-02-22T14:30:00.000Z'
+      : '2026-02-22T11:15:00.000Z',
+    color: index === 0 ? 'from-blue-600 to-cyan-600' : 'from-purple-600 to-pink-600',
     breaking: true,
     url: '#',
-    imageUrl: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
+    // Use getArticleImage for consistent image generation
+    imageUrl: '', // Will be set by getArticleImage
     sourceName: 'Trend Pulse AI',
-    slug: 'ai-regulation-debate-intensifies',
-  },
-  {
-    id: 2,
-    title: 'Bitcoin Surges 15% Following ETF Approval: Market Analysis & Predictions',
-    excerpt: 'Cryptocurrency markets rally as SEC approves spot Bitcoin ETFs. Analysts predict continued growth with institutional adoption.',
-    content: '',
-    category: 'Finance',
-    readTime: '8 min',
-    views: 38200,
-    trendingScore: 95,
-    tags: ['Bitcoin', 'ETF', 'Cryptocurrency', 'Market Analysis'],
-    publishedAt: '2026-02-22T11:15:00.000Z',
-    publishedAtSite: '2026-02-22T11:15:00.000Z',
-    color: 'from-purple-600 to-pink-600',
-    breaking: true,
-    url: '#',
-    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
-    sourceName: 'Trend Pulse AI',
-    slug: 'bitcoin-surges-15-following-etf-approval',
-  },
-];
+    slug: index === 0 
+      ? 'ai-regulation-debate-intensifies'
+      : 'bitcoin-surges-15-following-etf-approval',
+  }));
+};
+
+const fallbackArticles = generateFallbackArticles();
 
 const categories = [
   { name: 'All', count: 48, icon: Zap },

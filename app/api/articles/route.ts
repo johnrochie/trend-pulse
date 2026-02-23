@@ -42,17 +42,39 @@ function getPlaceholderImageForArticle(article: any): string {
     '1552664730-d307ca884978', // Data visualization - ✅ VERIFIED WORKING
   ];
   
-  // Simple deterministic selection
-  const seed = article.id || article.title || 'default';
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-    hash = hash & hash;
+  // Better deterministic selection - ensure different articles get different images
+  // Use article ID if available, otherwise use title hash
+  let seed: string | number;
+  
+  if (article.id && typeof article.id === 'number') {
+    // Use article ID directly for variety
+    seed = article.id;
+  } else if (article.id && typeof article.id === 'string') {
+    // Hash string ID
+    seed = simpleStringHash(article.id);
+  } else {
+    // Use title hash
+    seed = simpleStringHash(article.title || 'default');
   }
-  const photoIndex = Math.abs(hash) % verifiedWorkingPhotos.length;
+  
+  // Ensure we get a good distribution across photos
+  const photoIndex = Math.abs(Number(seed)) % verifiedWorkingPhotos.length;
   const photoId = verifiedWorkingPhotos[photoIndex];
   
   return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+}
+
+/**
+ * Simple string hash function that produces good distribution
+ */
+function simpleStringHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash);
 }
 
 // Path to the automation output
