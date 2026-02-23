@@ -29,6 +29,12 @@ interface Article {
   imageUrl: string;
   sourceName: string;
   slug: string;
+  // SEO fields (added by API enhancement)
+  seoTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  updatedAt?: string;
 }
 
 async function getArticle(slug: string): Promise<Article | null> {
@@ -67,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   // Generate Open Graph and Twitter tags
   const ogTags = generateOpenGraphTags(title, description, imageUrl, `/article/${article.slug}`);
-  const twitterTags = generateTwitterCardTags(title, description, imageUrl);
+  const twitterTagsObj = generateTwitterCardTags(title, description, imageUrl);
   
   return {
     title,
@@ -87,7 +93,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       tags: article.tags || [article.category],
     },
     twitter: {
-      ...twitterTags,
+      card: 'summary_large_image' as const,
+      site: '@trendpulse',
+      creator: '@trendpulse',
+      title: title,
+      description: description.substring(0, 200),
+      images: [imageUrl],
     },
     robots: {
       index: true,
