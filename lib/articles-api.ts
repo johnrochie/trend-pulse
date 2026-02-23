@@ -202,7 +202,7 @@ function getMockArticles(options: {
       slug: 'ai-news-automation-future-content-creation',
       seoTitle: 'AI News Automation: The Future of Content Creation | Technology News - Trend Pulse',
       metaDescription: 'How AI-powered systems are revolutionizing news reporting and content generation across industries. Read our latest technology news and analysis.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/ai-news-automation-future-content-creation',
+      canonicalUrl: 'https://trendpulse.life/article/ai-news-automation-future-content-creation',
       ogImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     },
@@ -225,7 +225,7 @@ function getMockArticles(options: {
       slug: 'market-trends-2026-what-investors-need-to-know',
       seoTitle: 'Market Trends 2026: What Investors Need to Know | Business News - Trend Pulse',
       metaDescription: 'Analysis of emerging market trends and investment opportunities for the coming year. Stay informed with our latest business news coverage.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/market-trends-2026-what-investors-need-to-know',
+      canonicalUrl: 'https://trendpulse.life/article/market-trends-2026-what-investors-need-to-know',
       ogImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     },
@@ -248,7 +248,7 @@ function getMockArticles(options: {
       slug: 'streaming-wars-intensify-new-platforms-challenge-established-giants',
       seoTitle: 'Streaming Wars Intensify: New Platforms Challenge Established Giants | Entertainment News - Trend Pulse',
       metaDescription: 'The battle for streaming dominance heats up as new entrants disrupt the entertainment landscape. Read our latest entertainment news analysis.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/streaming-wars-intensify-new-platforms-challenge-established-giants',
+      canonicalUrl: 'https://trendpulse.life/article/streaming-wars-intensify-new-platforms-challenge-established-giants',
       ogImage: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     },
@@ -271,7 +271,7 @@ function getMockArticles(options: {
       slug: 'wellness-trends-how-technology-is-transforming-health',
       seoTitle: 'Wellness Trends: How Technology is Transforming Health | Lifestyle News - Trend Pulse',
       metaDescription: 'From wearable devices to mental health apps, technology is reshaping personal wellness. Stay informed with our latest lifestyle trends analysis.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/wellness-trends-how-technology-is-transforming-health',
+      canonicalUrl: 'https://trendpulse.life/article/wellness-trends-how-technology-is-transforming-health',
       ogImage: 'https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     },
@@ -294,7 +294,7 @@ function getMockArticles(options: {
       slug: 'sustainable-finance-green-investments-reach-record-high',
       seoTitle: 'Sustainable Finance: Green Investments Reach Record High | Finance News - Trend Pulse',
       metaDescription: 'Environmental, social, and governance (ESG) investing continues to gain momentum globally. Read our latest finance news and analysis.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/sustainable-finance-green-investments-reach-record-high',
+      canonicalUrl: 'https://trendpulse.life/article/sustainable-finance-green-investments-reach-record-high',
       ogImage: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     },
@@ -317,7 +317,7 @@ function getMockArticles(options: {
       slug: 'remote-work-revolution-hybrid-models-reshape-corporate-culture',
       seoTitle: 'Remote Work Revolution: Hybrid Models Reshape Corporate Culture | Lifestyle News - Trend Pulse',
       metaDescription: 'Companies worldwide are adopting flexible work arrangements to attract and retain talent. Stay informed with our latest lifestyle trends analysis.',
-      canonicalUrl: 'https://trend-pulse.vercel.app/article/remote-work-revolution-hybrid-models-reshape-corporate-culture',
+      canonicalUrl: 'https://trendpulse.life/article/remote-work-revolution-hybrid-models-reshape-corporate-culture',
       ogImage: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
     }
