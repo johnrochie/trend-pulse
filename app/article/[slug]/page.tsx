@@ -181,7 +181,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
         
         {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-8">
             {article.tags.map((tag) => (
               <span
                 key={tag}
@@ -191,7 +191,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
             ))}
           </div>
-        </div>
         
         {/* Article Content */}
         <div className="prose prose-lg prose-invert max-w-none">
