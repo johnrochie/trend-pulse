@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Trend Pulse",
+    "description": "Real-time news and analysis",
+    "tagline": "Stay ahead of what's trending",
+    "url": "https://trendpulse.ai",
+    "language": "en",
+    "timezone": "UTC"
+  },
+  "contact": {
+    "email": "hello@trendpulse.ai",
+    "twitter": "https://twitter.com/trendpulse",
+    "linkedin": "https://linkedin.com/company/trendpulse",
+    "github": "https://github.com/trendpulse"
+  },
+  "newsletter": {
+    "enabled": true,
+    "subscriberCount": 15000,
+    "openRate": "97%",
+    "deliveryTime": "7 AM"
+  },
+  "stats": {
+    "dailyReaders": 15000,
+    "dailyArticles": 50000,
+    "monthlyPageviews": 2500000,
+    "trendAccuracy": "97%"
+  },
+  "automation": {
+    "schedule": "Every 6 hours",
+    "categories": ["technology", "business", "entertainment"],
+    "maxArticlesPerCycle": 5
+  }
+}
