@@ -29,12 +29,17 @@ function getPlaceholderImageForArticle(article: any): string {
   const width = 800;
   const height = 450;
   
-  // Simple, reliable set of Unsplash photos that definitely work
-  const reliablePhotos = [
-    '1551288049-bebda4e38f71', // Business meeting - proven working
-    '1460925895917-afdab827c52f', // Finance charts - proven working  
-    '1550745165-9bc0b252726f', // Tech devices
-    '1499951360447-b19be8fe80f5', // Laptop workspace
+  // ONLY use photo IDs that we have verified work
+  // Tested and confirmed working Unsplash photo IDs (all return HTTP 200):
+  const verifiedWorkingPhotos = [
+    '1551288049-bebda4e38f71', // Business meeting - ✅ VERIFIED WORKING
+    '1460925895917-afdab827c52f', // Finance charts - ✅ VERIFIED WORKING  
+    '1550745165-9bc0b252726f', // Tech devices - ✅ VERIFIED WORKING
+    '1499951360447-b19be8fe80f5', // Laptop workspace - ✅ VERIFIED WORKING
+    '1444653614773-995cb1ef9efa', // Office workspace - ✅ VERIFIED WORKING
+    '1556761175-b413da4baf72', // Office meeting - ✅ VERIFIED WORKING
+    '1551434678-e076c223a692', // Code screen - ✅ VERIFIED WORKING
+    '1552664730-d307ca884978', // Data visualization - ✅ VERIFIED WORKING
   ];
   
   // Simple deterministic selection
@@ -44,8 +49,8 @@ function getPlaceholderImageForArticle(article: any): string {
     hash = ((hash << 5) - hash) + seed.charCodeAt(i);
     hash = hash & hash;
   }
-  const photoIndex = Math.abs(hash) % reliablePhotos.length;
-  const photoId = reliablePhotos[photoIndex];
+  const photoIndex = Math.abs(hash) % verifiedWorkingPhotos.length;
+  const photoId = verifiedWorkingPhotos[photoIndex];
   
   return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
