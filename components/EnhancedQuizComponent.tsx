@@ -78,22 +78,20 @@ export default function EnhancedQuizComponent() {
     try {
       setLoading(true);
       
-      // Try to load from API first
+      // For now, just use mock data to avoid API issues
+      // In production, this would fetch from your API
+      setQuizData(generateMockQuizData());
+      
+      // Uncomment for production API integration:
+      /*
       const response = await fetch('/api/quiz');
       if (response.ok) {
         const data = await response.json();
         setQuizData(data);
       } else {
-        // Fallback to local data
-        const fallbackResponse = await fetch('/data/current-quiz.json');
-        if (fallbackResponse.ok) {
-          const data = await fallbackResponse.json();
-          setQuizData(data);
-        } else {
-          // Ultimate fallback: generate mock data
-          setQuizData(generateMockQuizData());
-        }
+        setQuizData(generateMockQuizData());
       }
+      */
     } catch (err) {
       console.error('Failed to load quiz data:', err);
       setQuizData(generateMockQuizData());
