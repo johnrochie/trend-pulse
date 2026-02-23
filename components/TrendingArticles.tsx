@@ -94,10 +94,12 @@ const getColorForCategory = (category: string): string => {
 };
 
 export default function TrendingArticles() {
-  const [articles, setArticles] = useState<Article[]>(fallbackArticles);
-  const [loading, setLoading] = useState(false); // Start with false to show fallback immediately
+  // Use function initializers for consistent SSR/CSR
+  const [articles, setArticles] = useState<Article[]>(() => []);
+  const [loading, setLoading] = useState(() => true);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  // Simple fetch function with timeout
+  // Simple fetch function with timeout - only runs on client
   useEffect(() => {
     let mounted = true;
     
