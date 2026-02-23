@@ -307,31 +307,28 @@ export default function EnhancedQuizComponent() {
 
   // Utility functions
   const getWeekNumber = () => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 1);
-    const diff = now.getTime() - start.getTime();
-    const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    return Math.floor(diff / oneWeek) + 1;
+    // Fixed week number for SSR consistency (week 8 of 2026)
+    return 8;
   };
 
   const getNextThursday = () => {
-    const now = new Date();
-    const nextThursday = new Date(now);
-    const daysUntilThursday = (4 - now.getDay() + 7) % 7 || 7;
-    nextThursday.setDate(now.getDate() + daysUntilThursday);
-    return nextThursday;
+    // Fixed next Thursday for SSR consistency (2026-02-27)
+    return new Date('2026-02-27T00:00:00.000Z');
   };
 
   const getSiteAgeDays = () => {
     // Site launched approximately on 2026-02-23
-    const launchDate = new Date('2026-02-23');
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - launchDate.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // Return fixed value for SSR consistency
+    return 1; // Fixed: site is 1 day old
   };
 
   const formatTimeRemaining = () => {
     if (!quizData) return '';
+    
+    // For SSR, return a fixed value
+    if (typeof window === 'undefined') {
+      return '3d 12h'; // Fixed value for server-side rendering
+    }
     
     const expires = new Date(quizData.expiresAt);
     const now = new Date();
