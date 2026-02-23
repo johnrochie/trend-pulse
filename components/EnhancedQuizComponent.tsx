@@ -68,11 +68,19 @@ export default function EnhancedQuizComponent() {
   const [quizData, setQuizData] = useState<QuizData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  // Set mounted state
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   // Load quiz data
   useEffect(() => {
-    loadQuizData();
-  }, []);
+    if (hasMounted) {
+      loadQuizData();
+    }
+  }, [hasMounted]);
 
   const loadQuizData = async () => {
     try {
