@@ -1,0 +1,156 @@
+{
+  "week": 8,
+  "title": "Week 8: Trending News Quiz",
+  "subtitle": "Test your knowledge of this week's most discussed topics",
+  "description": "20 questions based on articles that appeared on Trend Pulse this week. How well did you follow the news?",
+  "generatedAt": "2026-02-23T22:00:00.000Z",
+  "publishedAt": "2026-02-23T22:00:00.000Z",
+  "expiresAt": "2026-02-27T23:59:59.999Z",
+  "questionCount": 20,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What was the main finding in AI Regulation according to this week's analysis?",
+      "options": [
+        "Increased adoption of AI and automation",
+        "Market expansion and growth strategies",
+        "Consumer behavior shifts and preferences",
+        "Regulatory changes and compliance"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This week's analysis shows significant growth in AI and automation adoption across the technology sector.",
+      "category": "Technology",
+      "difficulty": "hard",
+      "points": 15,
+      "sourceArticle": "AI Regulation and Ethics: What 2026 Holds for Artificial Intelligence Governance",
+      "sourceUrl": "/article/ai-regulation-and-ethics-what-2026-holds-for-artificial-intelligence-governance",
+      "articleId": 1,
+      "week": 8
+    },
+    {
+      "id": 2,
+      "question": "What was the main trend in Business this week according to analysis?",
+      "options": [
+        "Market expansion and growth strategies",
+        "Increased adoption of AI and automation",
+        "Consumer behavior shifts and preferences",
+        "Regulatory changes and compliance"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This week's analysis shows significant growth in market expansion strategies across the business sector.",
+      "category": "Business",
+      "difficulty": "medium",
+      "points": 10,
+      "sourceArticle": "Remote Work Productivity: Tools and Strategies for Distributed Teams in 2026",
+      "sourceUrl": "/article/remote-work-productivity-tools-and-strategies-for-distributed-teams-in-2026",
+      "articleId": 6,
+      "week": 8
+    },
+    {
+      "id": 3,
+      "question": "What was the main trend in Entertainment this week according to analysis?",
+      "options": [
+        "Consumer behavior shifts and preferences",
+        "Increased adoption of AI and automation",
+        "Market expansion and growth strategies",
+        "Regulatory changes and compliance"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This week's analysis shows significant shifts in consumer behavior across the entertainment sector.",
+      "category": "Entertainment",
+      "difficulty": "easy",
+      "points": 5,
+      "sourceArticle": "Streaming Service Evolution: How Price Wars Are Reshaping Entertainment",
+      "sourceUrl": "/article/streaming-service-evolution-how-price-wars-are-reshaping-entertainment",
+      "articleId": 11,
+      "week": 8
+    },
+    {
+      "id": 4,
+      "question": "What was the main trend in Lifestyle this week according to analysis?",
+      "options": [
+        "Regulatory changes and compliance",
+        "Increased adoption of AI and automation",
+        "Market expansion and growth strategies",
+        "Consumer behavior shifts and preferences"
+      ],
+      "correctAnswer": 3,
+      "explanation": "This week's analysis shows significant shifts in consumer behavior across the lifestyle sector.",
+      "category": "Lifestyle",
+      "difficulty": "medium",
+      "points": 10,
+      "sourceArticle": "Mental Health and Wellness: How Apps Are Supporting Better Mental Health",
+      "sourceUrl": "/article/mental-health-and-wellness-how-apps-are-supporting-better-mental-health",
+      "articleId": 16,
+      "week": 8
+    },
+    {
+      "id": 5,
+      "question": "What was the main trend in Finance this week according to analysis?",
+      "options": [
+        "Increased adoption of AI and automation",
+        "Market expansion and growth strategies",
+        "Consumer behavior shifts and preferences",
+        "Regulatory changes and compliance"
+      ],
+      "correctAnswer": 3,
+      "explanation": "This week's analysis shows significant regulatory changes across the finance sector.",
+      "category": "Finance",
+      "difficulty": "hard",
+      "points": 15,
+      "sourceArticle": "Cryptocurrency Regulation: Global Approaches to Digital Asset Governance",
+      "sourceUrl": "/article/cryptocurrency-regulation-global-approaches-to-digital-asset-governance",
+      "articleId": 21,
+      "week": 8
+    }
+  ],
+  "stats": {
+    "totalPlayers": 1248,
+    "averageScore": 72,
+    "topScore": 100,
+    "completionRate": 68
+  },
+  "leaderboard": [
+    {
+      "rank": 1,
+      "name": "Alex Johnson",
+      "score": 100,
+      "time": "4:28"
+    },
+    {
+      "rank": 2,
+      "name": "Sarah Miller",
+      "score": 95,
+      "time": "5:12"
+    },
+    {
+      "rank": 3,
+      "name": "David Chen",
+      "score": 90,
+      "time": "4:55"
+    },
+    {
+      "rank": 4,
+      "name": "Emma Wilson",
+      "score": 85,
+      "time": "6:01"
+    },
+    {
+      "rank": 5,
+      "name": "Michael Brown",
+      "score": 80,
+      "time": "5:45"
+    }
+  ],
+  "categoryBreakdown": {
+    "Technology": 5,
+    "Business": 4,
+    "Entertainment": 3,
+    "Lifestyle": 3,
+    "Finance": 2,
+    "Health": 2,
+    "Science": 1
+  },
+  "version": "2.0",
+  "source": "Trend Pulse Weekly Automation"
+}

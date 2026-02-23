@@ -1,4 +1,4 @@
-import QuizComponent from '@/components/QuizComponent';
+import EnhancedQuizComponent from '@/components/EnhancedQuizComponent';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function QuizPage() {
         </div>
 
         {/* Quiz Component */}
-        <QuizComponent />
+        <EnhancedQuizComponent />
 
         {/* How It Works */}
         <div className="mt-16 bg-gray-800/30 border border-gray-700 rounded-xl p-8">
