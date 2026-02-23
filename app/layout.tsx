@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { config } from "@/lib/config";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo";
 
@@ -140,18 +142,31 @@ export default function RootLayout({
         <Footer />
         <CookieConsentBanner />
         
-        {/* Analytics script placeholder */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Google Analytics placeholder
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX');
-            `,
-          }}
-        />
+        {/* Vercel Analytics */}
+        <Analytics />
+        <SpeedInsights />
+        
+        {/* Google Analytics - Add your GA4 Measurement ID in .env.local */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </body>
     </html>
   );
