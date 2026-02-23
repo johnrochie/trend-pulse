@@ -63,7 +63,7 @@ export default function AnalyticsDashboard() {
       // Calculate realistic stats based on site age (launched ~today)
       const siteAgeDays = 1; // Site just launched
       const baseVisitors = Math.max(10, Math.floor(siteAgeDays * 15)); // ~15 visitors per day for new site
-      const totalVisitors = baseVisitors + Math.floor(Math.random() * 10);
+      const totalVisitors = baseVisitors + 5; // Deterministic: base + 5
       const pageViews = totalVisitors * 3; // ~3 pages per visitor for news site
       
       // Mock data - in production, fetch from your analytics API
@@ -93,10 +93,10 @@ export default function AnalyticsDashboard() {
           { date: 'Feb 23', visitors: totalVisitors, pageViews }
         ],
         automationStats: {
-          lastRun: new Date().toISOString(),
+          lastRun: '2026-02-23T22:00:00.000Z', // Fixed timestamp
           articlesGenerated: 54,
           successRate: 100,
-          nextRun: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString() // Next run in 6 hours
+          nextRun: '2026-02-24T04:00:00.000Z' // Fixed: 6 hours later
         }
       };
       
@@ -432,7 +432,7 @@ export default function AnalyticsDashboard() {
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>
             Analytics update every 24 hours. 
-            <span className="text-blue-400 ml-2">Last updated: {new Date().toLocaleString()}</span>
+            <span className="text-blue-400 ml-2">Last updated: February 23, 2026, 10:00:00 PM UTC</span>
           </p>
           <p className="mt-2">
             Connect Google Analytics for real-time data. Add your GA4 Measurement ID in .env.local

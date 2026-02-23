@@ -57,9 +57,9 @@ const generateFallbackArticles = (): Article[] => {
     excerpt: fallbackExcerpts[index],
     content: '',
     category: fallbackCategories[index],
-    readTime: `${Math.floor(Math.random() * 4) + 3} min`,
-    views: Math.floor(Math.random() * 200) + 50, // Realistic for new site
-    trendingScore: Math.floor(Math.random() * 20) + 80,
+    readTime: `${((index % 4) + 3)} min`, // Deterministic: 3-6 min based on index
+    views: 50 + (index * 30), // Deterministic: 50, 80, 110, 140, 170, 200
+    trendingScore: 80 + (index * 3), // Deterministic: 80-95
     tags: [
       ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance'],
       ['Bitcoin', 'ETF', 'Cryptocurrency', 'Market Analysis'],
@@ -68,8 +68,8 @@ const generateFallbackArticles = (): Article[] => {
       ['Remote Work', 'Business', 'Productivity', 'Future of Work'],
       ['Healthcare', 'AI', 'Medical', 'Innovation']
     ][index],
-    publishedAt: new Date(Date.now() - (index * 86400000)).toISOString(), // Stagger dates
-    publishedAtSite: new Date(Date.now() - (index * 86400000)).toISOString(),
+    publishedAt: new Date(Date.UTC(2026, 1, 23 - index, 12, 0, 0)).toISOString(), // Deterministic dates
+    publishedAtSite: new Date(Date.UTC(2026, 1, 23 - index, 12, 0, 0)).toISOString(),
     color: [
       'from-blue-600 to-cyan-600',
       'from-purple-600 to-pink-600',

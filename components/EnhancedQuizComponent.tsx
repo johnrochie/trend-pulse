@@ -109,21 +109,21 @@ export default function EnhancedQuizComponent() {
     
     // Calculate realistic stats based on site age
     const basePlayers = Math.max(50, Math.floor(siteAgeDays * 3)); // ~3 players per day
-    const totalPlayers = basePlayers + Math.floor(Math.random() * 20); // Add some variation
+    const totalPlayers = basePlayers + 10; // Deterministic variation
     
     // Realistic average score (60-75% range for new site)
-    const averageScore = 65 + Math.floor(Math.random() * 10);
+    const averageScore = 68; // Fixed average
     
     // Realistic completion rate (50-70% for new site)
-    const completionRate = 60 + Math.floor(Math.random() * 10);
+    const completionRate = 65; // Fixed rate
     
     return {
       week: weekNumber,
       title: `Week ${weekNumber}: Trending News Quiz`,
       subtitle: 'Test your knowledge of this week\'s most discussed topics',
       description: '20 questions based on articles that appeared on Trend Pulse this week. How well did you follow the news?',
-      generatedAt: new Date().toISOString(),
-      publishedAt: new Date().toISOString(),
+      generatedAt: '2026-02-23T22:00:00.000Z',
+      publishedAt: '2026-02-23T22:00:00.000Z',
       expiresAt: getNextThursday().toISOString(),
       questionCount: 20,
       questions: generateMockQuestions(20),
@@ -166,7 +166,7 @@ export default function EnhancedQuizComponent() {
           'Market expansion and growth strategies',
           'Consumer behavior shifts and preferences',
           'Regulatory changes and compliance'
-        ].sort(() => Math.random() - 0.5),
+        ].sort((a, b) => a.localeCompare(b)), // Deterministic sort
         correctAnswer: 0,
         explanation: `This week's analysis shows significant growth in AI and automation adoption across the ${category.toLowerCase()} sector.`,
         category,
