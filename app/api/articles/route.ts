@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import { config } from '@/lib/config';
+import { generateArticleMetaDescription, generateArticleTitle } from '@/lib/seo';
 
 // Helper function to fix malformed Unsplash URLs
 function fixUnsplashUrl(url: string): string {
@@ -77,6 +78,60 @@ function simpleStringHash(str: string): number {
   return Math.abs(hash);
 }
 
+/**
+ * Enhance article with SEO data
+ */
+function enhanceArticleWithSeo(article: any): any {
+  const enhancedArticle = { ...article };
+  
+  // Generate SEO-optimized title if not present
+  if (!enhancedArticle.seoTitle) {
+    enhancedArticle.seoTitle = generateArticleTitle(
+      enhancedArticle.title || 'Latest News',
+      enhancedArticle.category || 'general'
+    );
+  }
+  
+  // Generate SEO-optimized meta description if not present
+  if (!enhancedArticle.metaDescription) {
+    enhancedArticle.metaDescription = generateArticleMetaDescription(
+      enhancedArticle.title || 'Latest News',
+      enhancedArticle.summary || enhancedArticle.content?.substring(0, 200) || 'Stay informed with the latest news and analysis.',
+      enhancedArticle.category || 'general'
+    );
+  }
+  
+  // Ensure slug is URL-friendly
+  if (enhancedArticle.title && !enhancedArticle.slug) {
+    enhancedArticle.slug = enhancedArticle.title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-')     // Replace spaces with hyphens
+      .replace(/-+/g, '-')      // Remove duplicate hyphens
+      .substring(0, 100);       // Limit length
+  }
+  
+  // Add canonical URL
+  if (enhancedArticle.slug) {
+    enhancedArticle.canonicalUrl = `${config.site.url}/article/${enhancedArticle.slug}`;
+  }
+  
+  // Add Open Graph image URL
+  if (enhancedArticle.imageUrl) {
+    enhancedArticle.ogImage = enhancedArticle.imageUrl;
+  }
+  
+  // Add publication date if not present
+  if (!enhancedArticle.publishedAt) {
+    enhancedArticle.publishedAt = new Date().toISOString();
+  }
+  
+  // Add last modified date
+  enhancedArticle.updatedAt = new Date().toISOString();
+  
+  return enhancedArticle;
+}
+
 // Path to the automation output
 const AUTOMATION_DIR = path.dirname(config.automation.articlesPath);
 const ARTICLES_FILE = config.automation.articlesPath;
@@ -147,7 +202,7 @@ export async function GET(request: NextRequest) {
     // Apply limit
     filteredData = filteredData.slice(0, limit);
 
-    // Clean up image URLs before returning
+    // Clean up image URLs and enhance with SEO data
     const cleanedData = filteredData.map((article: any) => {
       // Create a copy of the article
       const cleanedArticle = { ...article };
@@ -159,7 +214,8 @@ export async function GET(request: NextRequest) {
         cleanedArticle.imageUrl = getPlaceholderImageForArticle(cleanedArticle);
       }
       
-      return cleanedArticle;
+      // Enhance article with SEO data
+      return enhanceArticleWithSeo(cleanedArticle);
     });
 
     // Return response

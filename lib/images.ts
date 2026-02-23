@@ -184,9 +184,26 @@ export function getOptimizedImageUrl(url: string, options: {
 }
 
 /**
- * Get image alt text for accessibility
+ * Get image alt text for accessibility and SEO
  */
 export function getImageAltText(article: any): string {
   if (article.imageAlt) return article.imageAlt;
-  return `${article.title} - ${article.category} news article`;
+  
+  // Simple but effective alt text generation
+  const category = article.category || 'general';
+  const title = article.title || 'News article';
+  
+  // Generate SEO-friendly alt text
+  const categoryMap: Record<string, string> = {
+    'technology': 'tech news, AI, innovation, digital trends',
+    'business': 'business news, market trends, economy, finance',
+    'entertainment': 'entertainment news, movies, TV shows, celebrities',
+    'lifestyle': 'lifestyle trends, health, wellness, culture',
+    'politics': 'political news, government, policy, elections',
+    'sports': 'sports news, games, athletes, teams'
+  };
+  
+  const keywords = categoryMap[category.toLowerCase()] || 'news, trends, analysis';
+  
+  return `${title} - ${category} news and analysis. Related to ${keywords}.`;
 }

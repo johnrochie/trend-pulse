@@ -1,10 +1,14 @@
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
+import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchema } from '@/lib/seo';
+import { config } from '@/lib/config';
+import RelatedArticles from '@/components/RelatedArticles';
 
 interface Article {
   id: number;
@@ -42,6 +46,62 @@ async function getArticle(slug: string): Promise<Article | null> {
   }
 }
 
+// Generate metadata for the article page
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticle(slug);
+  
+  if (!article) {
+    return {
+      title: 'Article Not Found - Trend Pulse',
+      description: 'The requested article could not be found.',
+    };
+  }
+  
+  // Use SEO-enhanced data from API if available, otherwise generate
+  const title = article.seoTitle || `${article.title} | ${article.category} News - Trend Pulse`;
+  const description = article.metaDescription || article.excerpt || `Read our latest ${article.category} news: ${article.title}. Stay informed with Trend Pulse.`;
+  const canonicalUrl = article.canonicalUrl || generateCanonicalUrl(`/article/${article.slug}`);
+  const imageUrl = article.ogImage || article.imageUrl || `${config.site.url}/og-image.jpg`;
+  
+  // Generate Open Graph and Twitter tags
+  const ogTags = generateOpenGraphTags(title, description, imageUrl, `/article/${article.slug}`);
+  const twitterTags = generateTwitterCardTags(title, description, imageUrl);
+  
+  return {
+    title,
+    description: description.substring(0, 160), // Keep within meta description limits
+    keywords: article.tags?.join(', ') || article.category,
+    authors: [{ name: 'Trend Pulse' }],
+    metadataBase: new URL(config.site.url),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      ...ogTags,
+      type: 'article',
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt || article.publishedAt,
+      authors: ['Trend Pulse'],
+      tags: article.tags || [article.category],
+    },
+    twitter: {
+      ...twitterTags,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  };
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = await getArticle(slug);
@@ -51,34 +111,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   }
   
   // Generate structured data for SEO
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'NewsArticle',
-    headline: article.title,
-    description: article.excerpt,
-    image: article.imageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/og-image.jpg`,
-    datePublished: article.publishedAt,
-    dateModified: article.publishedAt,
-    author: {
-      '@type': 'Organization',
-      name: 'Trend Pulse',
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Trend Pulse',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/logo-simple.svg`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/article/${article.slug}`,
-    },
-    articleSection: article.category,
-    keywords: article.tags?.join(', ') || article.category,
-  };
+  const structuredData = generateNewsArticleSchema(
+    article.title,
+    article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
+    article.imageUrl || `${config.site.url}/og-image.jpg`,
+    article.publishedAt,
+    article.updatedAt || article.publishedAt,
+    'Trend Pulse'
+  );
   
   // Helper function to get color based on category
   const getColorForCategory = (category: string): string => {
@@ -271,6 +311,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         </div>
+        
+        {/* Related Articles (Internal Linking for SEO) */}
+        <RelatedArticles
+          currentArticleId={article.id}
+          currentCategory={article.category}
+          currentTags={article.tags}
+          limit={3}
+        />
         
         {/* CTA Section */}
         <div className="text-center">

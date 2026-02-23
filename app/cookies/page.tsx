@@ -206,7 +206,6 @@ export default async function CookiePolicyPage() {
     <PageTemplate
       title={pageData.title}
       content={pageData.content}
-      icon={<Cookie className="w-8 h-8 text-blue-500" />}
     >
       {/* Additional GDPR information */}
       <div className="mt-12 p-6 bg-gray-800/50 rounded-xl border border-gray-700">

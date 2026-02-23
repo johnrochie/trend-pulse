@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { config } from "@/lib/config";
+import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -95,6 +96,21 @@ export default function RootLayout({
         
         <link rel="canonical" href={config.site.url} />
         <link rel="manifest" href="/site.webmanifest" />
+        
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateOrganizationSchema()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateWebsiteSchema()),
+          }}
+        />
+        
         <script
           dangerouslySetInnerHTML={{
             __html: `
