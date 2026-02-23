@@ -89,8 +89,8 @@ export async function fetchArticles(options: {
  */
 async function fetchFromGitHub(): Promise<ApiResponse> {
   try {
-    // GitHub raw URL for articles.json
-    const githubUrl = 'https://raw.githubusercontent.com/johnrochie/trend-pulse/main/automation-output/articles.json';
+    // GitHub raw URL for automation-output.json
+    const githubUrl = 'https://raw.githubusercontent.com/johnrochie/trend-pulse/main/automation-output.json';
     
     const response = await fetch(githubUrl, {
       headers: {
