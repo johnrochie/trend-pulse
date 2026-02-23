@@ -16,7 +16,7 @@ declare global {
 }
 
 // Google Analytics 4 Configuration
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-HPV3Y7R9VX';
 
 // Check if GA is enabled
 export const isGAEnabled = GA_MEASUREMENT_ID.length > 0;
