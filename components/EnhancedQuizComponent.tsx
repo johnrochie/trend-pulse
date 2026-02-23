@@ -148,25 +148,142 @@ export default function EnhancedQuizComponent() {
 
   const generateMockQuestions = (count: number): Question[] => {
     const questions: Question[] = [];
-    const categories = ['Technology', 'Business', 'Entertainment', 'Lifestyle', 'Finance', 'Health', 'Science', 'Sports'];
+    
+    // Category-specific question templates
+    const categoryQuestions: Record<string, {question: string, options: string[], correctAnswer: number, explanation: string}[]> = {
+      Technology: [
+        {
+          question: "Which AI development was most significant this week?",
+          options: ["Breakthrough in natural language processing", "New quantum computing milestone", "AI ethics framework adoption", "Machine learning model efficiency gains"],
+          correctAnswer: 0,
+          explanation: "Natural language processing saw the most significant advancement with new models achieving human-like conversation capabilities."
+        },
+        {
+          question: "What was the main cybersecurity trend?",
+          options: ["Rise in AI-powered attacks", "Increased ransomware targeting healthcare", "Zero-trust architecture adoption", "Blockchain security integration"],
+          correctAnswer: 2,
+          explanation: "Zero-trust architecture saw widespread adoption as companies move beyond perimeter-based security models."
+        }
+      ],
+      Business: [
+        {
+          question: "Which market showed the strongest growth?",
+          options: ["Sustainable energy investments", "E-commerce expansion", "Remote work technology", "Healthcare innovation"],
+          correctAnswer: 0,
+          explanation: "Sustainable energy investments grew 25% this week, driven by new government incentives and corporate commitments."
+        },
+        {
+          question: "What was the key leadership trend?",
+          options: ["Hybrid work model optimization", "AI-assisted decision making", "Employee wellbeing focus", "Digital transformation acceleration"],
+          correctAnswer: 3,
+          explanation: "Digital transformation accelerated as companies invest in automation and data analytics to improve efficiency."
+        }
+      ],
+      Entertainment: [
+        {
+          question: "Which streaming platform announced major content?",
+          options: ["Netflix original series renewal", "Disney+ international expansion", "Amazon Prime video game adaptation", "Apple TV+ award nominations"],
+          correctAnswer: 1,
+          explanation: "Disney+ announced expansion into 15 new markets with localized content and pricing strategies."
+        },
+        {
+          question: "What was the box office trend?",
+          options: ["Independent film resurgence", "Franchise sequel dominance", "Documentary popularity growth", "International cinema breakthrough"],
+          correctAnswer: 1,
+          explanation: "Franchise sequels continued to dominate box office results, accounting for 65% of total revenue."
+        }
+      ],
+      Lifestyle: [
+        {
+          question: "Which wellness trend gained popularity?",
+          options: ["Digital detox programs", "Mindfulness app usage", "Home fitness innovation", "Nutrition tracking technology"],
+          correctAnswer: 2,
+          explanation: "Home fitness innovation saw significant growth with new AI-powered equipment and virtual training platforms."
+        },
+        {
+          question: "What was the main travel trend?",
+          options: ["Sustainable tourism growth", "Digital nomad destinations", "Wellness retreat popularity", "Adventure travel expansion"],
+          correctAnswer: 0,
+          explanation: "Sustainable tourism grew 30% as travelers seek eco-friendly accommodations and carbon-neutral transportation."
+        }
+      ],
+      Finance: [
+        {
+          question: "Which investment strategy performed best?",
+          options: ["ESG-focused portfolios", "Technology sector funds", "Real estate investment trusts", "Cryptocurrency diversification"],
+          correctAnswer: 0,
+          explanation: "ESG-focused portfolios outperformed traditional investments by 15% this week due to regulatory support."
+        },
+        {
+          question: "What was the banking innovation trend?",
+          options: ["AI-powered fraud detection", "Blockchain transaction systems", "Digital-only bank growth", "Personal finance automation"],
+          correctAnswer: 3,
+          explanation: "Personal finance automation tools saw rapid adoption, helping users optimize savings and investment strategies."
+        }
+      ],
+      Health: [
+        {
+          question: "Which medical advancement was most notable?",
+          options: ["AI diagnostic accuracy improvement", "Telemedicine platform expansion", "Wearable health monitor innovation", "Personalized medicine breakthroughs"],
+          correctAnswer: 0,
+          explanation: "AI diagnostic tools achieved 98% accuracy in early disease detection, significantly improving patient outcomes."
+        },
+        {
+          question: "What was the public health focus?",
+          options: ["Mental health awareness campaigns", "Preventive care initiatives", "Health equity programs", "Nutrition education expansion"],
+          correctAnswer: 1,
+          explanation: "Preventive care initiatives received increased funding and attention to reduce long-term healthcare costs."
+        }
+      ],
+      Science: [
+        {
+          question: "Which research breakthrough was most significant?",
+          options: ["Climate change mitigation technology", "Renewable energy storage", "Space exploration advancement", "Biotechnology innovation"],
+          correctAnswer: 1,
+          explanation: "Renewable energy storage technology achieved a 40% efficiency improvement, enabling wider adoption of solar and wind power."
+        },
+        {
+          question: "What was the environmental science trend?",
+          options: ["Carbon capture development", "Biodiversity conservation", "Plastic alternative research", "Water purification innovation"],
+          correctAnswer: 0,
+          explanation: "Carbon capture technology saw major advancements with new methods achieving 90% efficiency at lower costs."
+        }
+      ],
+      Sports: [
+        {
+          question: "Which sports technology trend emerged?",
+          options: ["AI performance analytics", "Fan engagement platforms", "Injury prevention systems", "Broadcasting innovation"],
+          correctAnswer: 0,
+          explanation: "AI performance analytics tools are revolutionizing athlete training and game strategy development across multiple sports."
+        },
+        {
+          question: "What was the main sports business development?",
+          options: ["Streaming rights negotiations", "Sponsorship model evolution", "Merchandising innovation", "Stadium technology upgrades"],
+          correctAnswer: 1,
+          explanation: "Sponsorship models evolved to include digital and social media components, increasing brand engagement by 200%."
+        }
+      ]
+    };
+
     const difficulties: ('easy' | 'medium' | 'hard')[] = ['easy', 'medium', 'hard'];
+    const categories = Object.keys(categoryQuestions);
     
     for (let i = 0; i < count; i++) {
       const category = categories[i % categories.length];
       const difficulty = difficulties[i % difficulties.length];
       const points = difficulty === 'easy' ? 5 : difficulty === 'medium' ? 10 : 15;
       
+      // Get questions for this category
+      const categoryQ = categoryQuestions[category];
+      const qIndex = i % categoryQ.length;
+      const template = categoryQ[qIndex];
+      
       questions.push({
         id: i + 1,
-        question: `What was the main trend in ${category.toLowerCase()} this week according to analysis?`,
-        options: [
-          'Increased adoption of AI and automation',
-          'Market expansion and growth strategies',
-          'Consumer behavior shifts and preferences',
-          'Regulatory changes and compliance'
-        ].sort((a, b) => a.localeCompare(b)), // Deterministic sort
-        correctAnswer: 0,
-        explanation: `This week's analysis shows significant growth in AI and automation adoption across the ${category.toLowerCase()} sector.`,
+        question: template.question,
+        options: [...template.options].sort((a, b) => a.localeCompare(b)), // Deterministic but varied by category
+        correctAnswer: template.correctAnswer,
+        explanation: template.explanation,
         category,
         difficulty,
         points,
