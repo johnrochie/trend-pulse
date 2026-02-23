@@ -4,6 +4,44 @@ import path from 'path';
 
 import { config } from '@/lib/config';
 
+// Helper function to get placeholder image for articles
+function getPlaceholderImageForArticle(article: any): string {
+  const category = article.category?.toLowerCase() || 'technology';
+  const width = 800;
+  const height = 450;
+  
+  // Map categories to Unsplash photo IDs
+  const categoryPhotos: Record<string, string[]> = {
+    'technology': [
+      '1499951360447-b19be8fe80f5', // Laptop workspace
+      '1550745165-9bc0b252726f', // Tech devices
+      '1551288049-bebda4e38f71', // Business meeting
+    ],
+    'business': [
+      '1460925895917-afdab827c52f', // Finance charts
+      '1556761175-b413da4baf72', // Office workspace
+      '1542744173-8e7e53415bb6', // Team collaboration
+    ],
+    'finance': [
+      '1556761175-4f8b5b5b5b5d', // Business charts
+      '1556761175-4f8b5b5b5b5e', // Finance data
+    ],
+    'entertainment': [
+      '1556761175-4f8b5b5b5b5i', // Movie theater
+      '1556761175-4f8b5b5b5b5j', // Concert
+    ],
+    'lifestyle': [
+      '1556761175-4f8b5b5b5b5n', // Travel
+      '1556761175-4f8b5b5b5b5o', // Food
+    ],
+  };
+  
+  const photos = categoryPhotos[category] || categoryPhotos.technology;
+  const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+  
+  return `https://images.unsplash.com/photo-${randomPhoto}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+}
+
 // Path to the automation output
 const AUTOMATION_DIR = path.dirname(config.automation.articlesPath);
 const ARTICLES_FILE = config.automation.articlesPath;
@@ -99,44 +137,6 @@ export async function GET(request: NextRequest) {
       
       return cleanedArticle;
     });
-
-    // Helper function to get placeholder image
-    function getPlaceholderImageForArticle(article: any): string {
-      const category = article.category?.toLowerCase() || 'technology';
-      const width = 800;
-      const height = 450;
-      
-      // Map categories to Unsplash photo IDs
-      const categoryPhotos: Record<string, string[]> = {
-        'technology': [
-          '1499951360447-b19be8fe80f5', // Laptop workspace
-          '1550745165-9bc0b252726f', // Tech devices
-          '1551288049-bebda4e38f71', // Business meeting
-        ],
-        'business': [
-          '1460925895917-afdab827c52f', // Finance charts
-          '1556761175-b413da4baf72', // Office workspace
-          '1542744173-8e7e53415bb6', // Team collaboration
-        ],
-        'finance': [
-          '1556761175-4f8b5b5b5b5d', // Business charts
-          '1556761175-4f8b5b5b5b5e', // Finance data
-        ],
-        'entertainment': [
-          '1556761175-4f8b5b5b5b5i', // Movie theater
-          '1556761175-4f8b5b5b5b5j', // Concert
-        ],
-        'lifestyle': [
-          '1556761175-4f8b5b5b5b5n', // Travel
-          '1556761175-4f8b5b5b5b5o', // Food
-        ],
-      };
-      
-      const photos = categoryPhotos[category] || categoryPhotos.technology;
-      const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
-      
-      return `https://images.unsplash.com/photo-${randomPhoto}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
-    }
 
     // Return response
     return NextResponse.json({
