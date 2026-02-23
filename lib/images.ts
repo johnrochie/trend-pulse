@@ -106,6 +106,14 @@ export function getArticleImage(article: any): string {
   const width = 800;
   const height = 450;
   
+  // Return properly formatted Unsplash URL for Next.js Image optimization
+  return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+}
+
+/**
+ * Get a properly formatted Unsplash URL for Next.js Image optimization
+ */
+export function getFormattedUnsplashUrl(photoId: string, width: number = 800, height: number = 450): string {
   return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 

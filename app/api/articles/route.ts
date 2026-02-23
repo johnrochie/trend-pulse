@@ -4,6 +4,26 @@ import path from 'path';
 
 import { config } from '@/lib/config';
 
+// Helper function to fix malformed Unsplash URLs
+function fixUnsplashUrl(url: string): string {
+  // Fix common issues with Unsplash URLs
+  let fixedUrl = url;
+  
+  // Fix ?w-800 to ?w=800
+  if (fixedUrl.includes('?w-')) {
+    fixedUrl = fixedUrl.replace('?w-', '?w=');
+  }
+  
+  // Ensure proper query parameters for Next.js Image optimization
+  if (fixedUrl.includes('images.unsplash.com')) {
+    // Remove any existing query params and add proper ones
+    const baseUrl = fixedUrl.split('?')[0];
+    return `${baseUrl}?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format`;
+  }
+  
+  return fixedUrl;
+}
+
 // Helper function to get placeholder image for articles
 function getPlaceholderImageForArticle(article: any): string {
   const category = article.category?.toLowerCase() || 'technology';
@@ -138,15 +158,28 @@ export async function GET(request: NextRequest) {
           'images.ft.com/v3/image/raw',
           '%3A%2F%2F', // Encoded ://
           '?source=next-barrier-page',
+          'i0.wp.com', // WordPress CDN
+          'www.theglobeandmail.com', // News site
+          'www.thedailybeast.com', // News site
+          'media-cldnry.s-nbcnews.com', // News CDN
+          'deadline.com', // News site
+          'fdn.gsmarena.com', // Tech site
         ];
+        
+        // Also check for malformed Unsplash URLs
+        const isMalformedUnsplash = cleanedArticle.imageUrl.includes('images.unsplash.com') && 
+          (cleanedArticle.imageUrl.includes('?w-') || !cleanedArticle.imageUrl.includes('?w='));
         
         const isProblematic = problematicPatterns.some(pattern => 
           cleanedArticle.imageUrl.includes(pattern)
-        );
+        ) || isMalformedUnsplash;
         
         if (isProblematic) {
           // Replace problematic image with Unsplash placeholder
           cleanedArticle.imageUrl = getPlaceholderImageForArticle(cleanedArticle);
+        } else if (cleanedArticle.imageUrl.includes('images.unsplash.com')) {
+          // Fix malformed Unsplash URLs
+          cleanedArticle.imageUrl = fixUnsplashUrl(cleanedArticle.imageUrl);
         }
       }
       
