@@ -16,32 +16,40 @@ export function getPlaceholderImage(options: ImageOptions = {}): string {
   const width = options.width || 800;
   const height = options.height || 450;
   const category = options.category?.toLowerCase() || 'technology';
+  const seed = options.text || 'default';
   
-  // Map categories to Unsplash collections
-  const categoryMap: Record<string, string> = {
-    'technology': 'technology',
-    'tech': 'technology',
-    'business': 'business',
-    'finance': 'business',
-    'entertainment': 'entertainment',
-    'lifestyle': 'lifestyle',
-    'health': 'health',
-    'science': 'science',
-    'sports': 'sports',
-    'politics': 'politics',
-    'default': 'abstract'
+  // Create a mock article object for deterministic photo selection
+  const mockArticle = {
+    id: seed,
+    title: seed,
+    category: category
   };
   
-  const unsplashCategory = categoryMap[category] || categoryMap.default;
-  
-  // Return Unsplash placeholder with category
-  return `https://images.unsplash.com/photo-${getRandomPhotoId()}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+  // Return Unsplash placeholder with deterministic photo selection
+  return `https://images.unsplash.com/photo-${getDeterministicPhotoId(mockArticle)}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 
 /**
- * Get a random photo ID for Unsplash (pre-selected tech/business images)
+ * Get a deterministic photo ID for Unsplash based on article content
+ * Uses article ID or title hash to ensure same image on server and client
  */
-function getRandomPhotoId(): string {
+function getDeterministicPhotoId(article: any): string {
+  // Use article ID or create hash from title for deterministic selection
+  const seed = article.id || article.title;
+  
+  // Simple hash function
+  function simpleHash(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+  }
+  
+  const hashValue = typeof seed === 'number' ? seed : simpleHash(seed);
+  
   const techPhotos = [
     '1499951360447-b19be8fe80f5', // Laptop workspace
     '1550745165-9bc0b252726f', // Tech devices
@@ -82,23 +90,23 @@ function getRandomPhotoId(): string {
   // Combine all photos
   const allPhotos = [...techPhotos, ...businessPhotos, ...entertainmentPhotos, ...lifestylePhotos];
   
-  // Return random photo ID
-  return allPhotos[Math.floor(Math.random() * allPhotos.length)];
+  // Use hash to select deterministic photo
+  const photoIndex = hashValue % allPhotos.length;
+  return allPhotos[photoIndex];
 }
 
 /**
  * Generate an image URL for an article
- * Uses Unsplash placeholders for consistency and to avoid problematic URLs
+ * Uses deterministic Unsplash placeholders to avoid hydration errors
  */
 export function getArticleImage(article: any): string {
-  // Always use Unsplash placeholders for consistency
-  // This avoids issues with problematic news image URLs
-  return getPlaceholderImage({
-    width: 800,
-    height: 450,
-    category: article.category,
-    text: article.title.substring(0, 30)
-  });
+  // Use deterministic photo selection based on article ID/title
+  // This ensures same image on server and client (no hydration errors)
+  const photoId = getDeterministicPhotoId(article);
+  const width = 800;
+  const height = 450;
+  
+  return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 
 /**

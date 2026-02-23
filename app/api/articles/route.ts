@@ -10,6 +10,20 @@ function getPlaceholderImageForArticle(article: any): string {
   const width = 800;
   const height = 450;
   
+  // Simple deterministic hash based on article ID or title
+  function simpleHash(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash);
+  }
+  
+  const seed = article.id || article.title || 'default';
+  const hashValue = typeof seed === 'number' ? seed : simpleHash(seed);
+  
   // Map categories to Unsplash photo IDs
   const categoryPhotos: Record<string, string[]> = {
     'technology': [
@@ -37,9 +51,10 @@ function getPlaceholderImageForArticle(article: any): string {
   };
   
   const photos = categoryPhotos[category] || categoryPhotos.technology;
-  const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+  const photoIndex = hashValue % photos.length;
+  const selectedPhoto = photos[photoIndex];
   
-  return `https://images.unsplash.com/photo-${randomPhoto}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+  return `https://images.unsplash.com/photo-${selectedPhoto}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 
 // Path to the automation output
