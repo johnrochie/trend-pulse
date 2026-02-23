@@ -100,9 +100,25 @@ function getDeterministicPhotoId(article: any): string {
  * Uses deterministic Unsplash placeholders to avoid hydration errors
  */
 export function getArticleImage(article: any): string {
-  // Use deterministic photo selection based on article ID/title
-  // This ensures same image on server and client (no hydration errors)
-  const photoId = getDeterministicPhotoId(article);
+  // Use a simple, reliable approach for now
+  // Fixed set of high-quality Unsplash photos that definitely work
+  const reliablePhotos = [
+    '1551288049-bebda4e38f71', // Business meeting - proven working
+    '1460925895917-afdab827c52f', // Finance charts - proven working  
+    '1550745165-9bc0b252726f', // Tech devices
+    '1499951360447-b19be8fe80f5', // Laptop workspace
+  ];
+  
+  // Simple deterministic selection based on article ID or title
+  const seed = article.id || article.title || 'default';
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+    hash = hash & hash;
+  }
+  const photoIndex = Math.abs(hash) % reliablePhotos.length;
+  const photoId = reliablePhotos[photoIndex];
+  
   const width = 800;
   const height = 450;
   

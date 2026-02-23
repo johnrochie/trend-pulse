@@ -26,55 +26,28 @@ function fixUnsplashUrl(url: string): string {
 
 // Helper function to get placeholder image for articles
 function getPlaceholderImageForArticle(article: any): string {
-  const category = article.category?.toLowerCase() || 'technology';
   const width = 800;
   const height = 450;
   
-  // Simple deterministic hash based on article ID or title
-  function simpleHash(str: string): number {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return Math.abs(hash);
-  }
+  // Simple, reliable set of Unsplash photos that definitely work
+  const reliablePhotos = [
+    '1551288049-bebda4e38f71', // Business meeting - proven working
+    '1460925895917-afdab827c52f', // Finance charts - proven working  
+    '1550745165-9bc0b252726f', // Tech devices
+    '1499951360447-b19be8fe80f5', // Laptop workspace
+  ];
   
+  // Simple deterministic selection
   const seed = article.id || article.title || 'default';
-  const hashValue = typeof seed === 'number' ? seed : simpleHash(seed);
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+    hash = hash & hash;
+  }
+  const photoIndex = Math.abs(hash) % reliablePhotos.length;
+  const photoId = reliablePhotos[photoIndex];
   
-  // Map categories to Unsplash photo IDs
-  const categoryPhotos: Record<string, string[]> = {
-    'technology': [
-      '1499951360447-b19be8fe80f5', // Laptop workspace
-      '1550745165-9bc0b252726f', // Tech devices
-      '1551288049-bebda4e38f71', // Business meeting
-    ],
-    'business': [
-      '1460925895917-afdab827c52f', // Finance charts
-      '1556761175-b413da4baf72', // Office workspace
-      '1542744173-8e7e53415bb6', // Team collaboration
-    ],
-    'finance': [
-      '1556761175-4f8b5b5b5b5d', // Business charts
-      '1556761175-4f8b5b5b5b5e', // Finance data
-    ],
-    'entertainment': [
-      '1556761175-4f8b5b5b5b5i', // Movie theater
-      '1556761175-4f8b5b5b5b5j', // Concert
-    ],
-    'lifestyle': [
-      '1556761175-4f8b5b5b5b5n', // Travel
-      '1556761175-4f8b5b5b5b5o', // Food
-    ],
-  };
-  
-  const photos = categoryPhotos[category] || categoryPhotos.technology;
-  const photoIndex = hashValue % photos.length;
-  const selectedPhoto = photos[photoIndex];
-  
-  return `https://images.unsplash.com/photo-${selectedPhoto}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+  return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 
 // Path to the automation output
