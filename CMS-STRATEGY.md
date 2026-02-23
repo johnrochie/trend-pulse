@@ -188,7 +188,7 @@ Content in Markdown format...
 1. **Automated content generation** ✅ (every 6 hours)
 2. **Static informational pages** ✅ (About, Contact, etc.)
 3. **Simple content management** ✅ (Markdown files)
-4. **Professional appearance** ✅ (Joe.ie design)
+4. **Professional appearance** ✅ (Clean, modern design)
 5. **Low maintenance** ✅ (no database, no CMS)
 
 ### What We Get:

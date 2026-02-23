@@ -1,6 +1,6 @@
 # Trend Pulse - Real-Time News & Analysis Platform
 
-A fully automated news website that generates and publishes articles using AI. Features a clean, professional design inspired by Joe.ie with real-time news updates every 6 hours.
+A fully automated news website that generates and publishes articles using AI. Features a clean, professional design with real-time news updates every 6 hours.
 
 ## 🚀 Live Demo
 
@@ -16,7 +16,7 @@ A fully automated news website that generates and publishes articles using AI. F
 - **Duplicate prevention** with SQLite tracking
 
 ### 🎨 Professional Design
-- **Joe.ie-inspired clean, minimalist aesthetic**
+- **Clean, minimalist aesthetic**
 - **Mobile-responsive** layout
 - **Dark mode** with gradient accents
 - **Smooth animations** with Framer Motion

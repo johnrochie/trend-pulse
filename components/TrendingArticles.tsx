@@ -254,7 +254,7 @@ export default function TrendingArticles() {
           })}
         </motion.div>
 
-        {/* Articles grid - Clean Joe.ie style */}
+        {/* Articles grid - Clean, modern style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayArticles.map((article, index) => (
             <motion.article

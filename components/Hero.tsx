@@ -21,7 +21,7 @@ export default function Hero() {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Simple, clean header like Joe.ie */}
+        {/* Simple, clean header */}
         <div className="text-center mb-12">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export default function Hero() {
             Real-time news and analysis
           </motion.p>
           
-          {/* Simple stats like Joe.ie */}
+          {/* Simple stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Simple category navigation like Joe.ie */}
+        {/* Simple category navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
