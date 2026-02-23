@@ -35,6 +35,23 @@ export const metadata: Metadata = {
     images: ["/twitter-image.jpg"],
     creator: "@trendpulse",
   },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#3B82F6",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -45,8 +62,35 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Favicons and icons */}
         <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#111827" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3B82F6" />
+        
+        {/* PWA and mobile meta tags */}
+        <meta name="application-name" content="Trend Pulse" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Trend Pulse" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#3B82F6" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="theme-color" content="#3B82F6" />
+        
+        {/* Social media meta tags */}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Trend Pulse - Real-Time News & Analysis" />
+        <meta property="og:type" content="website" />
+        
+        <meta name="twitter:image:alt" content="Trend Pulse - Real-Time News & Analysis" />
+        <meta name="twitter:site" content="@trendpulse" />
+        
+        <link rel="canonical" href={config.site.url} />
+        <link rel="manifest" href="/site.webmanifest" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

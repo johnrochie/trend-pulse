@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
+  <defs>
+    <linearGradient id="simpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" rx="80" fill="url(#simpleGradient)" />
+  
+  <!-- Trend line -->
+  <path d="M80,240 L140,160 L200,220 L260,120 L320,180" stroke="white" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  
+  <!-- Up arrow -->
+  <path d="M300,100 L340,60 L380,100 L360,100 L360,160 L320,160 L320,100 Z" fill="white" />
+</svg>

@@ -48,6 +48,36 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
   
+  // Generate structured data for SEO
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt,
+    image: article.imageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/og-image.jpg`,
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    author: {
+      '@type': 'Organization',
+      name: 'Trend Pulse',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Trend Pulse',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/logo-simple.svg`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4002'}/article/${article.slug}`,
+    },
+    articleSection: article.category,
+    keywords: article.tags?.join(', ') || article.category,
+  };
+  
   // Helper function to get color based on category
   const getColorForCategory = (category: string): string => {
     const colors: Record<string, string> = {
@@ -66,6 +96,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   
   return (
     <div className="min-h-screen bg-gray-900">
+      {/* Structured data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
       {/* Navigation */}
       <header className="sticky top-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
