@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
 import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchema } from '@/lib/seo';
+import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
 import { config } from '@/lib/config';
 import RelatedArticles from '@/components/RelatedArticles';
 
@@ -120,6 +121,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     'Trend Pulse'
   );
   
+  // Generate AI search optimized schema
+  const aiArticleSchema = generateAiArticleSchema(
+    article.title,
+    article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
+    article.content || generateAiOptimizedContent(article.category, article.title),
+    article.publishedAt,
+    article.updatedAt || article.publishedAt
+  );
+  
   // Helper function to get color based on category
   const getColorForCategory = (category: string): string => {
     const colors: Record<string, string> = {
@@ -142,6 +152,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      {/* AI search optimized structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aiArticleSchema) }}
       />
       
       {/* Navigation */}

@@ -3,6 +3,7 @@ import TrendingArticles from '@/components/TrendingArticles';
 import FeaturesSection from '@/components/FeaturesSection';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { config } from '@/lib/config';
+import { generateAiFaqSchema } from '@/lib/ai-search';
 
 export default function Home() {
   // Structured data for homepage
@@ -24,12 +25,21 @@ export default function Home() {
     },
   };
 
+  // AI search optimized FAQ schema
+  const aiFaqSchema = generateAiFaqSchema();
+
   return (
     <>
       {/* Structured data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      {/* AI search optimized FAQ schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aiFaqSchema) }}
       />
       
       <TrendingArticles />
