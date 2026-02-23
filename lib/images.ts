@@ -88,22 +88,11 @@ function getRandomPhotoId(): string {
 
 /**
  * Generate an image URL for an article
+ * Uses Unsplash placeholders for consistency and to avoid problematic URLs
  */
 export function getArticleImage(article: any): string {
-  // If article has an imageUrl, use it
-  if (article.imageUrl && article.imageUrl.trim() !== '') {
-    // Check if the URL is valid and from an allowed domain
-    try {
-      const url = new URL(article.imageUrl);
-      // Return the actual image URL
-      return article.imageUrl;
-    } catch (error) {
-      // Invalid URL, fall back to placeholder
-      console.warn('Invalid image URL:', article.imageUrl);
-    }
-  }
-  
-  // Otherwise generate a placeholder based on category
+  // Always use Unsplash placeholders for consistency
+  // This avoids issues with problematic news image URLs
   return getPlaceholderImage({
     width: 800,
     height: 450,
