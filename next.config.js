@@ -43,6 +43,58 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
         pathname: '/**',
       },
+      // Actual domains found in articles
+      {
+        protocol: 'https',
+        hostname: 'images.ft.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i0.wp.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.theglobeandmail.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.thedailybeast.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media-cldnry.s-nbcnews.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'deadline.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fdn.gsmarena.com',
+        pathname: '/**',
+      },
+      // Common CDN patterns
+      {
+        protocol: 'https',
+        hostname: '**.cloudfront.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.wp.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.s-nbcnews.com',
+        pathname: '/**',
+      },
     ],
   },
 };

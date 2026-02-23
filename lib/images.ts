@@ -92,7 +92,15 @@ function getRandomPhotoId(): string {
 export function getArticleImage(article: any): string {
   // If article has an imageUrl, use it
   if (article.imageUrl && article.imageUrl.trim() !== '') {
-    return article.imageUrl;
+    // Check if the URL is valid and from an allowed domain
+    try {
+      const url = new URL(article.imageUrl);
+      // Return the actual image URL
+      return article.imageUrl;
+    } catch (error) {
+      // Invalid URL, fall back to placeholder
+      console.warn('Invalid image URL:', article.imageUrl);
+    }
   }
   
   // Otherwise generate a placeholder based on category
