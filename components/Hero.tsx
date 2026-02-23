@@ -1,12 +1,26 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { TrendingUp, Zap, Clock } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="py-12 bg-gradient-to-b from-gray-900 to-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&h=1080&fit=crop&crop=entropy&q=80&auto=format"
+          alt="News background"
+          fill
+          className="object-cover opacity-20"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/70 to-black"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Simple, clean header like Joe.ie */}
         <div className="text-center mb-12">
           <motion.h1

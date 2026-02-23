@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
+import { getArticleImage, getImageAltText } from '@/lib/images';
 
 interface Article {
   id: number;
@@ -154,8 +156,31 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <p className="text-xl text-gray-300 mb-8 leading-relaxed">
             {article.excerpt}
           </p>
-          
-          {/* Tags */}
+        </div>
+        
+        {/* Hero Image */}
+        <div className="mb-12 rounded-xl overflow-hidden">
+          <div className="relative h-64 md:h-96 w-full bg-gradient-to-br from-gray-800 to-gray-900">
+            <Image
+              src={getArticleImage(article)}
+              alt={getImageAltText(article)}
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+            <div className="absolute bottom-4 left-4">
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gray-900/80 backdrop-blur-sm text-white`}>
+                {article.category}
+              </span>
+            </div>
+          </div>
+          <div className="bg-gray-800/50 p-4 text-sm text-gray-400 italic">
+            Image: {article.category} news illustration
+          </div>
+        </div>
+        
+        {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-8">
             {article.tags.map((tag) => (
               <span

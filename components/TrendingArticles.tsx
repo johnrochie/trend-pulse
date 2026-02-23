@@ -2,9 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, TrendingUp, Eye, DollarSign, ExternalLink, Zap, BarChart, Users } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { getArticleImage, getImageAltText } from '@/lib/images';
 
 // Type for API article
 interface Article {
@@ -44,7 +46,7 @@ const fallbackArticles: Article[] = [
     color: 'from-blue-600 to-cyan-600',
     breaking: true,
     url: '#',
-    imageUrl: '',
+    imageUrl: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
     sourceName: 'Trend Pulse AI',
     slug: 'ai-regulation-debate-intensifies',
   },
@@ -63,7 +65,7 @@ const fallbackArticles: Article[] = [
     color: 'from-purple-600 to-pink-600',
     breaking: true,
     url: '#',
-    imageUrl: '',
+    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
     sourceName: 'Trend Pulse AI',
     slug: 'bitcoin-surges-15-following-etf-approval',
   },
@@ -243,11 +245,21 @@ export default function TrendingArticles() {
               className="group"
             >
               <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl overflow-hidden hover:border-gray-600 transition-all h-full">
-                {/* Simple category badge */}
-                <div className="px-4 pt-4">
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${article.category === 'Technology' ? 'bg-blue-500/20 text-blue-300' : article.category === 'Business' ? 'bg-purple-500/20 text-purple-300' : article.category === 'Entertainment' ? 'bg-pink-500/20 text-pink-300' : 'bg-gray-700 text-gray-300'}`}>
-                    {article.category}
-                  </span>
+                {/* Article Image */}
+                <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+                  <Image
+                    src={getArticleImage(article)}
+                    alt={getImageAltText(article)}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  {/* Category badge overlay */}
+                  <div className="absolute top-3 left-3">
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${article.category === 'Technology' ? 'bg-blue-500/20 text-blue-300 backdrop-blur-sm' : article.category === 'Business' ? 'bg-purple-500/20 text-purple-300 backdrop-blur-sm' : article.category === 'Entertainment' ? 'bg-pink-500/20 text-pink-300 backdrop-blur-sm' : 'bg-gray-800/80 text-gray-300 backdrop-blur-sm'}`}>
+                      {article.category}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="p-4">
