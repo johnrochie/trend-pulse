@@ -35,50 +35,67 @@ const generateFallbackArticles = (): Article[] => {
   const fallbackTitles = [
     'AI Regulation Debate Intensifies: EU Proposes Stricter Rules for Generative AI',
     'Bitcoin Surges 15% Following ETF Approval: Market Analysis & Predictions',
+    'Streaming Wars Escalate: New Platforms Challenge Netflix Dominance',
+    'Sustainable Tech Investments Reach Record High in 2026',
+    'Remote Work Revolution: How Companies Are Adapting Post-Pandemic',
+    'Healthcare AI Breakthrough: New Diagnostic Tool Shows 95% Accuracy',
   ];
   
-  const fallbackCategories = ['Tech', 'Finance'];
+  const fallbackCategories = ['Tech', 'Finance', 'Entertainment', 'Business', 'Lifestyle', 'Health'];
+  const fallbackExcerpts = [
+    'European Commission announces new AI Act amendments targeting large language models. Tech giants express concerns over compliance costs.',
+    'Cryptocurrency markets rally as SEC approves spot Bitcoin ETFs. Analysts predict continued growth with institutional adoption.',
+    'New streaming services are gaining market share with niche content strategies. Traditional platforms face increasing competition.',
+    'Venture capital funding for green technology startups has doubled year-over-year. Climate-focused innovation driving investment trends.',
+    'Hybrid work models are becoming standard as companies balance productivity with employee preferences for flexibility.',
+    'Artificial intelligence system demonstrates unprecedented accuracy in early disease detection. Medical community optimistic about potential.',
+  ];
   
   return fallbackTitles.map((title, index) => ({
     id: index + 1,
     title,
-    excerpt: index === 0 
-      ? 'European Commission announces new AI Act amendments targeting large language models. Tech giants express concerns over compliance costs.'
-      : 'Cryptocurrency markets rally as SEC approves spot Bitcoin ETFs. Analysts predict continued growth with institutional adoption.',
+    excerpt: fallbackExcerpts[index],
     content: '',
     category: fallbackCategories[index],
-    readTime: index === 0 ? '6 min' : '8 min',
-    views: index === 0 ? 42500 : 38200,
-    trendingScore: index === 0 ? 98 : 95,
-    tags: index === 0 
-      ? ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance']
-      : ['Bitcoin', 'ETF', 'Cryptocurrency', 'Market Analysis'],
-    publishedAt: index === 0 
-      ? '2026-02-22T14:30:00.000Z'
-      : '2026-02-22T11:15:00.000Z',
-    publishedAtSite: index === 0 
-      ? '2026-02-22T14:30:00.000Z'
-      : '2026-02-22T11:15:00.000Z',
-    color: index === 0 ? 'from-blue-600 to-cyan-600' : 'from-purple-600 to-pink-600',
-    breaking: true,
+    readTime: `${Math.floor(Math.random() * 4) + 3} min`,
+    views: Math.floor(Math.random() * 40000) + 20000,
+    trendingScore: Math.floor(Math.random() * 20) + 80,
+    tags: [
+      ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance'],
+      ['Bitcoin', 'ETF', 'Cryptocurrency', 'Market Analysis'],
+      ['Streaming', 'Entertainment', 'Media', 'Competition'],
+      ['Sustainability', 'Investment', 'Technology', 'Climate'],
+      ['Remote Work', 'Business', 'Productivity', 'Future of Work'],
+      ['Healthcare', 'AI', 'Medical', 'Innovation']
+    ][index],
+    publishedAt: new Date(Date.now() - (index * 86400000)).toISOString(), // Stagger dates
+    publishedAtSite: new Date(Date.now() - (index * 86400000)).toISOString(),
+    color: [
+      'from-blue-600 to-cyan-600',
+      'from-purple-600 to-pink-600',
+      'from-orange-600 to-red-600',
+      'from-green-600 to-emerald-600',
+      'from-indigo-600 to-blue-600',
+      'from-pink-600 to-rose-600'
+    ][index],
+    breaking: index < 2, // First 2 articles are "breaking"
     url: '#',
     // Use getArticleImage for consistent image generation
     imageUrl: '', // Will be set by getArticleImage
     sourceName: 'Trend Pulse AI',
-    slug: index === 0 
-      ? 'ai-regulation-debate-intensifies'
-      : 'bitcoin-surges-15-following-etf-approval',
+    slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
   }));
 };
 
 const fallbackArticles = generateFallbackArticles();
 
 const categories = [
-  { name: 'All', count: 48, icon: Zap },
-  { name: 'Tech', count: 18, icon: Zap },
-  { name: 'Business', count: 15, icon: DollarSign },
-  { name: 'Finance', count: 8, icon: TrendingUp },
-  { name: 'Lifestyle', count: 7, icon: Users },
+  { name: 'All', count: 6, icon: Zap },
+  { name: 'Tech', count: 2, icon: Zap },
+  { name: 'Business', count: 1, icon: DollarSign },
+  { name: 'Finance', count: 1, icon: TrendingUp },
+  { name: 'Lifestyle', count: 1, icon: Users },
+  { name: 'Health', count: 1, icon: Users },
 ];
 
 // Helper function to get color based on category
@@ -113,7 +130,7 @@ export default function TrendingArticles() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
         
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/articles?limit=6', {
           signal: controller.signal,
           headers: {
             'Cache-Control': 'no-cache',

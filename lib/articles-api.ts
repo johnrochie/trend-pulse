@@ -274,6 +274,52 @@ function getMockArticles(options: {
       canonicalUrl: 'https://trend-pulse.vercel.app/article/wellness-trends-how-technology-is-transforming-health',
       ogImage: 'https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
       updatedAt: new Date().toISOString()
+    },
+    {
+      id: 5,
+      title: 'Sustainable Finance: Green Investments Reach Record High',
+      excerpt: 'Environmental, social, and governance (ESG) investing continues to gain momentum globally.',
+      content: 'Sustainable finance has moved from niche to mainstream, with ESG-focused funds attracting record inflows. Investors are increasingly considering climate risk and social impact alongside financial returns. This shift is driving innovation in green bonds, carbon credits, and impact measurement.',
+      category: 'Finance',
+      readTime: '5 min',
+      views: 9400,
+      trendingScore: 89,
+      tags: ['ESG', 'Sustainability', 'Finance', 'Investing', 'Climate'],
+      publishedAt: new Date(Date.now() - 345600000).toISOString(), // 4 days ago
+      publishedAtSite: 'Trend Pulse',
+      color: 'from-green-600 to-emerald-600',
+      url: '/article/sustainable-finance-green-investments-reach-record-high',
+      imageUrl: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
+      sourceName: 'Trend Pulse Analysis',
+      slug: 'sustainable-finance-green-investments-reach-record-high',
+      seoTitle: 'Sustainable Finance: Green Investments Reach Record High | Finance News - Trend Pulse',
+      metaDescription: 'Environmental, social, and governance (ESG) investing continues to gain momentum globally. Read our latest finance news and analysis.',
+      canonicalUrl: 'https://trend-pulse.vercel.app/article/sustainable-finance-green-investments-reach-record-high',
+      ogImage: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 6,
+      title: 'Remote Work Revolution: Hybrid Models Reshape Corporate Culture',
+      excerpt: 'Companies worldwide are adopting flexible work arrangements to attract and retain talent.',
+      content: 'The shift to remote and hybrid work is fundamentally changing how organizations operate. Companies are redesigning office spaces, implementing new collaboration tools, and rethinking performance metrics. This transformation presents both challenges and opportunities for productivity, innovation, and employee wellbeing.',
+      category: 'Lifestyle',
+      readTime: '4 min',
+      views: 10200,
+      trendingScore: 91,
+      tags: ['Remote Work', 'Hybrid', 'Corporate Culture', 'Productivity', 'Future of Work'],
+      publishedAt: new Date(Date.now() - 432000000).toISOString(), // 5 days ago
+      publishedAtSite: 'Trend Pulse',
+      color: 'from-pink-600 to-rose-600',
+      url: '/article/remote-work-revolution-hybrid-models-reshape-corporate-culture',
+      imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
+      sourceName: 'Trend Pulse Analysis',
+      slug: 'remote-work-revolution-hybrid-models-reshape-corporate-culture',
+      seoTitle: 'Remote Work Revolution: Hybrid Models Reshape Corporate Culture | Lifestyle News - Trend Pulse',
+      metaDescription: 'Companies worldwide are adopting flexible work arrangements to attract and retain talent. Stay informed with our latest lifestyle trends analysis.',
+      canonicalUrl: 'https://trend-pulse.vercel.app/article/remote-work-revolution-hybrid-models-reshape-corporate-culture',
+      ogImage: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format',
+      updatedAt: new Date().toISOString()
     }
   ];
 
