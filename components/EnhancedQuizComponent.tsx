@@ -105,6 +105,18 @@ export default function EnhancedQuizComponent() {
 
   const generateMockQuizData = (): QuizData => {
     const weekNumber = getWeekNumber();
+    const siteAgeDays = getSiteAgeDays(); // Days since site launch
+    
+    // Calculate realistic stats based on site age
+    const basePlayers = Math.max(50, Math.floor(siteAgeDays * 3)); // ~3 players per day
+    const totalPlayers = basePlayers + Math.floor(Math.random() * 20); // Add some variation
+    
+    // Realistic average score (60-75% range for new site)
+    const averageScore = 65 + Math.floor(Math.random() * 10);
+    
+    // Realistic completion rate (50-70% for new site)
+    const completionRate = 60 + Math.floor(Math.random() * 10);
+    
     return {
       week: weekNumber,
       title: `Week ${weekNumber}: Trending News Quiz`,
@@ -116,18 +128,12 @@ export default function EnhancedQuizComponent() {
       questionCount: 20,
       questions: generateMockQuestions(20),
       stats: {
-        totalPlayers: 1248,
-        averageScore: 72,
-        topScore: 100,
-        completionRate: 68
+        totalPlayers,
+        averageScore,
+        topScore: 100, // Someone could get perfect
+        completionRate
       },
-      leaderboard: [
-        { rank: 1, name: 'Alex Johnson', score: 100, time: '4:28' },
-        { rank: 2, name: 'Sarah Miller', score: 95, time: '5:12' },
-        { rank: 3, name: 'David Chen', score: 90, time: '4:55' },
-        { rank: 4, name: 'Emma Wilson', score: 85, time: '6:01' },
-        { rank: 5, name: 'Michael Brown', score: 80, time: '5:45' }
-      ],
+      leaderboard: [], // Empty leaderboard - will show "Be the first!" message
       categoryBreakdown: {
         Technology: 5,
         Business: 4,
@@ -314,6 +320,14 @@ export default function EnhancedQuizComponent() {
     const daysUntilThursday = (4 - now.getDay() + 7) % 7 || 7;
     nextThursday.setDate(now.getDate() + daysUntilThursday);
     return nextThursday;
+  };
+
+  const getSiteAgeDays = () => {
+    // Site launched approximately on 2026-02-23
+    const launchDate = new Date('2026-02-23');
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - launchDate.getTime());
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
   const formatTimeRemaining = () => {

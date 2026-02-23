@@ -105,43 +105,12 @@
     }
   ],
   "stats": {
-    "totalPlayers": 1248,
-    "averageScore": 72,
-    "topScore": 100,
-    "completionRate": 68
+    "totalPlayers": 0,
+    "averageScore": 0,
+    "topScore": 0,
+    "completionRate": 0
   },
-  "leaderboard": [
-    {
-      "rank": 1,
-      "name": "Alex Johnson",
-      "score": 100,
-      "time": "4:28"
-    },
-    {
-      "rank": 2,
-      "name": "Sarah Miller",
-      "score": 95,
-      "time": "5:12"
-    },
-    {
-      "rank": 3,
-      "name": "David Chen",
-      "score": 90,
-      "time": "4:55"
-    },
-    {
-      "rank": 4,
-      "name": "Emma Wilson",
-      "score": 85,
-      "time": "6:01"
-    },
-    {
-      "rank": 5,
-      "name": "Michael Brown",
-      "score": 80,
-      "time": "5:45"
-    }
-  ],
+  "leaderboard": [],
   "categoryBreakdown": {
     "Technology": 5,
     "Business": 4,

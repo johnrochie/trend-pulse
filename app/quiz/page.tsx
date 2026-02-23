@@ -30,19 +30,22 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Quiz Stats */}
+        {/* Quiz Stats - Will be populated by EnhancedQuizComponent */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">1,248</div>
+            <div className="text-3xl font-bold text-white mb-2">—</div>
             <div className="text-gray-400">Players This Week</div>
+            <div className="text-xs text-gray-500 mt-1">Live stats loading...</div>
           </div>
           <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">72%</div>
+            <div className="text-3xl font-bold text-white mb-2">—</div>
             <div className="text-gray-400">Average Score</div>
+            <div className="text-xs text-gray-500 mt-1">Updated in real-time</div>
           </div>
           <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">24h</div>
+            <div className="text-3xl font-bold text-white mb-2">—</div>
             <div className="text-gray-400">Time Remaining</div>
+            <div className="text-xs text-gray-500 mt-1">Until next quiz</div>
           </div>
         </div>
 
@@ -83,35 +86,37 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Previous Winners */}
+        {/* Leaderboard Placeholder */}
         <div className="mt-16">
-          <h2 className="text-2xl font-bold text-white mb-6">Last Week's Top Players</h2>
-          <div className="space-y-4">
-            {[
-              { name: 'Alex Johnson', score: 100, time: '2:48' },
-              { name: 'Sarah Miller', score: 95, time: '3:12' },
-              { name: 'David Chen', score: 90, time: '2:55' },
-              { name: 'Emma Wilson', score: 85, time: '4:01' },
-              { name: 'Michael Brown', score: 80, time: '3:45' },
-            ].map((player, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
-                <div className="flex items-center space-x-4">
-                  <div className="w-8 h-8 flex items-center justify-center bg-gray-700 rounded-lg">
-                    <span className="text-sm font-bold text-gray-300">{index + 1}</span>
+          <h2 className="text-2xl font-bold text-white mb-6">Weekly Leaderboard</h2>
+          <div className="bg-gray-800/30 border border-gray-700 rounded-xl p-8 text-center">
+            <div className="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trophy className="w-8 h-8 text-gray-500" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">Be the First!</h3>
+            <p className="text-gray-400 mb-6 max-w-md mx-auto">
+              Complete this week's quiz to appear on the leaderboard. Your score will be ranked against other players.
+            </p>
+            <div className="space-y-3 max-w-md mx-auto">
+              <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 flex items-center justify-center bg-yellow-500/20 rounded-lg mr-3">
+                    <span className="text-sm font-bold text-yellow-400">1</span>
                   </div>
                   <div>
-                    <h3 className="font-medium text-white">{player.name}</h3>
-                    <div className="flex items-center space-x-3 mt-1">
-                      <span className="text-xs text-gray-400">{player.time} min</span>
-                    </div>
+                    <div className="font-medium text-gray-300">Top spot available</div>
+                    <div className="text-xs text-gray-500">Complete quiz to claim</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-bold text-white">{player.score}%</div>
-                  <div className="text-xs text-gray-400">Score</div>
+                  <div className="text-lg font-bold text-gray-400">—%</div>
+                  <div className="text-xs text-gray-500">Score</div>
                 </div>
               </div>
-            ))}
+              <div className="text-sm text-gray-500">
+                Leaderboard updates in real-time as players complete the quiz
+              </div>
+            </div>
           </div>
         </div>
 

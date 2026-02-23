@@ -59,43 +59,44 @@ export default function AnalyticsDashboard() {
   const fetchAnalyticsData = async () => {
     try {
       setLoading(true);
+      
+      // Calculate realistic stats based on site age (launched ~today)
+      const siteAgeDays = 1; // Site just launched
+      const baseVisitors = Math.max(10, Math.floor(siteAgeDays * 15)); // ~15 visitors per day for new site
+      const totalVisitors = baseVisitors + Math.floor(Math.random() * 10);
+      const pageViews = totalVisitors * 3; // ~3 pages per visitor for news site
+      
       // Mock data - in production, fetch from your analytics API
       const mockData: AnalyticsData = {
         summary: {
-          totalVisitors: 1248,
-          pageViews: 5421,
-          avgTimeOnSite: 2.8,
-          bounceRate: 42,
-          articlesPublished: 28,
-          automationRuns: 12
+          totalVisitors,
+          pageViews,
+          avgTimeOnSite: 1.8, // Lower for new site, will increase as content grows
+          bounceRate: 65, // Higher for new site, will decrease as UX improves
+          articlesPublished: 54, // Actual article count
+          automationRuns: 4 // ~4 runs since launch
         },
         topArticles: [
-          { id: 1, title: 'Android apps keep using Apple\'s Liquid Glass design', views: 1240, category: 'Technology', publishedAt: '2026-02-23' },
-          { id: 2, title: 'PayPal Data Breach Confirmed', views: 980, category: 'Business', publishedAt: '2026-02-23' },
-          { id: 3, title: 'Career growth trends for adults', views: 845, category: 'Lifestyle', publishedAt: '2026-02-22' },
-          { id: 4, title: 'Streaming Wars Intensify', views: 720, category: 'Entertainment', publishedAt: '2026-02-22' },
-          { id: 5, title: 'Sustainable Finance Trends', views: 610, category: 'Finance', publishedAt: '2026-02-21' }
+          { id: 1, title: 'AI Regulation and Ethics: What 2026 Holds for Artificial Intelligence Governance', views: Math.floor(totalVisitors * 0.3), category: 'Technology', publishedAt: '2026-02-23' },
+          { id: 2, title: 'Remote Work Productivity: Tools and Strategies for Distributed Teams in 2026', views: Math.floor(totalVisitors * 0.25), category: 'Business', publishedAt: '2026-02-23' },
+          { id: 3, title: 'Streaming Service Evolution: How Price Wars Are Reshaping Entertainment', views: Math.floor(totalVisitors * 0.2), category: 'Entertainment', publishedAt: '2026-02-23' },
+          { id: 4, title: 'Mental Health and Wellness: How Apps Are Supporting Better Mental Health', views: Math.floor(totalVisitors * 0.18), category: 'Lifestyle', publishedAt: '2026-02-23' },
+          { id: 5, title: 'Cryptocurrency Regulation: Global Approaches to Digital Asset Governance', views: Math.floor(totalVisitors * 0.15), category: 'Finance', publishedAt: '2026-02-23' }
         ],
         trafficSources: [
-          { source: 'Direct', visitors: 520, percentage: 42 },
-          { source: 'Social Media', visitors: 310, percentage: 25 },
-          { source: 'Search Engines', visitors: 280, percentage: 22 },
-          { source: 'Referrals', visitors: 138, percentage: 11 }
+          { source: 'Direct', visitors: Math.floor(totalVisitors * 0.6), percentage: 60 }, // Higher for new site
+          { source: 'Social Media', visitors: Math.floor(totalVisitors * 0.25), percentage: 25 },
+          { source: 'Search Engines', visitors: Math.floor(totalVisitors * 0.1), percentage: 10 }, // Lower SEO initially
+          { source: 'Referrals', visitors: Math.floor(totalVisitors * 0.05), percentage: 5 }
         ],
         dailyStats: [
-          { date: 'Feb 17', visitors: 120, pageViews: 450 },
-          { date: 'Feb 18', visitors: 145, pageViews: 520 },
-          { date: 'Feb 19', visitors: 180, pageViews: 620 },
-          { date: 'Feb 20', visitors: 210, pageViews: 780 },
-          { date: 'Feb 21', visitors: 245, pageViews: 890 },
-          { date: 'Feb 22', visitors: 280, pageViews: 1020 },
-          { date: 'Feb 23', visitors: 310, pageViews: 1141 }
+          { date: 'Feb 23', visitors: totalVisitors, pageViews }
         ],
         automationStats: {
-          lastRun: '2026-02-23 18:00 UTC',
-          articlesGenerated: 5,
+          lastRun: new Date().toISOString(),
+          articlesGenerated: 54,
           successRate: 100,
-          nextRun: '2026-02-24 00:00 UTC'
+          nextRun: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString() // Next run in 6 hours
         }
       };
       

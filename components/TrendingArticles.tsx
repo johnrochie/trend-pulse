@@ -58,7 +58,7 @@ const generateFallbackArticles = (): Article[] => {
     content: '',
     category: fallbackCategories[index],
     readTime: `${Math.floor(Math.random() * 4) + 3} min`,
-    views: Math.floor(Math.random() * 40000) + 20000,
+    views: Math.floor(Math.random() * 200) + 50, // Realistic for new site
     trendingScore: Math.floor(Math.random() * 20) + 80,
     tags: [
       ['AI Regulation', 'EU Policy', 'Tech Giants', 'Compliance'],
