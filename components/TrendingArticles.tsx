@@ -11,7 +11,7 @@ interface Article {
   id: number;
   title: string;
   excerpt: string;
-  content: string;
+  content?: string; // Make optional for fallback articles
   category: string;
   readTime: string;
   views: number;
@@ -28,11 +28,12 @@ interface Article {
 }
 
 // Fallback articles in case API fails
-const fallbackArticles = [
+const fallbackArticles: Article[] = [
   {
     id: 1,
     title: 'AI Regulation Debate Intensifies: EU Proposes Stricter Rules for Generative AI',
     excerpt: 'European Commission announces new AI Act amendments targeting large language models. Tech giants express concerns over compliance costs.',
+    content: '',
     category: 'Tech',
     readTime: '6 min',
     views: 42500,
@@ -51,6 +52,7 @@ const fallbackArticles = [
     id: 2,
     title: 'Bitcoin Surges 15% Following ETF Approval: Market Analysis & Predictions',
     excerpt: 'Cryptocurrency markets rally as SEC approves spot Bitcoin ETFs. Analysts predict continued growth with institutional adoption.',
+    content: '',
     category: 'Finance',
     readTime: '8 min',
     views: 38200,

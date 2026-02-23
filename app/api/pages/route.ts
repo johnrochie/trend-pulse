@@ -5,6 +5,20 @@ import matter from 'gray-matter';
 
 const PAGES_DIR = path.join(process.cwd(), 'content', 'pages');
 
+// Define the expected frontmatter structure
+interface PageFrontmatter {
+  title?: string;
+  description?: string;
+  slug?: string;
+  order?: number;
+  [key: string]: any; // Allow other properties
+}
+
+interface PageData extends PageFrontmatter {
+  content: string;
+  file: string;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -13,16 +27,16 @@ export async function GET(request: NextRequest) {
 
     // Get all page files
     const files = await fs.readdir(PAGES_DIR);
-    const pages = [];
+    const pages: PageData[] = [];
 
     for (const file of files) {
       if (!file.endsWith('.md')) continue;
 
       const filePath = path.join(PAGES_DIR, file);
       const fileContent = await fs.readFile(filePath, 'utf-8');
-      const { data: frontmatter, content } = matter(fileContent);
+      const { data: frontmatter, content } = matter(fileContent) as { data: PageFrontmatter; content: string };
 
-      const page = {
+      const page: PageData = {
         ...frontmatter,
         content,
         file
