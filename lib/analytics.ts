@@ -7,6 +7,14 @@
  * 3. Custom event tracking
  */
 
+// TypeScript definitions for gtag
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+    dataLayer: any[];
+  }
+}
+
 // Google Analytics 4 Configuration
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 
