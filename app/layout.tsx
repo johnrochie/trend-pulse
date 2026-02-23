@@ -80,6 +80,9 @@ export default function RootLayout({
         <meta name="msapplication-config" content="/browserconfig.xml" />
         <meta name="theme-color" content="#3B82F6" />
         
+        {/* AdSense Verification - Add your Publisher ID after ca-pub- */}
+        <meta name="google-adsense-account" content="ca-pub-YOUR_PUBLISHER_ID_HERE" />
+        
         {/* Social media meta tags */}
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
