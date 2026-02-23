@@ -1,8 +1,8 @@
 # AdSense ads.txt file
 # Replace YOUR_PUBLISHER_ID with your actual AdSense publisher ID
-google.com, pub-YOUR_PUBLISHER_ID_HERE, DIRECT, f08c47fec0942fa0
+google.com, pub-9658578792001646, DIRECT, f08c47fec0942fa0
 
 # Additional ad networks (optional for future)
-# google.com, pub-YOUR_PUBLISHER_ID_HERE, RESELLER, f08c47fec0942fa0
+# google.com, pub-9658578792001646, RESELLER, f08c47fec0942fa0
 # appnexus.com, 1234, DIRECT
 # rubiconproject.com, 1234, DIRECT
