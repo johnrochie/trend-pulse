@@ -164,8 +164,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <Image
               src={getArticleImage(article)}
               alt={getImageAltText(article)}
-              fill
-              className="object-cover"
+              width={1200}
+              height={600}
+              className="w-full h-full object-cover"
               priority
               sizes="100vw"
             />

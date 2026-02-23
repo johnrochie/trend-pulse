@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Image Test</title></head>
+<body>
+<h1>Testing Unsplash Images</h1>
+<h2>Direct URLs (should work):</h2>
+<img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format" width="400">
+<img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop&crop=entropy&q=80&auto=format" width="400">
+
+<h2>From API (current):</h2>
+<script>
+fetch('http://localhost:4002/api/articles?limit=2')
+  .then(r => r.json())
+  .then(data => {
+    data.data.forEach(article => {
+      const img = document.createElement('img');
+      img.src = article.imageUrl;
+      img.width = 400;
+      document.body.appendChild(img);
+      document.body.appendChild(document.createElement('br'));
+    });
+  });
+</script>
+</body>
+</html>
