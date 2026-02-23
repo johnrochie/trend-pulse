@@ -152,35 +152,11 @@ export async function GET(request: NextRequest) {
       // Create a copy of the article
       const cleanedArticle = { ...article };
       
-      // Check if imageUrl is problematic
+      // REPLACE ALL image URLs with our verified Unsplash photos
+      // This ensures no broken images and consistent quality
       if (cleanedArticle.imageUrl) {
-        const problematicPatterns = [
-          'images.ft.com/v3/image/raw',
-          '%3A%2F%2F', // Encoded ://
-          '?source=next-barrier-page',
-          'i0.wp.com', // WordPress CDN
-          'www.theglobeandmail.com', // News site
-          'www.thedailybeast.com', // News site
-          'media-cldnry.s-nbcnews.com', // News CDN
-          'deadline.com', // News site
-          'fdn.gsmarena.com', // Tech site
-        ];
-        
-        // Also check for malformed Unsplash URLs
-        const isMalformedUnsplash = cleanedArticle.imageUrl.includes('images.unsplash.com') && 
-          (cleanedArticle.imageUrl.includes('?w-') || !cleanedArticle.imageUrl.includes('?w='));
-        
-        const isProblematic = problematicPatterns.some(pattern => 
-          cleanedArticle.imageUrl.includes(pattern)
-        ) || isMalformedUnsplash;
-        
-        if (isProblematic) {
-          // Replace problematic image with Unsplash placeholder
-          cleanedArticle.imageUrl = getPlaceholderImageForArticle(cleanedArticle);
-        } else if (cleanedArticle.imageUrl.includes('images.unsplash.com')) {
-          // Fix malformed Unsplash URLs
-          cleanedArticle.imageUrl = fixUnsplashUrl(cleanedArticle.imageUrl);
-        }
+        // Always use our verified Unsplash photos
+        cleanedArticle.imageUrl = getPlaceholderImageForArticle(cleanedArticle);
       }
       
       return cleanedArticle;
