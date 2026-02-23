@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { config } from "@/lib/config";
 
 const inter = Inter({
@@ -121,6 +122,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <CookieConsentBanner />
         
         {/* Analytics script placeholder */}
         <script
