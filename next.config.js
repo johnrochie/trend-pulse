@@ -95,6 +95,93 @@ const nextConfig = {
         hostname: '**.s-nbcnews.com',
         pathname: '/**',
       },
+      // Warhammer community images
+      {
+        protocol: 'https',
+        hostname: 'assets.warhammer-community.com',
+        pathname: '/**',
+      },
+      // All domains found in our actual articles
+      {
+        protocol: 'https',
+        hostname: 'assets.bwbx.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets-prd.ignimgs.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'deadline.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gizmodo.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i0.wp.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.cnbcfm.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pushsquare.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imagez.tmz.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pyxis.nymag.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 's.hdnux.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'techcrunch.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'variety.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.hollywoodreporter.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.slashgear.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.washingtonpost.com',
+        pathname: '/**',
+      },
     ],
   },
 };
