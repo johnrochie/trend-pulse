@@ -5,15 +5,21 @@ import { Mail, Bell, TrendingUp, Zap, Check } from 'lucide-react';
 import { useState } from 'react';
 
 export default function NewsletterSignup() {
-  const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Use FormData to avoid hydration issues
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    
     // In production, connect to your email service (ConvertKit, Mailchimp, etc.)
     console.log('Newsletter signup:', email);
     setSubscribed(true);
-    setEmail('');
+    
+    // Reset form
+    e.currentTarget.reset();
     
     // Reset after 5 seconds
     setTimeout(() => {
@@ -94,8 +100,7 @@ export default function NewsletterSignup() {
                       <input
                         type="email"
                         id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        name="email"
                         placeholder="your@email.com"
                         className="w-full pl-12 pr-4 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         required

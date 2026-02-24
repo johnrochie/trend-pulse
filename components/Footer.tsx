@@ -61,9 +61,19 @@ export default function Footer() {
             {/* Newsletter */}
             <div className="mb-8">
               <h3 className="font-bold text-white mb-4">Get Daily Trend Alerts</h3>
-              <form className="flex gap-2">
+              <form 
+                className="flex gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get('footer-email') as string;
+                  console.log('Footer newsletter signup:', email);
+                  e.currentTarget.reset();
+                }}
+              >
                 <input
                   type="email"
+                  name="footer-email"
                   placeholder="Your email address"
                   className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
                   required
