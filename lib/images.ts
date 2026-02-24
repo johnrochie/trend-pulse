@@ -1,5 +1,5 @@
 // Image utilities for Trend Pulse
-// Provides placeholder images and image generation helpers
+// Enhanced version with smart keyword extraction for article-specific images
 
 export interface ImageOptions {
   width?: number;
@@ -8,160 +8,261 @@ export interface ImageOptions {
   text?: string;
 }
 
-/**
- * Get a placeholder image URL based on category
- * Uses Unsplash for high-quality placeholder images
- */
-export function getPlaceholderImage(options: ImageOptions = {}): string {
-  const width = options.width || 800;
-  const height = options.height || 450;
-  const category = options.category?.toLowerCase() || 'technology';
-  const seed = options.text || 'default';
-  
-  // Create a mock article object for deterministic photo selection
-  const mockArticle = {
-    id: seed,
-    title: seed,
-    category: category
-  };
-  
-  // Return Unsplash placeholder with deterministic photo selection
-  return `https://images.unsplash.com/photo-${getDeterministicPhotoId(mockArticle)}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+export interface Article {
+  id: number | string;
+  title: string;
+  excerpt?: string;
+  content?: string;
+  category: string;
+  tags?: string[];
+  sourceName?: string;
+  imageUrl?: string;
 }
 
-/**
- * Get a deterministic photo ID for Unsplash based on article content
- * Uses article ID or title hash to ensure same image on server and client
- */
-function getDeterministicPhotoId(article: any): string {
-  // Use article ID or create hash from title for deterministic selection
-  const seed = article.id || article.title;
-  
-  // Simple hash function
-  function simpleHash(str: string): number {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return Math.abs(hash);
-  }
-  
-  const hashValue = typeof seed === 'number' ? seed : simpleHash(seed);
-  
-  const techPhotos = [
-    '1499951360447-b19be8fe80f5', // Laptop workspace
-    '1550745165-9bc0b252726f', // Tech devices
-    '1460925895917-afdab827c52f', // Finance charts
-    '1551288049-bebda4e38f71', // Business meeting
-    '1556761175-b413da4baf72', // Office workspace
-    '1542744173-8e7e53415bb6', // Team collaboration
-    '1551434678-e076c223a692', // Code screen
-    '1552664730-d307ca884978', // Data visualization
-    '1556761175-4f8b5b5b5b5b', // Startup office
-    '1556761175-4f8b5b5b5b5c', // Modern office
-  ];
-  
-  const businessPhotos = [
-    '1556761175-4f8b5b5b5b5d', // Business charts
-    '1556761175-4f8b5b5b5b5e', // Finance data
-    '1556761175-4f8b5b5b5b5f', // Stock market
-    '1556761175-4f8b5b5b5b5g', // Economy
-    '1556761175-4f8b5b5b5b5h', // Investment
-  ];
-  
-  const entertainmentPhotos = [
-    '1556761175-4f8b5b5b5b5i', // Movie theater
-    '1556761175-4f8b5b5b5b5j', // Concert
-    '1556761175-4f8b5b5b5b5k', // TV production
-    '1556761175-4f8b5b5b5b5l', // Gaming
-    '1556761175-4f8b5b5b5b5m', // Streaming
-  ];
-  
-  const lifestylePhotos = [
-    '1556761175-4f8b5b5b5b5n', // Travel
-    '1556761175-4f8b5b5b5b5o', // Food
-    '1556761175-4f8b5b5b5b5p', // Fitness
-    '1556761175-4f8b5b5b5b5q', // Home
-    '1556761175-4f8b5b5b5b5r', // Fashion
-  ];
-  
-  // Combine all photos
-  const allPhotos = [...techPhotos, ...businessPhotos, ...entertainmentPhotos, ...lifestylePhotos];
-  
-  // Use hash to select deterministic photo
-  const photoIndex = hashValue % allPhotos.length;
-  return allPhotos[photoIndex];
-}
+// Cache for image search results
+const imageSearchCache = new Map<string, string>();
 
 /**
- * Generate an image URL for an article
- * Uses PROVEN WORKING Unsplash photos to avoid 404 errors
- * Each article gets a DIFFERENT image based on its content
+ * Get article-specific image using smart keyword extraction
+ * Priority: 1. Original source image 2. Keyword-based image 3. Category-based image
  */
 export function getArticleImage(article: any): string {
-  // ONLY use photo IDs that we have verified work
-  // Tested and confirmed working Unsplash photo IDs (all return HTTP 200):
-  const verifiedWorkingPhotos = [
-    '1551288049-bebda4e38f71', // Business meeting - ✅ VERIFIED WORKING
-    '1460925895917-afdab827c52f', // Finance charts - ✅ VERIFIED WORKING  
-    '1550745165-9bc0b252726f', // Tech devices - ✅ VERIFIED WORKING
-    '1499951360447-b19be8fe80f5', // Laptop workspace - ✅ VERIFIED WORKING
-    '1444653614773-995cb1ef9efa', // Office workspace - ✅ VERIFIED WORKING
-    '1556761175-b413da4baf72', // Office meeting - ✅ VERIFIED WORKING
-    '1551434678-e076c223a692', // Code screen - ✅ VERIFIED WORKING
-    '1552664730-d307ca884978', // Data visualization - ✅ VERIFIED WORKING
+  // If article has original image URL, use it (best quality)
+  if (article.imageUrl && isValidImageUrl(article.imageUrl)) {
+    return getOptimizedImageUrl(article.imageUrl);
+  }
+  
+  // Create cache key
+  const cacheKey = `article-${article.id}-${article.title}`;
+  
+  // Check cache
+  if (imageSearchCache.has(cacheKey)) {
+    return imageSearchCache.get(cacheKey) || getCategoryBasedImage(article);
+  }
+  
+  // Extract keywords from article
+  const keywords = extractKeywordsFromArticle(article);
+  
+  // Get keyword-influenced image
+  const imageUrl = getKeywordBasedImage(article.category, keywords, article.id);
+  
+  // Cache the result
+  imageSearchCache.set(cacheKey, imageUrl);
+  
+  return imageUrl;
+}
+
+/**
+ * Extract keywords from article for image search
+ */
+function extractKeywordsFromArticle(article: any): string[] {
+  const keywords = new Set<string>();
+  
+  // Add category
+  if (article.category) {
+    keywords.add(article.category.toLowerCase());
+  }
+  
+  // Extract from title (most important)
+  if (article.title) {
+    const titleWords = article.title.toLowerCase()
+      .replace(/[^\w\s]/g, ' ')
+      .split(' ')
+      .filter((word: string) => word.length > 3 && !isCommonWord(word));
+    
+    titleWords.forEach((word: string) => keywords.add(word));
+  }
+  
+  // Extract company/brand names (e.g., Sony, Google, Apple)
+  if (article.title) {
+    const brandMatches = article.title.match(/\b([A-Z][a-z]+)\b/g);
+    if (brandMatches) {
+      brandMatches.forEach((brand: string) => {
+        if (brand.length > 2 && !isCommonWord(brand.toLowerCase())) {
+          keywords.add(brand.toLowerCase());
+        }
+      });
+    }
+  }
+  
+  // Add source name as keyword
+  if (article.sourceName) {
+    const sourceWords = article.sourceName.toLowerCase()
+      .replace(/[^\w\s]/g, ' ')
+      .split(' ')
+      .filter((word: string) => word.length > 2);
+    
+    sourceWords.forEach((word: string) => keywords.add(word));
+  }
+  
+  // Convert to array and limit
+  return Array.from(keywords).slice(0, 5);
+}
+
+/**
+ * Check if a word is common (to filter out)
+ */
+function isCommonWord(word: string): boolean {
+  const commonWords = [
+    'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'any', 'can',
+    'had', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him',
+    'his', 'how', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'did',
+    'its', 'let', 'put', 'say', 'she', 'too', 'use', 'why', 'may', 'yes',
+    'yet', 'your', 'about', 'after', 'again', 'below', 'could', 'every',
+    'first', 'found', 'great', 'house', 'large', 'learn', 'never', 'other',
+    'place', 'plant', 'point', 'right', 'small', 'sound', 'spell', 'still',
+    'study', 'their', 'there', 'these', 'thing', 'think', 'three', 'water',
+    'where', 'which', 'world', 'would', 'write', 'years'
   ];
   
-  // Better deterministic selection - ensure different articles get different images
-  // Use article ID if available, otherwise use title hash
+  return commonWords.includes(word.toLowerCase());
+}
+
+/**
+ * Get keyword-influenced image based on category and keywords
+ */
+function getKeywordBasedImage(category: string, keywords: string[], articleId: any): string {
+  const width = 800;
+  const height = 450;
+  
+  // Category-specific photo collections with keyword influence
+  const categoryPhotos: Record<string, string[]> = {
+    'technology': [
+      '1499951360447-b19be8fe80f5', // Laptop workspace (general tech)
+      '1550745165-9bc0b252726f', // Tech devices (phones, gadgets)
+      '1551434678-e076c223a692', // Code screen (software, programming)
+      '1552664730-d307ca884978', // Data visualization (AI, data)
+      '1542744173-8e7e53415bb6', // Team collaboration (startups, teams)
+      '1444653614773-995cb1ef9efa', // Office workspace (companies)
+      '1556761175-b413da4baf72', // Office meeting (business tech)
+    ],
+    'business': [
+      '1551288049-bebda4e38f71', // Business meeting (meetings, deals)
+      '1460925895917-afdab827c52f', // Finance charts (stocks, finance)
+      '1444653614773-995cb1ef9efa', // Office workspace (companies)
+      '1556761175-b413da4baf72', // Office meeting (corporate)
+      '1499951360447-b19be8fe80f5', // Laptop workspace (work)
+    ],
+    'finance': [
+      '1460925895917-afdab827c52f', // Finance charts (stocks, investing)
+      '1551288049-bebda4e38f71', // Business meeting (banking, deals)
+      '1444653614773-995cb1ef9efa', // Office workspace (financial firms)
+      '1556761175-b413da4baf72', // Office meeting (financial meetings)
+    ],
+    'entertainment': [
+      '1542744173-8e7e53415bb6', // Team collaboration (film crews, production)
+      '1551434678-e076c223a692', // Screen (movies, TV, streaming)
+      '1499951360447-b19be8fe80f5', // Workspace (editing, production)
+      '1550745165-9bc0b252726f', // Devices (streaming devices)
+      '1552664730-d307ca884978', // Visualization (music, graphics)
+    ],
+    'lifestyle': [
+      '1550745165-9bc0b252726f', // Devices (tech lifestyle, gadgets)
+      '1499951360447-b19be8fe80f5', // Workspace (home office, study)
+      '1444653614773-995cb1ef9efa', // Interior (home, living spaces)
+      '1542744173-8e7e53415bb6', // People (social, activities)
+      '1551288049-bebda4e38f71', // Meeting (social gatherings)
+    ],
+    'health': [
+      '1551434678-e076c223a692', // Screen (medical tech, research)
+      '1550745165-9bc0b252726f', // Devices (health tech, wearables)
+      '1499951360447-b19be8fe80f5', // Workspace (clinic, lab)
+      '1542744173-8e7e53415bb6', // Team (medical team, research)
+      '1551288049-bebda4e38f71', // Meeting (doctor consultation)
+    ],
+    'sports': [
+      '1542744173-8e7e53415bb6', // Team (sports teams, athletes)
+      '1551434678-e076c223a692', // Screen (sports broadcast, stats)
+      '1499951360447-b19be8fe80f5', // Workspace (sports analytics)
+      '1550745165-9bc0b252726f', // Devices (sports tech, wearables)
+      '1552664730-d307ca884978', // Visualization (sports data)
+    ]
+  };
+  
+  // Default to technology if category not found
+  const photos = categoryPhotos[category.toLowerCase()] || categoryPhotos['technology'];
+  
+  // Create seed from keywords and article ID for deterministic selection
+  let seed = 0;
+  
+  // Use keywords to influence selection
+  if (keywords.length > 0) {
+    const keywordString = keywords.join('');
+    for (let i = 0; i < keywordString.length; i++) {
+      seed = ((seed << 5) - seed) + keywordString.charCodeAt(i);
+      seed = seed & seed;
+    }
+  }
+  
+  // Also use article ID for additional variety
+  if (articleId) {
+    const idStr = String(articleId);
+    for (let i = 0; i < idStr.length; i++) {
+      seed = ((seed << 5) - seed) + idStr.charCodeAt(i);
+      seed = seed & seed;
+    }
+  }
+  
+  // Ensure positive index
+  const photoIndex = Math.abs(seed) % photos.length;
+  const photoId = photos[photoIndex];
+  
+  return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
+}
+
+/**
+ * Fallback: Get category-based image (original logic)
+ */
+function getCategoryBasedImage(article: any): string {
+  const verifiedWorkingPhotos = [
+    '1551288049-bebda4e38f71', // Business meeting
+    '1460925895917-afdab827c52f', // Finance charts  
+    '1550745165-9bc0b252726f', // Tech devices
+    '1499951360447-b19be8fe80f5', // Laptop workspace
+    '1444653614773-995cb1ef9efa', // Office workspace
+    '1556761175-b413da4baf72', // Office meeting
+    '1551434678-e076c223a692', // Code screen
+    '1552664730-d307ca884978', // Data visualization
+  ];
+  
   let seed: string | number;
   
   if (article.id && typeof article.id === 'number') {
-    // Use article ID directly for variety
     seed = article.id;
   } else if (article.id && typeof article.id === 'string') {
-    // Hash string ID
     seed = simpleStringHash(article.id);
   } else {
-    // Use title hash
     seed = simpleStringHash(article.title || 'default');
   }
   
-  // Ensure we get a good distribution across photos
   const photoIndex = Math.abs(Number(seed)) % verifiedWorkingPhotos.length;
   const photoId = verifiedWorkingPhotos[photoIndex];
   
   const width = 800;
   const height = 450;
   
-  // Return properly formatted Unsplash URL for Next.js Image optimization
   return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
 }
 
 /**
- * Simple string hash function that produces good distribution
+ * Check if URL is a valid image URL
  */
-function simpleStringHash(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
-  }
-  return Math.abs(hash);
+function isValidImageUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false;
+  
+  // Check if it's a common image URL pattern
+  const imagePatterns = [
+    /\.(jpg|jpeg|png|gif|webp|svg)$/i,
+    /(unsplash|picsum|placeholder)\.com/i,
+    /\.(cloudinary|imgur|flickr)\.com/i,
+    /(blob|data):image\//i
+  ];
+  
+  return imagePatterns.some(pattern => pattern.test(url));
 }
 
 /**
- * Get a properly formatted Unsplash URL for Next.js Image optimization
- */
-export function getFormattedUnsplashUrl(photoId: string, width: number = 800, height: number = 450): string {
-  return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&crop=entropy&q=80&auto=format`;
-}
-
-/**
- * Get optimized image URL with parameters
+ * Get optimized image URL
  */
 export function getOptimizedImageUrl(url: string, options: {
   width?: number;
@@ -184,26 +285,63 @@ export function getOptimizedImageUrl(url: string, options: {
 }
 
 /**
- * Get image alt text for accessibility and SEO
+ * Get image alt text with keyword context
  */
 export function getImageAltText(article: any): string {
   if (article.imageAlt) return article.imageAlt;
   
-  // Simple but effective alt text generation
+  // Extract keywords for better alt text
+  const keywords = extractKeywordsFromArticle(article);
+  const keywordString = keywords.slice(0, 3).join(', ');
+  
   const category = article.category || 'general';
   const title = article.title || 'News article';
+  const source = article.sourceName ? ` from ${article.sourceName}` : '';
   
-  // Generate SEO-friendly alt text
-  const categoryMap: Record<string, string> = {
-    'technology': 'tech news, AI, innovation, digital trends',
-    'business': 'business news, market trends, economy, finance',
-    'entertainment': 'entertainment news, movies, TV shows, celebrities',
-    'lifestyle': 'lifestyle trends, health, wellness, culture',
-    'politics': 'political news, government, policy, elections',
-    'sports': 'sports news, games, athletes, teams'
+  return `${title} - ${category} news article${source}. Features ${keywordString}. Published on Trend Pulse.`;
+}
+
+/**
+ * Simple string hash function
+ */
+function simpleStringHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+}
+
+/**
+ * Get a placeholder image URL based on category
+ * (For backward compatibility)
+ */
+export function getPlaceholderImage(options: ImageOptions = {}): string {
+  const width = options.width || 800;
+  const height = options.height || 450;
+  const category = options.category?.toLowerCase() || 'technology';
+  
+  const mockArticle = {
+    id: options.text || 'default',
+    title: options.text || 'Default',
+    category: category
   };
   
-  const keywords = categoryMap[category.toLowerCase()] || 'news, trends, analysis';
-  
-  return `${title} - ${category} news and analysis. Related to ${keywords}.`;
+  return getArticleImage(mockArticle);
+}
+
+/**
+ * Clear image cache (useful for testing)
+ */
+export function clearImageCache(): void {
+  imageSearchCache.clear();
+}
+
+/**
+ * Get cache statistics
+ */
+export function getCacheStats(): { size: number } {
+  return { size: imageSearchCache.size };
 }
