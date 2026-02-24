@@ -35,6 +35,7 @@ export async function getArticles(params?: {
   category?: string;
   id?: string;
   slug?: string;
+  type?: string;
 }) {
   const queryParams = new URLSearchParams();
   
@@ -42,6 +43,7 @@ export async function getArticles(params?: {
   if (params?.category) queryParams.set('category', params.category);
   if (params?.id) queryParams.set('id', params.id);
   if (params?.slug) queryParams.set('slug', params.slug);
+  if (params?.type) queryParams.set('type', params.type);
   
   const queryString = queryParams.toString();
   const endpoint = `/articles${queryString ? `?${queryString}` : ''}`;

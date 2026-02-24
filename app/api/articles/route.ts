@@ -9,13 +9,15 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category') || undefined;
     const id = searchParams.get('id') ? parseInt(searchParams.get('id')!) : undefined;
     const slug = searchParams.get('slug') || undefined;
+    const type = searchParams.get('type') || undefined;
 
     // Fetch articles using our new service
     const response = await fetchArticles({
       limit,
       category,
       id,
-      slug
+      slug,
+      type
     });
 
     // Return the response

@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero';
 import TrendingArticles from '@/components/TrendingArticles';
+import DailyDigestSection from '@/components/DailyDigestSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { config } from '@/lib/config';
@@ -43,6 +44,7 @@ export default function Home() {
       />
       
       <TrendingArticles />
+      <DailyDigestSection />
       <Hero />
       <FeaturesSection />
       <NewsletterSignup />

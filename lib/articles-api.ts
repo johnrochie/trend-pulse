@@ -56,31 +56,32 @@ export async function fetchArticles(options: {
   category?: string;
   id?: number;
   slug?: string;
+  type?: string;
 } = {}): Promise<ApiResponse> {
-  const { limit = 50, category, id, slug } = options;
+  const { limit = 50, category, id, slug, type } = options;
   
   try {
     // Try GitHub first (for Vercel deployment)
     const githubData = await fetchFromGitHub();
     if (githubData.success && githubData.data.length > 0) {
       console.log('Articles loaded from GitHub');
-      return filterArticles(githubData, { limit, category, id, slug });
+      return filterArticles(githubData, { limit, category, id, slug, type });
     }
     
     // Try local files (for development)
     const localData = await fetchFromLocalFiles();
     if (localData.success && localData.data.length > 0) {
       console.log('Articles loaded from local files');
-      return filterArticles(localData, { limit, category, id, slug });
+      return filterArticles(localData, { limit, category, id, slug, type });
     }
     
     // Fallback to mock data
     console.log('Using fallback mock articles');
-    return getMockArticles({ limit, category, id, slug });
+    return getMockArticles({ limit, category, id, slug, type });
     
   } catch (error) {
     console.error('Error fetching articles:', error);
-    return getMockArticles({ limit, category, id, slug });
+    return getMockArticles({ limit, category, id, slug, type });
   }
 }
 
@@ -181,6 +182,7 @@ function getMockArticles(options: {
   category?: string;
   id?: number;
   slug?: string;
+  type?: string;
 } = {}): ApiResponse {
   const mockArticles: Article[] = [
     {
@@ -364,6 +366,7 @@ function filterArticles(
     category?: string;
     id?: number;
     slug?: string;
+    type?: string;
   }
 ): ApiResponse {
   let filtered = response.data;
@@ -381,6 +384,12 @@ function filterArticles(
   if (options.category) {
     filtered = filtered.filter(article => 
       article.category?.toLowerCase() === options.category!.toLowerCase()
+    );
+  }
+
+  if (options.type) {
+    filtered = filtered.filter(article => 
+      (article as any).type?.toLowerCase() === options.type!.toLowerCase()
     );
   }
 
