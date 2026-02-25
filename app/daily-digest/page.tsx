@@ -376,3 +376,27 @@ export default async function DailyDigestArchivePage() {
       <div className="border-t border-gray-800 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Navigate</h3>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                  Home
+                </Link>
+                <Link href="/daily-digest" className="text-gray-400 hover:text-white transition-colors">
+                  Daily Digest Archive
+                </Link>
+                <Link href="/analytics" className="text-gray-400 hover:text-white transition-colors">
+                  Analytics
+                </Link>
+              </div>
+            </div>
+            <div className="text-gray-500 text-sm">
+              <p>Trend Pulse Daily Digest Archive</p>
+              <p className="mt-1">© {new Date().getFullYear()} Trend Pulse. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
