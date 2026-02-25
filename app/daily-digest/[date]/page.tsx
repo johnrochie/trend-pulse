@@ -32,16 +32,12 @@ interface DailyDigest {
 
 async function getDailyDigest(date: string): Promise<DailyDigest | null> {
   try {
-    // Fetch from our API using the utility
-    const data = await getArticles({ type: 'daily-digest' });
+    // Fetch specific digest by slug
+    const data = await getArticles({ slug: `daily-digest-${date}` });
     
     if (data.success && data.data && data.data.length > 0) {
-      // Find digest with matching date slug
-      const digest = data.data.find((article: any) => 
-        article.type === 'daily-digest' && article.slug === `daily-digest-${date}`
-      );
-      
-      return digest || null;
+      // Return the first (and should be only) matching digest
+      return data.data[0];
     }
     
     return null;
