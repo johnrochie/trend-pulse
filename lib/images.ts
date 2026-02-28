@@ -27,15 +27,10 @@ const imageSearchCache = new Map<string, string>();
  * Priority: 1. Original source image 2. Keyword-based image 3. Category-based image
  */
 export function getArticleImage(article: any): string {
-  // If article has original image URL, use it (best quality)
-  if (article.imageUrl && isValidImageUrl(article.imageUrl)) {
-    return getOptimizedImageUrl(article.imageUrl);
-  }
-  
   // Create cache key
   const cacheKey = `article-${article.id}-${article.title}`;
   
-  // Check cache
+  // Check cache first
   if (imageSearchCache.has(cacheKey)) {
     return imageSearchCache.get(cacheKey) || getCategoryBasedImage(article);
   }
@@ -43,13 +38,19 @@ export function getArticleImage(article: any): string {
   // Extract keywords from article
   const keywords = extractKeywordsFromArticle(article);
   
-  // Get keyword-influenced image
+  // Get keyword-influenced image (always use Unsplash for consistency)
   const imageUrl = getKeywordBasedImage(article.category, keywords, article.id);
   
   // Cache the result
   imageSearchCache.set(cacheKey, imageUrl);
   
   return imageUrl;
+  
+  // Note: We're NOT using article.imageUrl even if it exists because:
+  // 1. Source images often block hotlinking
+  // 2. Source images have inconsistent sizes/quality
+  // 3. Unsplash provides consistent, high-quality, reliable images
+  // 4. Better user experience with uniform image styling
 }
 
 /**
@@ -132,7 +133,7 @@ function getKeywordBasedImage(category: string, keywords: string[], articleId: a
       '1550745165-9bc0b252726f', // Tech devices (phones, gadgets)
       '1551434678-e076c223a692', // Code screen (software, programming)
       '1552664730-d307ca884978', // Data visualization (AI, data)
-      '1542744173-8e7e53415bb6', // Team collaboration (startups, teams)
+      '1522071820081-009f0129c71c', // Team collaboration (startups, teams)
       '1444653614773-995cb1ef9efa', // Office workspace (companies)
       '1556761175-b413da4baf72', // Office meeting (business tech)
     ],
@@ -150,7 +151,7 @@ function getKeywordBasedImage(category: string, keywords: string[], articleId: a
       '1556761175-b413da4baf72', // Office meeting (financial meetings)
     ],
     'entertainment': [
-      '1542744173-8e7e53415bb6', // Team collaboration (film crews, production)
+      '1522071820081-009f0129c71c', // Team collaboration (film crews, production)
       '1551434678-e076c223a692', // Screen (movies, TV, streaming)
       '1499951360447-b19be8fe80f5', // Workspace (editing, production)
       '1550745165-9bc0b252726f', // Devices (streaming devices)
@@ -160,18 +161,18 @@ function getKeywordBasedImage(category: string, keywords: string[], articleId: a
       '1550745165-9bc0b252726f', // Devices (tech lifestyle, gadgets)
       '1499951360447-b19be8fe80f5', // Workspace (home office, study)
       '1444653614773-995cb1ef9efa', // Interior (home, living spaces)
-      '1542744173-8e7e53415bb6', // People (social, activities)
+      '1522071820081-009f0129c71c', // People (social, activities)
       '1551288049-bebda4e38f71', // Meeting (social gatherings)
     ],
     'health': [
       '1551434678-e076c223a692', // Screen (medical tech, research)
       '1550745165-9bc0b252726f', // Devices (health tech, wearables)
       '1499951360447-b19be8fe80f5', // Workspace (clinic, lab)
-      '1542744173-8e7e53415bb6', // Team (medical team, research)
+      '1522071820081-009f0129c71c', // Team (medical team, research)
       '1551288049-bebda4e38f71', // Meeting (doctor consultation)
     ],
     'sports': [
-      '1542744173-8e7e53415bb6', // Team (sports teams, athletes)
+      '1522071820081-009f0129c71c', // Team (sports teams, athletes)
       '1551434678-e076c223a692', // Screen (sports broadcast, stats)
       '1499951360447-b19be8fe80f5', // Workspace (sports analytics)
       '1550745165-9bc0b252726f', // Devices (sports tech, wearables)
