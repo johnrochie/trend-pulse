@@ -88,7 +88,7 @@ These Terms shall be governed by the laws of [Your Jurisdiction], without regard
 For questions about these Terms, please contact us:
 
 - **Email:** hello@trendpulse.ai
-- **Website:** trendpulse.ai/contact
+- **Website:** trendpulse.ai
 
 ## 12. Newsletter Terms
 

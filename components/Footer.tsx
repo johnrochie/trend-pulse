@@ -23,7 +23,6 @@ const footerLinks = {
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/terms' },
-    { name: 'Contact', href: '/contact' },
   ],
 };
 

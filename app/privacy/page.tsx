@@ -119,7 +119,7 @@ If you have any questions about this Privacy Policy, please contact us:
 
 - **Email:** hello@trendpulse.ai
 - **Address:** [Your Business Address]
-- **Website:** trendpulse.ai/contact
+- **Website:** trendpulse.ai
 
 ---
 

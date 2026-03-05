@@ -10,7 +10,6 @@ const navItems = [
   { label: 'Articles', href: '/articles' },
   { label: 'Quiz', href: '/quiz' },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
