@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Calendar, Clock, Eye, Tag, ChevronRight, Filter, Search, Grid, List } from 'lucide-react';
+import { Clock, Eye, Tag, ChevronRight, Filter, Search, Grid, List } from 'lucide-react';
 
 interface Article {
   id: number;
@@ -75,15 +75,15 @@ export default function AllArticlesComponent() {
     return matchesSearch && matchesCategory;
   });
 
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
+  // Format date (removed as per request - dates make articles look old)
+  // const formatDate = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString('en-US', {
+  //     month: 'short',
+  //     day: 'numeric',
+  //     year: 'numeric'
+  //   });
+  // };
 
   // Format view count
   const formatViews = (views: number) => {
@@ -253,10 +253,6 @@ export default function AllArticlesComponent() {
                 <div className="flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{formatDate(article.publishedAt)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       <span>{article.readTime}</span>
                     </div>
@@ -294,7 +290,6 @@ export default function AllArticlesComponent() {
                     <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getCategoryColor(article.category)}`}>
                       {article.category}
                     </span>
-                    <span className="text-sm text-gray-500">{formatDate(article.publishedAt)}</span>
                   </div>
                   
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">

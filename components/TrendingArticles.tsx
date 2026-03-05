@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, TrendingUp, Eye, DollarSign, ExternalLink, Zap, BarChart, Users } from 'lucide-react';
+import { TrendingUp, Eye, DollarSign, ExternalLink, Zap, BarChart, Users } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -295,10 +295,6 @@ export default function TrendingArticles() {
 
                   {/* Simple metadata */}
                   <div className="flex items-center justify-between text-xs text-gray-500">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3" />
-                      {format(parseISO(article.publishedAt), 'MMM d')}
-                    </div>
                     <div className="flex items-center gap-1">
                       <TrendingUp className="w-3 h-3" />
                       <span>{article.trendingScore}</span>

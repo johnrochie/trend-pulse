@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'lucide-react';
+import { Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -202,10 +202,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Article Header */}
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Calendar className="w-4 h-4" />
-              {format(parseISO(article.publishedAt), 'MMMM d, yyyy')}
-            </div>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Eye className="w-4 h-4" />
               {article.views.toLocaleString()} views

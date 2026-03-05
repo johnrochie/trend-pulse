@@ -1,56 +1,64 @@
-import { MetadataRoute } from 'next';
-import { config } from '@/lib/config';
+import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = config.site.url;
-  const currentDate = new Date().toISOString();
+  const baseUrl = 'https://www.trendpulse.life'
+  const now = new Date()
   
   // Static pages
   const staticPages = [
     {
       url: baseUrl,
-      lastModified: currentDate,
-      changeFrequency: 'hourly' as const,
-      priority: 1.0,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 1,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      priority: 0.5,
     },
     {
       url: `${baseUrl}/privacy`,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'yearly' as const,
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: currentDate,
+      lastModified: now,
       changeFrequency: 'yearly' as const,
-      priority: 0.5,
+      priority: 0.3,
     },
-  ];
+    {
+      url: `${baseUrl}/cookies`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/analytics`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+  ]
 
-  // Category pages (future enhancement)
-  const categories = ['tech', 'business', 'finance', 'lifestyle', 'entertainment'];
-  const categoryPages = categories.map(category => ({
-    url: `${baseUrl}/category/${category}`,
-    lastModified: currentDate,
-    changeFrequency: 'daily' as const,
-    priority: 0.9,
-  }));
+  // Note: In production, you would fetch articles from your database
+  // For now, we'll create a placeholder for dynamic article pages
+  // const articles = await fetchArticlesFromDB()
+  // const articlePages = articles.map(article => ({
+  //   url: `${baseUrl}/articles/${article.slug}`,
+  //   lastModified: new Date(article.updatedAt),
+  //   changeFrequency: 'weekly' as const,
+  //   priority: 0.8,
+  // }))
 
-  // Note: Article pages would be dynamically added here
-  // In production, you would fetch articles from your API/database
-  // and add them to the sitemap
-  
-  return [...staticPages, ...categoryPages];
+  return [...staticPages]
 }

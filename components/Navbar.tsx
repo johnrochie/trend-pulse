@@ -99,7 +99,7 @@ export default function Navbar() {
               </p>
             </div>
             <Link
-              href="/article/gavin-newsom-bans-kid-rock-from-entering-californi"
+              href="/article/korean-stock-gauge-poised-for-correction-on-iran-w"
               className="text-sm text-blue-400 hover:text-blue-300 font-medium"
             >
               Latest Article →
