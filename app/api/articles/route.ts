@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams;
-    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 50;
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 500;
     const category = searchParams.get('category') || undefined;
     const id = searchParams.get('id') ? parseInt(searchParams.get('id')!) : undefined;
     const slug = searchParams.get('slug') || undefined;

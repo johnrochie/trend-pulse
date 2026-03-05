@@ -58,21 +58,34 @@ export async function fetchArticles(options: {
   slug?: string;
   type?: string;
 } = {}): Promise<ApiResponse> {
-  const { limit = 50, category, id, slug, type } = options;
+  const { limit = 500, category, id, slug, type } = options;
   
   try {
     // Try GitHub first (for Vercel deployment)
     const githubData = await fetchFromGitHub();
     if (githubData.success && githubData.data.length > 0) {
       console.log('Articles loaded from GitHub');
-      return filterArticles(githubData, { limit, category, id, slug, type });
-    }
-    
-    // Try local files (for development)
+    // Try local files first (for development)
     const localData = await fetchFromLocalFiles();
     if (localData.success && localData.data.length > 0) {
-      console.log('Articles loaded from local files');
+      console.log("Articles loaded from local files");
       return filterArticles(localData, { limit, category, id, slug, type });
+    }
+    
+    // Try GitHub (for Vercel deployment)
+    const githubData = await fetchFromGitHub();
+    if (githubData.success && githubData.data.length > 0) {
+      console.log("Articles loaded from GitHub");
+      return filterArticles(githubData, { limit, category, id, slug, type });
+    }
+
+
+
+
+
+
+
+
     }
     
     // Fallback to mock data
@@ -341,7 +354,7 @@ function getMockArticles(options: {
     );
   }
 
-  filtered = filtered.slice(0, options.limit || 50);
+  filtered = filtered.slice(0, options.limit || 500);
 
   return {
     success: true,
@@ -393,7 +406,7 @@ function filterArticles(
     );
   }
 
-  filtered = filtered.slice(0, options.limit || 50);
+  filtered = filtered.slice(0, options.limit || 500);
 
   return {
     ...response,
