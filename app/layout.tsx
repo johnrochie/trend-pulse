@@ -4,8 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import AnalyticsGate from "@/components/AnalyticsGate";
 import { config } from "@/lib/config";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo";
 
@@ -25,6 +24,7 @@ export const metadata: Metadata = {
   keywords: ["news", "trends", "trend analysis", "real-time news", "tech trends", "business news", "market trends"],
   authors: [{ name: config.site.name }],
   metadataBase: new URL(config.site.url),
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: config.site.url,
@@ -141,31 +141,8 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <CookieConsentBanner />
-        
-        {/* Vercel Analytics */}
-        <Analytics />
-        <SpeedInsights />
-        
-        {/* Google Analytics - Add your GA4 Measurement ID in .env.local */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            {/* Google tag (gtag.js) */}
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
-                `,
-              }}
-            />
-          </>
-        )}
+        {/* Analytics load only after user accepts (performance) cookies */}
+        <AnalyticsGate />
       </body>
     </html>
   );

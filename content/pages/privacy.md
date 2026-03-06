@@ -7,11 +7,11 @@ order: 3
 
 # Privacy Policy
 
-*Last updated: February 2026*
+*Last updated: March 2026*
 
 ## Introduction
 
-Trend Pulse ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website trendpulse.ai (the "Site").
+Trend Pulse ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website www.trendpulse.life (the "Site").
 
 Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
 
@@ -38,7 +38,7 @@ We automatically collect certain information when you visit our Site:
 - Device information
 
 ### Cookies and Tracking Technologies
-We use cookies and similar tracking technologies to track activity on our Site and hold certain information. Cookies are files with small amount of data which may include an anonymous unique identifier.
+We use cookies and similar tracking technologies to track activity on our Site and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier. **Analytics and performance cookies are only used when you consent** via our cookie banner. You can change your preferences at any time using the "Cookie preferences" link in the footer.
 
 ## How We Use Your Information
 
@@ -89,7 +89,7 @@ You have the right to object to our processing of your personal information.
 ### Right to Data Portability
 You have the right to request transfer of your data to another organization.
 
-To exercise these rights, please contact us at hello@trendpulse.ai.
+To exercise these rights, please contact us (see Contact Us below). You can also withdraw consent for analytics at any time via "Cookie preferences" in the footer.
 
 ## Third-Party Services
 
@@ -97,8 +97,8 @@ We may employ third-party companies and individuals to facilitate our Site ("Ser
 
 These third parties have access to your personal information only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.
 
-### Analytics
-We may use third-party Service Providers to monitor and analyze the use of our Site, such as Google Analytics.
+### Analytics (with consent)
+When you accept analytics/performance cookies, we use Vercel Web Analytics and Google Analytics to collect anonymised usage data (e.g. page views). IP anonymisation is enabled. Data is aggregated and not sold to third parties. For how Google processes data, see [Google's Privacy Policy](https://policies.google.com/privacy). You can withdraw consent at any time via "Cookie preferences" in the footer.
 
 ### Advertising
 We may use third-party advertising partners to serve ads. These partners may use cookies and similar technologies.
@@ -117,9 +117,9 @@ You are advised to review this Privacy Policy periodically for any changes. Chan
 
 If you have any questions about this Privacy Policy, please contact us:
 
-- **Email:** hello@trendpulse.ai
+- **Email:** hello@trendpulse.life (or the contact address listed on the Site)
 - **Address:** [Your Business Address]
-- **Website:** trendpulse.ai/contact
+- **Website:** www.trendpulse.life/contact
 
 ## GDPR Compliance
 

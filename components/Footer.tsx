@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Twitter, Linkedin, Github, Mail, TrendingUp, DollarSign, Zap } from 'lucide-react';
+import CookiePreferencesLink from '@/components/CookiePreferencesLink';
 
 const footerLinks = {
   newsCategories: [
@@ -170,7 +171,15 @@ export default function Footer() {
               </p>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <a
+                href="https://www.evomedia.site"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                Evolution Media
+              </a>
               <Link href="/privacy" className="text-sm text-gray-400 hover:text-white">
                 Privacy Policy
               </Link>
@@ -180,6 +189,7 @@ export default function Footer() {
               <Link href="/cookies" className="text-sm text-gray-400 hover:text-white">
                 Cookie Policy
               </Link>
+              <CookiePreferencesLink />
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-sm text-gray-400">Live Updates</span>

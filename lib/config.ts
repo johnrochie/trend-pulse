@@ -5,12 +5,12 @@ export const config = {
   site: {
     name: process.env.NEXT_PUBLIC_SITE_NAME || 'Trend Pulse',
     description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'Real-time news and analysis',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://trendpulse.life',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.trendpulse.life',
   },
   
   // API configuration
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://trendpulse.life/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://www.trendpulse.life/api',
     articles: '/articles',
     pages: '/pages',
   },
