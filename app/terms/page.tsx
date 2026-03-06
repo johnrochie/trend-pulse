@@ -142,6 +142,7 @@ export default async function TermsPage() {
       showStats={false}
       ctaText="Back to Home"
       ctaLink="/"
+      breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Terms of Service' }]}
     />
   );
 }

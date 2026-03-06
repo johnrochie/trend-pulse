@@ -1,5 +1,6 @@
 import React from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
+import Breadcrumbs, { type BreadcrumbItem } from './Breadcrumbs';
 
 interface PageTemplateProps {
   title: string;
@@ -7,6 +8,7 @@ interface PageTemplateProps {
   showStats?: boolean;
   ctaText?: string;
   ctaLink?: string;
+  breadcrumbs?: BreadcrumbItem[];
   children?: React.ReactNode;
 }
 
@@ -16,12 +18,13 @@ export default function PageTemplate({
   showStats = false,
   ctaText = 'Back to Home',
   ctaLink = '/',
+  breadcrumbs,
   children
 }: PageTemplateProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-4xl mx-auto">
-        {/* Page Header */}
+        {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
         <div className="mb-12 text-center">
           <h1 className="font-space text-4xl sm:text-5xl font-bold text-white mb-6">
             {title}

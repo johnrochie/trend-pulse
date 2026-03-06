@@ -6,10 +6,11 @@ import { Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'luci
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
-import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchema } from '@/lib/seo';
+import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
 import { config } from '@/lib/config';
 import RelatedArticles from '@/components/RelatedArticles';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface Article {
   id: number;
@@ -47,8 +48,7 @@ async function getArticle(slug: string): Promise<Article | null> {
     }
     
     return null;
-  } catch (error) {
-    console.error('Error fetching article:', error);
+  } catch {
     return null;
   }
 }
@@ -122,13 +122,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
   
-  // Generate structured data for SEO
-  const structuredData = generateNewsArticleSchema(
+  // Generate structured data for SEO (with article URL for mainEntityOfPage)
+  const articleUrl = `${config.site.url}/article/${article.slug}`;
+  const structuredData = generateNewsArticleSchemaWithUrl(
     article.title,
     article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
     article.imageUrl || `${config.site.url}/og-image.jpg`,
     article.publishedAt,
     article.updatedAt || article.publishedAt,
+    articleUrl,
     'Trend Pulse'
   );
   
@@ -199,7 +201,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </header>
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Article Header */}
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Articles', href: '/articles' },
+            { label: article.title },
+          ]}
+        />
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -231,7 +239,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               height={600}
               className="w-full h-full object-cover"
               priority
-              sizes="100vw"
+              sizes="(max-width: 1200px) 100vw, 1200px"
             />
             <div className="absolute bottom-4 left-4">
               <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gray-900/80 backdrop-blur-sm text-white`}>

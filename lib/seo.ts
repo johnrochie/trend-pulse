@@ -239,6 +239,35 @@ export function generateNewsArticleSchema(
   };
 }
 
+/** NewsArticle schema with explicit article URL for mainEntityOfPage */
+export function generateNewsArticleSchemaWithUrl(
+  headline: string,
+  description: string,
+  imageUrl: string,
+  datePublished: string,
+  dateModified: string,
+  articleUrl: string,
+  author: string,
+  publisher: string = config.site.name
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline,
+    description,
+    image: imageUrl,
+    datePublished,
+    dateModified,
+    author: { '@type': 'Organization', name: author },
+    publisher: {
+      '@type': 'Organization',
+      name: publisher,
+      logo: { '@type': 'ImageObject', url: `${config.site.url}/logo.svg` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+  };
+}
+
 /**
  * Generate meta tags string for HTML head
  */

@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next'
+import { fetchArticles } from '@/lib/articles-api'
+import { config } from '@/lib/config'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.trendpulse.life'
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = config.site.url
   const now = new Date()
-  
+
   // Static pages
-  const staticPages = [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: now,
@@ -75,5 +77,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  return [...staticPages]
+  // Article pages
+  let articlePages: MetadataRoute.Sitemap = []
+  try {
+    const res = await fetchArticles({ limit: 1000 })
+    if (res.success && res.data?.length) {
+      articlePages = res.data.map((a) => ({
+        url: `${baseUrl}/article/${a.slug}`,
+        lastModified: a.updatedAt ? new Date(a.updatedAt) : now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }))
+    }
+  } catch {
+    // ignore
+  }
+
+  return [...staticPages, ...articlePages]
 }

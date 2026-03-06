@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, Newspaper, ArrowRight, Search, Filter, CalendarDays, BookOpen, Zap } from 'lucide-react';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { format, parseISO, subDays } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -45,8 +46,7 @@ async function getDailyDigests(): Promise<DailyDigest[]> {
     }
     
     return [];
-  } catch (error) {
-    console.error('Error fetching daily digests:', error);
+  } catch {
     return [];
   }
 }
@@ -90,7 +90,9 @@ export default async function DailyDigestArchivePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
-      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Daily Digest' }]} />
+      </div>
       <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 border-b border-purple-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
@@ -256,6 +258,7 @@ export default async function DailyDigestArchivePage() {
                           alt={getImageAltText(digest)}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         

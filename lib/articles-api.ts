@@ -107,8 +107,7 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
       }
     };
     
-  } catch (error) {
-    console.error('GitHub fetch failed:', error);
+  } catch {
     return {
       success: false,
       data: [],

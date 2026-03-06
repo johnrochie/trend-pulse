@@ -1,6 +1,7 @@
 'use server';
 
 import { Resend } from 'resend';
+import { getClientIp, checkRateLimit } from '@/lib/rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -8,6 +9,10 @@ export async function sendContactEmail(formData: FormData) {
   const honeypot = formData.get('website_url') as string;
   if (honeypot) {
     return { ok: true, data: null };
+  }
+  const ip = await getClientIp();
+  if (!checkRateLimit(ip, 'contact').ok) {
+    return { ok: false, error: 'Too many messages. Please try again later.' };
   }
 
   const name = formData.get('name') as string;

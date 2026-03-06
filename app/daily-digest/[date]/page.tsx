@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark, Newspaper, Zap, Globe, TrendingUp as TrendingUpIcon, Lightbulb } from 'lucide-react';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -41,8 +42,7 @@ async function getDailyDigest(date: string): Promise<DailyDigest | null> {
     }
     
     return null;
-  } catch (error) {
-    console.error('Error fetching daily digest:', error);
+  } catch {
     return null;
   }
 }
@@ -132,9 +132,14 @@ export default async function DailyDigestPage({ params }: { params: { date: stri
         </div>
       </nav>
       
-      {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Daily Digest', href: '/daily-digest' },
+            { label: formattedDate },
+          ]}
+        />
         <header className="mb-12">
           <div className="flex items-center space-x-3 mb-6">
             <div className="p-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600">
@@ -180,6 +185,7 @@ export default async function DailyDigestPage({ params }: { params: { date: stri
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, 896px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-6 left-6">

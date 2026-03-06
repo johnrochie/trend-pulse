@@ -202,6 +202,7 @@ export default async function CookiePolicyPage() {
     <PageTemplate
       title={pageData.title}
       content={pageData.content}
+      breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Cookie Policy' }]}
     >
       {/* Additional GDPR information */}
       <div className="mt-12 p-6 bg-gray-800/50 rounded-xl border border-gray-700">

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AnalyticsGate from "@/components/AnalyticsGate";
+import SwRegister from "@/components/SwRegister";
 import { config } from "@/lib/config";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo";
 
@@ -98,7 +99,7 @@ export default function RootLayout({
         
         <link rel="canonical" href={config.site.url} />
         <link rel="manifest" href="/site.webmanifest" />
-        
+        <link rel="alternate" type="application/rss+xml" title={`${config.site.name} RSS`} href={`${config.site.url}/feed.xml`} />
         {/* Structured Data for SEO */}
         <script
           type="application/ld+json"
@@ -117,12 +118,20 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-gray-900 text-gray-100`}
       >
+        <a
+          href="#main-content"
+          className="skip-link"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main id="main-content" className="min-h-screen" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <CookieConsentBanner />
-        {/* Analytics load only after user accepts (performance) cookies */}
         <AnalyticsGate />
+        <SwRegister />
       </body>
     </html>
   );

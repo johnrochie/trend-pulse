@@ -112,6 +112,7 @@ export default function DailyDigestSection() {
                 alt={getImageAltText(digest)}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-black/60 md:to-transparent" />
               
