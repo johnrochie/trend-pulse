@@ -1,27 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { Twitter, Linkedin, Github, Mail, TrendingUp, DollarSign, Zap } from 'lucide-react';
+import { Twitter, Linkedin, Github, TrendingUp, Zap } from 'lucide-react';
 import CookiePreferencesLink from '@/components/CookiePreferencesLink';
+import { subscribeNewsletter } from '@/app/actions/subscribe-newsletter';
+import { useState } from 'react';
 
 const footerLinks = {
   newsCategories: [
-    { name: 'Tech News', href: '/category/tech' },
-    { name: 'Business', href: '/category/business' },
-    { name: 'Finance', href: '/category/finance' },
-    { name: 'Lifestyle', href: '/category/lifestyle' },
-    { name: 'Entertainment', href: '/category/entertainment' },
+    { name: 'Tech News', href: '/articles?category=technology' },
+    { name: 'Business', href: '/articles?category=business' },
+    { name: 'Finance', href: '/articles?category=finance' },
+    { name: 'Lifestyle', href: '/articles?category=lifestyle' },
+    { name: 'Entertainment', href: '/articles?category=entertainment' },
   ],
   Resources: [
-    { name: 'Trending Now', href: '/trending' },
-    { name: 'Market Analysis', href: '/analysis' },
+    { name: 'Trending', href: '/articles' },
     { name: 'Daily Briefings', href: '/briefings' },
-    { name: 'Data Sources', href: '/sources' },
-    { name: 'API Access', href: '/api' },
+    { name: 'Articles', href: '/articles' },
+    { name: 'Daily Digest', href: '/daily-digest' },
+    { name: 'Quiz', href: '/quiz' },
   ],
   Company: [
     { name: 'About', href: '/about' },
-    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'Contact', href: '/contact' },
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/terms' },
   ],
@@ -31,16 +33,33 @@ const socialLinks = [
   { icon: Twitter, href: 'https://twitter.com/trendpulse', label: 'Twitter' },
   { icon: Linkedin, href: 'https://linkedin.com/company/trendpulse', label: 'LinkedIn' },
   { icon: Github, href: 'https://github.com/trendpulse', label: 'GitHub' },
-  { icon: Mail, href: 'mailto:hello@trendpulse.ai', label: 'Email' },
 ];
 
 export default function Footer() {
+  const [footerNewsletterStatus, setFooterNewsletterStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [footerError, setFooterError] = useState('');
+
+  async function handleFooterNewsletter(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('footer-email') as string;
+    const honeypot = formData.get('website_url') as string;
+    setFooterNewsletterStatus('sending');
+    setFooterError('');
+    const result = await subscribeNewsletter(email, honeypot);
+    if (result.ok) {
+      setFooterNewsletterStatus('success');
+      e.currentTarget.reset();
+    } else {
+      setFooterNewsletterStatus('error');
+      setFooterError(result.error ?? 'Something went wrong.');
+    }
+  }
+
   return (
     <footer className="bg-gray-900 border-t border-gray-800">
-      {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand & Newsletter */}
           <div className="lg:col-span-2">
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
@@ -58,39 +77,38 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Newsletter */}
             <div className="mb-8">
               <h3 className="font-bold text-white mb-4">Get Daily Trend Alerts</h3>
-              <form 
-                className="flex gap-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  const email = formData.get('footer-email') as string;
-                  console.log('Footer newsletter signup:', email);
-                  e.currentTarget.reset();
-                }}
-              >
-                <input
-                  type="email"
-                  name="footer-email"
-                  placeholder="Your email address"
-                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all"
-                >
-                  Subscribe
-                </button>
-              </form>
+              {footerNewsletterStatus === 'success' ? (
+                <p className="text-green-400 text-sm">Thanks for subscribing.</p>
+              ) : (
+                <form className="flex flex-col sm:flex-row gap-2" onSubmit={handleFooterNewsletter}>
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="footer-website_url">Leave blank</label>
+                    <input type="text" id="footer-website_url" name="website_url" tabIndex={-1} autoComplete="off" />
+                  </div>
+                  <input
+                    type="email"
+                    name="footer-email"
+                    placeholder="Your inbox"
+                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={footerNewsletterStatus === 'sending'}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all disabled:opacity-50"
+                  >
+                    {footerNewsletterStatus === 'sending' ? 'Subscribing…' : 'Subscribe'}
+                  </button>
+                </form>
+              )}
+              {footerNewsletterStatus === 'error' && <p className="text-red-400 text-xs mt-2">{footerError}</p>}
               <p className="text-xs text-gray-500 mt-2">
-                15,000+ subscribers. No spam, unsubscribe anytime.
+                No spam, unsubscribe anytime.
               </p>
             </div>
 
-            {/* Social links */}
             <div>
               <h3 className="font-bold text-white mb-4">Follow the Trends</h3>
               <div className="flex gap-3">
@@ -110,16 +128,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <h3 className="font-bold text-white mb-6 flex items-center gap-2">
                 {category === 'newsCategories' && <TrendingUp className="w-4 h-4" />}
-                {category === 'monetization' && <DollarSign className="w-4 h-4" />}
-                {category === 'resources' && <Zap className="w-4 h-4" />}
-                {category === 'newsCategories' ? 'News Categories' : 
-                 category === 'monetization' ? 'Monetization' : 
-                 category === 'resources' ? 'Resources' : category}
+                {category === 'Resources' && <Zap className="w-4 h-4" />}
+                {category === 'newsCategories' ? 'News Categories' : category === 'Resources' ? 'Resources' : category}
               </h3>
               <ul className="space-y-3">
                 {links.map((link) => (
@@ -138,14 +152,13 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Stats */}
         <div className="mt-12 pt-12 border-t border-gray-800">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: '15K+', label: 'Daily Readers', color: 'from-blue-500 to-cyan-500' },
-              { value: '50K+', label: 'Daily Articles', color: 'from-green-500 to-emerald-500' },
-              { value: '2.5M+', label: 'Monthly Pageviews', color: 'from-purple-500 to-pink-500' },
-              { value: '97%', label: 'Trend Accuracy', color: 'from-orange-500 to-red-500' },
+              { value: 'Daily', label: 'News & analysis', color: 'from-blue-500 to-cyan-500' },
+              { value: 'Trends', label: 'Across categories', color: 'from-green-500 to-emerald-500' },
+              { value: 'Briefings', label: 'Curated digest', color: 'from-purple-500 to-pink-500' },
+              { value: 'Free', label: 'Newsletter', color: 'from-orange-500 to-red-500' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className={`text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${stat.color} mb-2`}>
@@ -158,7 +171,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="bg-gray-950 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -167,7 +179,7 @@ export default function Footer() {
                 © {new Date().getFullYear()} Trend Pulse. All rights reserved.
               </p>
               <p className="text-sm text-gray-500 mt-1">
-                AI-powered real-time news and trend analysis platform. Stay ahead of what's trending.
+                AI-powered real-time news and trend analysis platform. Stay ahead of what&apos;s trending.
               </p>
             </div>
 
@@ -180,6 +192,9 @@ export default function Footer() {
               >
                 Evolution Media
               </a>
+              <Link href="/contact" className="text-sm text-gray-400 hover:text-white">
+                Contact
+              </Link>
               <Link href="/privacy" className="text-sm text-gray-400 hover:text-white">
                 Privacy Policy
               </Link>
@@ -199,7 +214,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Back to top */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className="fixed bottom-8 right-8 p-3 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-40"

@@ -43,17 +43,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/articles`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/briefings`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/quiz`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/daily-digest`,
+      lastModified: now,
+      changeFrequency: 'daily' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.4,
+    },
   ]
-
-  // Note: In production, you would fetch articles from your database
-  // For now, we'll create a placeholder for dynamic article pages
-  // const articles = await fetchArticlesFromDB()
-  // const articlePages = articles.map(article => ({
-  //   url: `${baseUrl}/articles/${article.slug}`,
-  //   lastModified: new Date(article.updatedAt),
-  //   changeFrequency: 'weekly' as const,
-  //   priority: 0.8,
-  // }))
 
   return [...staticPages]
 }

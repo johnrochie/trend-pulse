@@ -85,18 +85,15 @@ These Terms shall be governed by the laws of [Your Jurisdiction], without regard
 
 ## 11. Contact Information
 
-For questions about these Terms, please contact us:
-
-- **Email:** hello@trendpulse.ai
-- **Website:** trendpulse.ai
+For questions about these Terms, please contact us via our [contact form](/contact).
 
 ## 12. Newsletter Terms
 
 ### 12.1 Subscription
-By subscribing to our newsletter, you consent to receive email communications from us.
+By subscribing to our newsletter, you consent to receive communications from us.
 
 ### 12.2 Unsubscribing
-You may unsubscribe at any time using the link in any newsletter email or by contacting us directly.
+You may unsubscribe at any time using the link in any newsletter or by contacting us via our [contact form](/contact).
 
 ### 12.3 Frequency
 We typically send newsletters daily, but frequency may vary based on news developments.

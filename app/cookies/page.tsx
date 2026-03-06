@@ -23,7 +23,7 @@ async function getPageContent() {
 
 ## Introduction
 
-Welcome to Trend Pulse's Cookie Policy. This policy explains how we use cookies and similar tracking technologies on our website trendpulse.ai (the "Site"). 
+Welcome to Trend Pulse's Cookie Policy. This policy explains how we use cookies and similar tracking technologies on our website www.trendpulse.life (the "Site"). 
 
 By using our Site, you consent to the use of cookies as described in this policy.
 
@@ -180,11 +180,7 @@ We may update this Cookie Policy from time to time. We will notify you of any ch
 
 ## Contact Us
 
-If you have questions about this Cookie Policy, please contact us:
-
-**Email:** privacy@trendpulse.ai  
-**Address:** [Your Business Address]  
-**Website:** trendpulse.ai/cookies
+If you have questions about this Cookie Policy, please [contact us](/contact).
 
 ## Additional Resources
 

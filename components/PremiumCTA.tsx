@@ -180,7 +180,7 @@ export default function PremiumCTA() {
                   { feature: 'Revenue Tracking', free: 'Basic', premium: 'Advanced' },
                   { feature: 'Investment Alerts', free: 'None', premium: 'Real-time' },
                   { feature: 'Community Access', free: 'Read-only', premium: 'Full access' },
-                  { feature: 'Support', free: 'Email', premium: 'Priority 24/7' },
+                  { feature: 'Support', free: 'Contact form', premium: 'Priority 24/7' },
                 ].map((item) => (
                   <div key={item.feature} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-0">
                     <span className="text-gray-300">{item.feature}</span>

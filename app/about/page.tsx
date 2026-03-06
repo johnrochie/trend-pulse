@@ -41,11 +41,7 @@ Every article undergoes review to ensure accuracy, readability, and value for ou
 
 ## Contact Us
 
-Have questions or feedback? We'd love to hear from you:
-
-- **Email:** hello@trendpulse.ai
-- **Twitter:** [@trendpulse](https://twitter.com/trendpulse)
-- **LinkedIn:** [Trend Pulse](https://linkedin.com/company/trendpulse)
+Have questions or feedback? [Contact us](/contact) via our form, or find us on Twitter [@trendpulse](https://twitter.com/trendpulse) and [LinkedIn](https://linkedin.com/company/trendpulse).
 
 *Last updated: February 2026*`
     };

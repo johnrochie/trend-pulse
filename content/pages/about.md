@@ -72,7 +72,7 @@ Trend Pulse is built by a team of journalists, analysts, and technologists passi
 
 Have questions or feedback? We'd love to hear from you:
 
-- **Email:** hello@trendpulse.ai
+- [Contact us](/contact) via our form
 - **Twitter:** [@trendpulse](https://twitter.com/trendpulse)
 - **LinkedIn:** [Trend Pulse](https://linkedin.com/company/trendpulse)
 

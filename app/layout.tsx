@@ -113,27 +113,7 @@ export default function RootLayout({
           }}
         />
         
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                // Performance monitoring
-                if ('performance' in window) {
-                  window.addEventListener('load', function() {
-                    setTimeout(function() {
-                      var timing = performance.timing;
-                      var loadTime = timing.loadEventEnd - timing.navigationStart;
-                      if (loadTime > 0) {
-                        console.log('Page load time: ' + loadTime + 'ms');
-                      }
-                    }, 0);
-                  });
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
+        </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-gray-900 text-gray-100`}
       >

@@ -3,28 +3,27 @@
 import { motion } from 'framer-motion';
 import { Mail, Bell, TrendingUp, Zap, Check } from 'lucide-react';
 import { useState } from 'react';
+import { subscribeNewsletter } from '@/app/actions/subscribe-newsletter';
 
 export default function NewsletterSignup() {
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Use FormData to avoid hydration issues
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
-    
-    // In production, connect to your email service (ConvertKit, Mailchimp, etc.)
-    console.log('Newsletter signup:', email);
-    setSubscribed(true);
-    
-    // Reset form
-    e.currentTarget.reset();
-    
-    // Reset after 5 seconds
-    setTimeout(() => {
-      setSubscribed(false);
-    }, 5000);
+    const honeypot = formData.get('website_url') as string;
+    setStatus('sending');
+    setErrorMessage('');
+    const result = await subscribeNewsletter(email, honeypot);
+    if (result.ok) {
+      setStatus('success');
+      e.currentTarget.reset();
+    } else {
+      setStatus('error');
+      setErrorMessage(result.error ?? 'Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -49,7 +48,7 @@ export default function NewsletterSignup() {
           >
             Stay Ahead of the News
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -68,12 +67,12 @@ export default function NewsletterSignup() {
             viewport={{ once: true }}
             className="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 backdrop-blur-sm"
           >
-            {subscribed ? (
+            {status === 'success' ? (
               <div className="text-center py-12">
                 <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
                   <Check className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">You're Subscribed!</h3>
+                <h3 className="text-2xl font-bold text-white mb-4">You&apos;re subscribed!</h3>
                 <p className="text-gray-300">
                   Welcome to Trend Pulse. Check your inbox for confirmation and your first news briefing.
                 </p>
@@ -91,9 +90,13 @@ export default function NewsletterSignup() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="newsletter-website_url">Leave blank</label>
+                    <input type="text" id="newsletter-website_url" name="website_url" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                      Email Address
+                      Your inbox
                     </label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -101,7 +104,7 @@ export default function NewsletterSignup() {
                         type="email"
                         id="email"
                         name="email"
-                        placeholder="your@email.com"
+                        placeholder="your@example.com"
                         className="w-full pl-12 pr-4 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         required
                       />
@@ -125,15 +128,20 @@ export default function NewsletterSignup() {
                     </div>
                   </div>
 
+                  {status === 'error' && (
+                    <p className="text-red-400 text-sm">{errorMessage}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                    disabled={status === 'sending'}
+                    className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Subscribe to Daily Briefing
+                    {status === 'sending' ? 'Subscribing…' : 'Subscribe to Daily Briefing'}
                   </button>
 
                   <p className="text-xs text-gray-500 text-center">
-                    By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.
+                    By subscribing, you agree to our <a href="/privacy" className="text-blue-400 hover:underline">Privacy Policy</a>. Unsubscribe anytime.
                   </p>
                 </form>
               </>
@@ -147,18 +155,18 @@ export default function NewsletterSignup() {
             transition={{ delay: 0.3 }}
             className="mt-12 text-center"
           >
-            <div className="inline-flex items-center gap-6 text-sm text-gray-400">
+            <div className="inline-flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span>50,000+ subscribers</span>
+                <span>Join our readers</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                <span>97% open rate</span>
+                <span>Daily delivery</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-                <span>Daily delivery at 7 AM</span>
+                <span>Unsubscribe anytime</span>
               </div>
             </div>
           </motion.div>

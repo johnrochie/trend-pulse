@@ -89,18 +89,15 @@ These Terms constitute the entire agreement between you and Trend Pulse regardin
 
 ## 14. Contact Information
 
-For questions about these Terms, please contact us:
-
-- **Email:** hello@trendpulse.ai
-- **Website:** trendpulse.ai/contact
+For questions about these Terms, please [contact us](/contact).
 
 ## 15. Newsletter Terms
 
 ### 15.1 Subscription
-By subscribing to our newsletter, you consent to receive email communications from us.
+By subscribing to our newsletter, you consent to receive communications from us.
 
 ### 15.2 Unsubscribing
-You may unsubscribe at any time using the link in any newsletter email or by contacting us directly.
+You may unsubscribe at any time using the link in any newsletter or by [contacting us](/contact).
 
 ### 15.3 Frequency
 We typically send newsletters daily, but frequency may vary based on news developments.
@@ -130,7 +127,7 @@ We welcome feedback about our Site and services. By submitting feedback, you gra
 
 ## 19. Accessibility
 
-We strive to make our Site accessible to all users. If you encounter accessibility issues, please contact us.
+We strive to make our Site accessible to all users. If you encounter accessibility issues, please [contact us](/contact).
 
 ## 20. Force Majeure
 

@@ -167,11 +167,7 @@ We may update this Cookie Policy from time to time. We will notify you of any ch
 
 ## Contact Us
 
-If you have questions about this Cookie Policy, please contact us:
-
-**Email:** privacy@trendpulse.ai  
-**Address:** [Your Business Address]  
-**Website:** trendpulse.ai/cookies
+If you have questions about this Cookie Policy, please [contact us](/contact).
 
 ## Additional Resources
 

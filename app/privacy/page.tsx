@@ -37,9 +37,8 @@ export default function PrivacyPage() {
             </h2>
             <p>
               <strong>Newsletter and contact:</strong> When you subscribe to our
-              newsletter or contact us, we collect your email address and any
-              details you provide. We use this solely to send you updates and
-              respond to your enquiry.
+              newsletter or contact us via our form, we collect the information
+              you provide. We use this solely to send you updates and respond to your enquiry.
             </p>
             <p>
               <strong>Analytics (with consent):</strong> If you accept analytics
@@ -137,10 +136,10 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-4">
               To exercise these rights,{' '}
-              <a href="mailto:hello@trendpulse.life" className="text-blue-400 hover:text-blue-300 underline">
+              <Link href="/contact" className="text-blue-400 hover:text-blue-300 underline">
                 contact us
-              </a>
-              {' '}at hello@trendpulse.life. You may also lodge a complaint with your local data protection
+              </Link>
+              . You may also lodge a complaint with your local data protection
               authority.
             </p>
           </section>
@@ -172,10 +171,10 @@ export default function PrivacyPage() {
             </h2>
             <p>
               For questions about this privacy policy or your data,{' '}
-              <a href="mailto:hello@trendpulse.life" className="text-blue-400 hover:text-blue-300 underline">
+              <Link href="/contact" className="text-blue-400 hover:text-blue-300 underline">
                 get in touch
-              </a>
-              {' '}at hello@trendpulse.life.
+              </Link>
+              .
             </p>
           </section>
         </div>
