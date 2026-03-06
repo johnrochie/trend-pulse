@@ -107,7 +107,7 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
       }
     };
     
-  } catch {
+  } catch (err) {
     return {
       success: false,
       data: [],
@@ -116,7 +116,7 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
         lastUpdated: new Date().toISOString(),
         source: 'GitHub (failed)'
       },
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: err instanceof Error ? err.message : 'Unknown error'
     };
   }
 }
