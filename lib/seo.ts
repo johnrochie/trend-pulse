@@ -110,7 +110,30 @@ export function generateTwitterCardTags(
 }
 
 /**
- * Generate breadcrumb structured data
+ * Generate breadcrumb structured data from explicit items
+ */
+export function generateBreadcrumbSchemaFromItems(
+  items: Array<{ name: string; url?: string }>
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => {
+      const listItem: { '@type': 'ListItem'; position: number; name: string; item?: string } = {
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+      };
+      if (item.url) {
+        listItem.item = `${config.site.url}${item.url.startsWith('/') ? item.url : `/${item.url}`}`;
+      }
+      return listItem;
+    }),
+  };
+}
+
+/**
+ * Generate breadcrumb structured data from path
  */
 export function generateBreadcrumbSchema(path: string, title: string) {
   const url = generateCanonicalUrl(path);

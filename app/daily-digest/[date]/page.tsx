@@ -4,10 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark, Newspaper, Zap, Globe, TrendingUp as TrendingUpIcon, Lightbulb } from 'lucide-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import DigestNewsletterCTA from '@/components/DigestNewsletterCTA';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
-import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags } from '@/lib/seo';
+import { generateCanonicalUrl, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { config } from '@/lib/config';
 
 interface DailyDigest {
@@ -47,8 +48,9 @@ async function getDailyDigest(date: string): Promise<DailyDigest | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { date: string } }): Promise<Metadata> {
-  const digest = await getDailyDigest(params.date);
+export async function generateMetadata({ params }: { params: Promise<{ date: string }> }): Promise<Metadata> {
+  const { date } = await params;
+  const digest = await getDailyDigest(date);
   
   if (!digest) {
     return {
@@ -69,12 +71,13 @@ export async function generateMetadata({ params }: { params: { date: string } })
       title: digest.title,
       description: digest.excerpt,
       type: 'article',
+      section: digest.category || 'News',
       publishedTime: digest.publishedAt,
       authors: ['Trend Pulse AI'],
       tags: digest.tags,
       images: [
         {
-          url: digest.imageUrl,
+          url: (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : `${siteUrl}/og-image.jpg`,
           width: 1200,
           height: 630,
           alt: getImageAltText(digest),
@@ -85,7 +88,7 @@ export async function generateMetadata({ params }: { params: { date: string } })
       card: 'summary_large_image',
       title: digest.title,
       description: digest.excerpt,
-      images: [digest.imageUrl],
+      images: [(digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : `${siteUrl}/og-image.jpg`],
     },
     alternates: {
       canonical: canonical,
@@ -93,8 +96,9 @@ export async function generateMetadata({ params }: { params: { date: string } })
   };
 }
 
-export default async function DailyDigestPage({ params }: { params: { date: string } }) {
-  const digest = await getDailyDigest(params.date);
+export default async function DailyDigestPage({ params }: { params: Promise<{ date: string }> }) {
+  const { date } = await params;
+  const digest = await getDailyDigest(date);
   
   if (!digest) {
     notFound();
@@ -102,12 +106,31 @@ export default async function DailyDigestPage({ params }: { params: { date: stri
   
   const publishedDate = parseISO(digest.publishedAt);
   const formattedDate = format(publishedDate, 'EEEE, MMMM d, yyyy');
+  const digestUrl = `${config.site.url}/daily-digest/${date}`;
+  const digestImageUrl = (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : getArticleImage(digest);
+  const breadcrumbSchema = generateBreadcrumbSchemaFromItems([
+    { name: 'Home', url: '/' },
+    { name: 'Daily Digest', url: '/daily-digest' },
+    { name: digest.title, url: `/daily-digest/${date}` },
+  ]);
+  const newsArticleSchema = generateNewsArticleSchemaWithUrl(
+    digest.title,
+    digest.excerpt,
+    digestImageUrl,
+    digest.publishedAt,
+    digest.publishedAt,
+    digestUrl,
+    'Trend Pulse AI',
+    'Trend Pulse'
+  );
   
   // Parse the digest content (markdown-like format)
   const contentSections = digest.content.split('\n\n').filter(section => section.trim());
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleSchema) }} />
       {/* Navigation */}
       <nav className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -364,26 +387,11 @@ export default async function DailyDigestPage({ params }: { params: { date: stri
         </div>
         
         {/* Newsletter CTA */}
-        <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-700/30">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">Get Daily Digests in Your Inbox</h3>
-            <p className="text-gray-300 mb-6">
-              Never miss a daily summary. Subscribe to get the top stories delivered daily.
-            </p>
-            <form className="max-w-md mx-auto flex gap-3">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:opacity-90 transition-opacity"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
+        <div className="mt-12">
+          <DigestNewsletterCTA
+            title="Get Daily Digests in Your Inbox"
+            description="Never miss a daily summary. Subscribe to get the top stories delivered daily."
+          />
         </div>
       </main>
       

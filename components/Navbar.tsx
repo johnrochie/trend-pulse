@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Articles', href: '/articles' },
-  { label: 'Briefings', href: '/briefings' },
+  { label: 'Daily Digest', href: '/daily-digest' },
+  { label: 'Search', href: '/search' },
   { label: 'Quiz', href: '/quiz' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

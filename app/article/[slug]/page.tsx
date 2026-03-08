@@ -6,7 +6,7 @@ import { Eye, TrendingUp, ArrowLeft } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
-import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl } from '@/lib/seo';
+import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
 import { config } from '@/lib/config';
 import RelatedArticles from '@/components/RelatedArticles';
@@ -71,7 +71,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const title = article.seoTitle || `${article.title} | ${article.category} News - Trend Pulse`;
   const description = article.metaDescription || article.excerpt || `Read our latest ${article.category} news: ${article.title}. Stay informed with Trend Pulse.`;
   const canonicalUrl = article.canonicalUrl || generateCanonicalUrl(`/article/${article.slug}`);
-  const imageUrl = article.ogImage || article.imageUrl || `${config.site.url}/og-image.jpg`;
+  const rawImage = article.ogImage || article.imageUrl;
+  const imageUrl = rawImage && rawImage.startsWith('http')
+    ? rawImage
+    : `${config.site.url}/og-image.jpg`;
   
   // Generate Open Graph and Twitter tags
   const ogTags = generateOpenGraphTags(title, description, imageUrl, `/article/${article.slug}`);
@@ -148,10 +151,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   
   // Generate structured data for SEO (with article URL for mainEntityOfPage)
   const articleUrl = `${config.site.url}/article/${article.slug}`;
+  const articleImageUrl = (() => {
+    const img = article.ogImage || article.imageUrl;
+    return img && img.startsWith('http') ? img : getArticleImage(article);
+  })();
   const structuredData = generateNewsArticleSchemaWithUrl(
     article.title,
     article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
-    article.imageUrl || `${config.site.url}/og-image.jpg`,
+    articleImageUrl,
     article.publishedAt,
     article.updatedAt || article.publishedAt,
     articleUrl,
@@ -196,6 +203,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aiArticleSchema) }}
       />
+      {/* Breadcrumb structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            generateBreadcrumbSchemaFromItems([
+              { name: 'Home', url: '/' },
+              { name: 'Articles', url: '/articles' },
+              { name: article.title, url: `/article/${article.slug}` },
+            ])
+          ),
+        }}
+      />
       
       {/* Navigation */}
       <header className="sticky top-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800">
@@ -228,6 +248,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           ]}
         />
         <div className="mb-12">
+          {(article.updatedAt || article.publishedAt) && (
+            <p className="text-sm text-gray-500 mb-4">
+              Published {format(parseISO(article.publishedAt), 'MMMM d, yyyy')}
+              {article.updatedAt && article.updatedAt !== article.publishedAt && (
+                <> · Last updated {format(parseISO(article.updatedAt), 'MMMM d, yyyy')}</>
+              )}
+            </p>
+          )}
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Eye className="w-4 h-4" />

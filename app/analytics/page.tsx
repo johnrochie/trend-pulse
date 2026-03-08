@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Analytics Dashboard | Trend Pulse',
   description: 'Track website performance, traffic, and automation health',
+  robots: { index: false, follow: true },
 };
 
 export default function AnalyticsPage() {

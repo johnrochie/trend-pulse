@@ -16,7 +16,6 @@ const footerLinks = {
   ],
   Resources: [
     { name: 'Trending', href: '/articles' },
-    { name: 'Daily Briefings', href: '/briefings' },
     { name: 'Articles', href: '/articles' },
     { name: 'Daily Digest', href: '/daily-digest' },
     { name: 'Quiz', href: '/quiz' },

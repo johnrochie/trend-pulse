@@ -15,12 +15,6 @@ export const config = {
     pages: '/pages',
   },
   
-  // Automation paths (server-side only)
-  automation: {
-    articlesPath: process.env.AUTOMATION_ARTICLES_PATH || '/home/jr/.openclaw/workspace/trend-pulse-automation/output/articles.json',
-    apiPath: process.env.AUTOMATION_API_PATH || '/home/jr/.openclaw/workspace/trend-pulse-automation/output/api/articles.json',
-  },
-  
   // Environment
   isProduction: process.env.NODE_ENV === 'production',
   isDevelopment: process.env.NODE_ENV === 'development',
