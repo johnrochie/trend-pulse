@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, Newspaper, ArrowRight, Search, Filter, CalendarDays, BookOpen, Zap } from 'lucide-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import DigestNewsletterCTA from '@/components/DigestNewsletterCTA';
 import { format, parseISO, subDays } from 'date-fns';
 import { getArticles } from '@/lib/api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -346,30 +347,8 @@ export default async function DailyDigestArchivePage() {
             )}
 
             {/* Newsletter CTA */}
-            <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-700/30">
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-4">Never Miss a Digest</h3>
-                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                  Subscribe to get daily AI-powered news summaries delivered to your inbox. 
-                  Stay informed with the top stories across technology, business, finance, and more.
-                </p>
-                <form className="max-w-md mx-auto flex gap-3">
-                  <input
-                    type="email"
-                    placeholder="Your email address"
-                    className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    Subscribe
-                  </button>
-                </form>
-                <p className="text-gray-500 text-sm mt-4">
-                  Unsubscribe anytime. We respect your privacy.
-                </p>
-              </div>
+            <div className="mt-12">
+              <DigestNewsletterCTA />
             </div>
           </div>
         </div>

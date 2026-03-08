@@ -75,23 +75,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly' as const,
       priority: 0.4,
     },
+    {
+      url: `${baseUrl}/search`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
   ]
 
-  // Article pages
+  // Article pages + Daily Digest pages
   let articlePages: MetadataRoute.Sitemap = []
+  let digestPages: MetadataRoute.Sitemap = []
   try {
     const res = await fetchArticles({ limit: 1000 })
     if (res.success && res.data?.length) {
-      articlePages = res.data.map((a) => ({
+      const articles = res.data.filter((a: { slug?: string }) => !a.slug?.startsWith('daily-digest-'))
+      const digests = res.data.filter((a: { slug?: string; type?: string }) =>
+        a.slug?.startsWith('daily-digest-') || a.type === 'daily-digest'
+      )
+      articlePages = articles.map((a: { slug: string; updatedAt?: string }) => ({
         url: `${baseUrl}/article/${a.slug}`,
         lastModified: a.updatedAt ? new Date(a.updatedAt) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
       }))
+      digestPages = digests.map((a: { slug: string; publishedAt?: string; updatedAt?: string }) => {
+        const date = a.slug.replace('daily-digest-', '')
+        return {
+          url: `${baseUrl}/daily-digest/${date}`,
+          lastModified: (a.updatedAt || a.publishedAt) ? new Date(a.updatedAt || a.publishedAt!) : now,
+          changeFrequency: 'weekly' as const,
+          priority: 0.7,
+        }
+      })
     }
   } catch {
     // ignore
   }
 
-  return [...staticPages, ...articlePages]
+  return [...staticPages, ...articlePages, ...digestPages]
 }

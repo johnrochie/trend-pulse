@@ -43,9 +43,9 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aiFaqSchema) }}
       />
       
+      <Hero />
       <TrendingArticles />
       <DailyDigestSection />
-      <Hero />
       <FeaturesSection />
       <NewsletterSignup />
     </>

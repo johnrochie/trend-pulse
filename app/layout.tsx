@@ -31,13 +31,13 @@ export const metadata: Metadata = {
     url: config.site.url,
     title: `${config.site.name} | Real-Time News & Trend Analysis`,
     description: config.site.description,
-    images: ["/og-image.jpg"],
+    images: [`${config.site.url}/og-image.jpg`],
   },
   twitter: {
     card: "summary_large_image",
     title: config.site.name,
     description: config.site.description,
-    images: ["/twitter-image.jpg"],
+    images: [`${config.site.url}/twitter-image.jpg`],
     creator: "@trendpulse",
   },
   icons: {
@@ -100,6 +100,7 @@ export default function RootLayout({
         <link rel="canonical" href={config.site.url} />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="alternate" type="application/rss+xml" title={`${config.site.name} RSS`} href={`${config.site.url}/feed.xml`} />
+        <link rel="preconnect" href="https://images.unsplash.com" />
         {/* Structured Data for SEO */}
         <script
           type="application/ld+json"

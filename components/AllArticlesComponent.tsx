@@ -19,12 +19,20 @@ interface Article {
   slug: string;
 }
 
-export default function AllArticlesComponent() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+interface AllArticlesComponentProps {
+  initialArticles?: Article[];
+  initialCategory?: string;
+}
+
+export default function AllArticlesComponent({
+  initialArticles = [],
+  initialCategory,
+}: AllArticlesComponentProps = {}) {
+  const [articles, setArticles] = useState<Article[]>(initialArticles);
+  const [loading, setLoading] = useState(initialArticles.length === 0);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(() => initialCategory || 'All');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
   // Categories from our articles
@@ -41,15 +49,19 @@ export default function AllArticlesComponent() {
   ];
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    if (initialArticles.length > 0) {
+      setLoading(false);
+      return;
+    }
+    const loadArticles = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/articles?limit=500'); // Get up to 100 articles
+        const response = await fetch('/api/articles?limit=500');
         const data = await response.json();
         
-        if (data.success) {
+        if (data.success && data.data?.length) {
           setArticles(data.data);
-        } else {
+        } else if (initialArticles.length === 0) {
           setError('Failed to load articles');
         }
       } catch (err) {
@@ -60,15 +72,16 @@ export default function AllArticlesComponent() {
       }
     };
 
-    fetchArticles();
-  }, []);
+    loadArticles();
+  }, [initialArticles.length]);
 
   // Filter articles based on search and category
   const filteredArticles = articles.filter(article => {
+    const tags = Array.isArray(article.tags) ? article.tags : [];
     const matchesSearch = searchQuery === '' || 
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
     const matchesCategory = selectedCategory === 'All' || article.category === selectedCategory;
     
@@ -213,7 +226,8 @@ export default function AllArticlesComponent() {
           {filteredArticles.map((article) => (
             <Link
               key={article.id}
-              href={article.url}
+              href={`/article/${article.slug}`}
+              prefetch
               className="group bg-gray-800/30 border border-gray-700 rounded-xl overflow-hidden hover:border-blue-500/50 hover:bg-gray-800/50 transition-all"
             >
               {/* Category Badge */}
@@ -234,7 +248,7 @@ export default function AllArticlesComponent() {
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {article.tags.slice(0, 3).map((tag, index) => (
+                  {(Array.isArray(article.tags) ? article.tags : []).slice(0, 3).map((tag: string, index: number) => (
                     <span
                       key={index}
                       className="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded"
@@ -242,7 +256,7 @@ export default function AllArticlesComponent() {
                       {tag}
                     </span>
                   ))}
-                  {article.tags.length > 3 && (
+                  {Array.isArray(article.tags) && article.tags.length > 3 && (
                     <span className="px-2 py-1 bg-gray-800 text-gray-500 text-xs rounded">
                       +{article.tags.length - 3}
                     </span>
@@ -280,7 +294,8 @@ export default function AllArticlesComponent() {
           {filteredArticles.map((article) => (
             <Link
               key={article.id}
-              href={article.url}
+              href={`/article/${article.slug}`}
+              prefetch
               className="group block bg-gray-800/30 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 hover:bg-gray-800/50 transition-all"
             >
               <div className="flex flex-col md:flex-row md:items-start gap-6">
@@ -302,7 +317,7 @@ export default function AllArticlesComponent() {
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {article.tags.map((tag, index) => (
+                    {(Array.isArray(article.tags) ? article.tags : []).map((tag: string, index: number) => (
                       <span
                         key={index}
                         className="flex items-center gap-1 px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded"
