@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Allow Googlebot and Bingbot full access
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+# Block AI scrapers (optional)
+User-agent: ChatGPT-User
+Disallow: /
+User-agent: GPTBot
+Disallow: /
+
+Sitemap: https://www.trendpulse.life/sitemap.xml
+
+# Crawl delay to be gentle on server
+Crawl-delay: 5

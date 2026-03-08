@@ -14,6 +14,10 @@ export function getAmazonAffiliateUrl(
   asin: string,
   options?: { path?: '/dp/' | '/gp/product/'; locale?: 'us' | 'uk' | 'de' | 'fr' | 'ca' }
 ): string {
+  if (!asin || typeof asin !== 'string') {
+    return '#';
+  }
+  
   const tag = config.amazon.affiliateTag;
   const path = options?.path ?? '/dp/';
   const locales: Record<string, string> = {
@@ -23,7 +27,7 @@ export function getAmazonAffiliateUrl(
     fr: 'amazon.fr',
     ca: 'amazon.ca',
   };
-  const domain = locales[options?.locale ?? 'us'];
+  const domain = locales[options?.locale ?? 'us'] || 'amazon.com';
   const baseUrl = `https://www.${domain}${path}${asin}`;
   const separator = baseUrl.includes('?') ? '&' : '?';
   return `${baseUrl}${separator}tag=${tag}`;

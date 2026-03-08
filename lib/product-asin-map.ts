@@ -33,6 +33,10 @@ export function injectProductLinks(
   content: string,
   getAffiliateUrl: (asin: string) => string
 ): string {
+  if (!content || typeof content !== 'string') {
+    return content || '';
+  }
+
   let result = content;
 
   // Sort by length descending so "PlayStation 5" matches before "PS5"
@@ -40,13 +44,21 @@ export function injectProductLinks(
 
   for (const term of terms) {
     const asin = PRODUCT_ASIN_MAP[term];
-    const url = getAffiliateUrl(asin);
-    const regex = new RegExp(`\\b(${escapeRegex(term)})\\b(?![^\\[]*\\]\\([^)]*amazon)`, 'i');
+    if (!asin) continue;
+    
+    try {
+      const url = getAffiliateUrl(asin);
+      const regex = new RegExp(`\\b(${escapeRegex(term)})\\b(?![^\\[]*\\]\\([^)]*amazon)`, 'i');
 
-    const match = result.match(regex);
-    if (match) {
-      // Replace only first occurrence per term
-      result = result.replace(match[0], `[${match[1]}](${url})`);
+      const match = result.match(regex);
+      if (match) {
+        // Replace only first occurrence per term
+        result = result.replace(match[0], `[${match[1]}](${url})`);
+      }
+    } catch (error) {
+      // Skip this term if there's an error
+      console.warn(`Failed to process product term "${term}":`, error);
+      continue;
     }
   }
 

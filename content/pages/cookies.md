@@ -1,5 +1,6 @@
 ---
 title: Cookie Policy
+slug: cookies
 description: Learn how we use cookies and similar technologies on Trend Pulse
 order: 4
 ---
