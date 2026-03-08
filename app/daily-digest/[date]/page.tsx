@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
   }
   
   const siteUrl = config.site.url;
-  const canonical = `${siteUrl}/daily-digest/${params.date}`;
+  const canonical = `${siteUrl}/daily-digest/${date}`;
   
   return {
     title: digest.title,
