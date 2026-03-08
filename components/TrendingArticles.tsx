@@ -90,12 +90,14 @@ const generateFallbackArticles = (): Article[] => {
 const fallbackArticles = generateFallbackArticles();
 
 const categories = [
-  { name: 'All', count: 6, icon: Zap },
-  { name: 'Tech', count: 2, icon: Zap },
-  { name: 'Business', count: 1, icon: DollarSign },
-  { name: 'Finance', count: 1, icon: TrendingUp },
-  { name: 'Lifestyle', count: 1, icon: Users },
-  { name: 'Health', count: 1, icon: Users },
+  { name: 'All', icon: Zap },
+  { name: 'Tech', icon: Zap },
+  { name: 'Business', icon: DollarSign },
+  { name: 'Finance', icon: TrendingUp },
+  { name: 'Lifestyle', icon: Users },
+  { name: 'Health', icon: Users },
+  { name: 'Technology', icon: Zap },
+  { name: 'Entertainment', icon: BarChart },
 ];
 
 // Helper function to get color based on category
@@ -193,8 +195,22 @@ export default function TrendingArticles() {
     };
   }, []);
 
-  // Show fallback articles immediately while loading
-  const displayArticles = articles.length > 0 ? articles : fallbackArticles;
+  // Filter by category and show fallbacks when empty
+  const displayArticles = (() => {
+    const filtered = selectedCategory === 'All'
+      ? articles
+      : articles.filter((a) => {
+          const cat = (a.category || '').toLowerCase();
+          const sel = selectedCategory.toLowerCase();
+          return cat === sel ||
+            (sel === 'tech' && cat === 'technology') ||
+            (sel === 'technology' && cat === 'tech');
+        });
+    return filtered.length > 0 ? filtered : fallbackArticles.filter((a) =>
+      selectedCategory === 'All' ||
+      (a.category || '').toLowerCase() === selectedCategory.toLowerCase()
+    );
+  })();
 
   return (
     <section className="py-16 bg-gradient-to-b from-black to-gray-900">
@@ -244,14 +260,19 @@ export default function TrendingArticles() {
         >
           {categories.map((category) => {
             const Icon = category.icon;
+            const isActive = selectedCategory === category.name;
             return (
               <button
                 key={category.name}
-                className="group flex items-center gap-2 px-4 py-2 rounded-full bg-gray-800 border border-gray-700 hover:border-blue-500/30 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all"
+                onClick={() => setSelectedCategory(category.name)}
+                className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
+                  isActive
+                    ? 'bg-blue-600/30 border-blue-500/50 text-white'
+                    : 'bg-gray-800 border-gray-700 hover:border-blue-500/30 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20'
+                }`}
               >
                 <Icon className="w-4 h-4 text-gray-400 group-hover:text-white" />
                 <span className="font-medium text-gray-300 group-hover:text-white">{category.name}</span>
-                <span className="text-xs text-gray-500 group-hover:text-gray-400">({category.count})</span>
               </button>
             );
           })}

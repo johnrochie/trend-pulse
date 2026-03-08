@@ -2,15 +2,17 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark } from 'lucide-react';
+import { Eye, TrendingUp, ArrowLeft } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { getArticles } from '@/lib/api';
+import { fetchArticles } from '@/lib/articles-api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
 import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
 import { config } from '@/lib/config';
 import RelatedArticles from '@/components/RelatedArticles';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
+import ArticleActions from '@/components/ArticleActions';
 
 interface Article {
   id: number;
@@ -40,18 +42,18 @@ interface Article {
 
 async function getArticle(slug: string): Promise<Article | null> {
   try {
-    // Fetch from our API using the utility
-    const data = await getArticles({ slug });
-    
-    if (data.success && data.data && data.data.length > 0) {
-      return data.data[0];
+    const response = await fetchArticles({ slug, limit: 1 });
+    if (response.success && response.data?.length > 0) {
+      return response.data[0];
     }
-    
     return null;
   } catch {
     return null;
   }
 }
+
+// ISR: Revalidate cached article pages every hour for fresher content
+export const revalidate = 3600;
 
 // Generate metadata for the article page
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -114,13 +116,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+async function getRelatedArticles(article: Article, limit: number = 3) {
+  const response = await fetchArticles({
+    category: article.category,
+    limit: limit + 5,
+  });
+  if (!response.success || !response.data?.length) return [];
+  return response.data
+    .filter((a) => a.id !== article.id && a.slug !== article.slug)
+    .slice(0, limit)
+    .map((a) => ({
+      id: a.id,
+      title: a.title,
+      excerpt: a.excerpt,
+      category: a.category,
+      readTime: a.readTime,
+      views: a.views ?? 0,
+      trendingScore: a.trendingScore ?? 0,
+      publishedAt: a.publishedAt,
+      slug: a.slug,
+      imageUrl: a.imageUrl,
+    }));
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = await getArticle(slug);
-  
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
+
+  const relatedArticles = await getRelatedArticles(article, 3);
   
   // Generate structured data for SEO (with article URL for mainEntityOfPage)
   const articleUrl = `${config.site.url}/article/${article.slug}`;
@@ -186,12 +210,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </Link>
             
             <div className="flex items-center gap-4">
-              <button className="p-2 text-gray-400 hover:text-white transition-colors" aria-label="Bookmark">
-                <Bookmark className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-gray-400 hover:text-white transition-colors" aria-label="Share">
-                <Share2 className="w-5 h-5" />
-              </button>
+              <ArticleActions title={article.title} url={`/article/${article.slug}`} />
               <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${categoryColor} text-white`}>
                 {article.category}
               </span>
@@ -247,13 +266,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
             </div>
           </div>
-          <div className="bg-gray-800/50 p-4 text-sm text-gray-400 italic">
-            Image: {article.category} news illustration
-          </div>
+          <figure className="bg-gray-800/50 p-4 text-sm text-gray-400 italic">
+            <figcaption>{getImageAltText(article)}</figcaption>
+          </figure>
         </div>
         
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        {Array.isArray(article.tags) && article.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-8">
             {article.tags.map((tag) => (
               <span
                 key={tag}
@@ -263,30 +283,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
             ))}
           </div>
+        )}
         
         {/* Article Content */}
         <div className="prose prose-lg prose-invert max-w-none">
-          <div className="bg-gray-800 border border-gray-700 rounded-2xl p-8 mb-8">
-            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed">
-              {article.content || (
-                <div className="space-y-4">
-                  <p>This is a sample article content. In a real implementation, this would be the full AI-generated content from our automation system.</p>
-                  <p>The automation system generates 800-1200 word articles on trending topics from NewsAPI. Each article is unique and optimized for SEO and reader engagement.</p>
-                  <p>Topics covered include technology, business, finance, entertainment, and lifestyle trends.</p>
-                  <p>Articles are generated automatically every 6 hours, ensuring fresh content is always available for readers.</p>
-                  <h3 className="text-2xl font-bold text-white mt-8 mb-4">Key Features of Our AI Content:</h3>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>800-1200 words per article</li>
-                    <li>SEO-optimized structure</li>
-                    <li>Real-time trend analysis</li>
-                    <li>Multiple revenue streams integrated</li>
-                    <li>Automatic publishing every 6 hours</li>
-                  </ul>
-                  <p className="mt-8">This article was generated by our AI system and is part of our automated content pipeline that produces fresh news and analysis daily.</p>
-                </div>
-              )}
-            </div>
-          </div>
+          <article className="bg-gray-800 border border-gray-700 rounded-2xl p-8 mb-8">
+            {article.content ? (
+              <MarkdownRenderer content={article.content} />
+            ) : (
+              <div className="text-gray-400 text-center py-12">
+                <p>Content is being prepared. Check back soon for the full article.</p>
+                <p className="text-sm mt-2">In the meantime, explore more stories in the related articles below.</p>
+              </div>
+            )}
+          </article>
         </div>
         
         {/* Article Insights */}
@@ -345,10 +355,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         
         {/* Related Articles (Internal Linking for SEO) */}
         <RelatedArticles
-          currentArticleId={article.id}
+          articles={relatedArticles}
           currentCategory={article.category}
-          currentTags={article.tags}
-          limit={3}
         />
         
         {/* CTA Section */}

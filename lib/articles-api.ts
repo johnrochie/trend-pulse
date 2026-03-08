@@ -1,13 +1,10 @@
 /**
  * Articles API Service for Trend Pulse
- * 
- * Fetches articles from multiple possible sources:
- * 1. GitHub (primary for Vercel deployment)
- * 2. Local files (development)
- * 3. Fallback mock data (if all else fails)
+ *
+ * Fetches articles from:
+ * 1. GitHub (primary) - automation-output.json from repo; no local agent dependency
+ * 2. Mock data (fallback) - if GitHub is unreachable
  */
-
-import { config } from './config';
 
 export interface Article {
   id: number;
@@ -61,10 +58,6 @@ export async function fetchArticles(options: {
   const { limit = 500, category, id, slug, type } = options;
   
   try {
-    const localData = await fetchFromLocalFiles();
-    if (localData.success && localData.data.length > 0) {
-      return filterArticles(localData, { limit, category, id, slug, type });
-    }
     const githubData = await fetchFromGitHub();
     if (githubData.success && githubData.data.length > 0) {
       return filterArticles(githubData, { limit, category, id, slug, type });
@@ -122,49 +115,7 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
 }
 
 /**
- * Fetch articles from local files (for development)
- */
-async function fetchFromLocalFiles(): Promise<ApiResponse> {
-  try {
-    // This will only work in Node.js environment (development)
-    if (typeof window !== 'undefined') {
-      throw new Error('Local file access not available in browser');
-    }
-    
-    const fs = await import('fs/promises');
-    const path = await import('path');
-    
-    const articlesPath = config.automation.articlesPath;
-    const content = await fs.readFile(articlesPath, 'utf-8');
-    const data = JSON.parse(content);
-    
-    return {
-      success: true,
-      data: Array.isArray(data) ? data : data.articles || [],
-      meta: {
-        count: Array.isArray(data) ? data.length : data.articles?.length || 0,
-        lastUpdated: new Date().toISOString(),
-        source: 'Local files'
-      }
-    };
-    
-  } catch (error) {
-    console.error('Local file fetch failed:', error);
-    return {
-      success: false,
-      data: [],
-      meta: {
-        count: 0,
-        lastUpdated: new Date().toISOString(),
-        source: 'Local files (failed)'
-      },
-      error: error instanceof Error ? error.message : 'Unknown error'
-    };
-  }
-}
-
-/**
- * Get mock articles for fallback
+ * Get mock articles for fallback when GitHub is unreachable
  */
 function getMockArticles(options: {
   limit?: number;
