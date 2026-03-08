@@ -180,6 +180,9 @@ export default function Footer() {
               <p className="text-sm text-gray-500 mt-1">
                 AI-powered real-time news and trend analysis platform. Stay ahead of what&apos;s trending.
               </p>
+              <p className="text-xs text-gray-600 mt-2">
+                As an Amazon Associate we earn from qualifying purchases.
+              </p>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">

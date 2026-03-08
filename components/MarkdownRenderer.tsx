@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { appendAffiliateTag } from '@/lib/amazon-affiliate';
 
 interface MarkdownRendererProps {
   content: string;
@@ -45,16 +46,19 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
           em: ({ children }) => (
             <em className="italic">{children}</em>
           ),
-          a: ({ href, children }) => (
-            <a 
-              href={href} 
-              className="text-blue-400 hover:text-blue-300 underline transition-colors"
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ href, children }) => {
+            const finalHref = href && href.includes('amazon.') ? appendAffiliateTag(href) : href;
+            return (
+              <a
+                href={finalHref}
+                className="text-blue-400 hover:text-blue-300 underline transition-colors"
+                target="_blank"
+                rel={href?.includes('amazon.') ? 'noopener noreferrer sponsored' : 'noopener noreferrer'}
+              >
+                {children}
+              </a>
+            );
+          },
           blockquote: ({ children }) => (
             <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-400 my-4">
               {children}

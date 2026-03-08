@@ -29,6 +29,11 @@ export const config = {
     apiKey: process.env.NEXT_PUBLIC_NEWSLETTER_API_KEY || '',
     formId: process.env.NEXT_PUBLIC_NEWSLETTER_FORM_ID || '',
   },
+
+  // Amazon Associates
+  amazon: {
+    affiliateTag: process.env.NEXT_PUBLIC_AMAZON_AFFILIATE_TAG || 'evomedia-20',
+  },
 };
 
 // Helper function to get API URL
