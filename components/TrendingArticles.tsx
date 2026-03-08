@@ -118,7 +118,6 @@ export default function TrendingArticles() {
   // Use function initializers for consistent SSR/CSR
   const [articles, setArticles] = useState<Article[]>(() => []);
   const [loading, setLoading] = useState(() => true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Simple fetch function with timeout - only runs on client
   useEffect(() => {
@@ -132,7 +131,7 @@ export default function TrendingArticles() {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
         
-        const response = await fetch('/api/articles?limit=6', {
+        const response = await fetch('/api/articles?limit=50', {
           signal: controller.signal,
           headers: {
             'Cache-Control': 'no-cache',
@@ -195,22 +194,7 @@ export default function TrendingArticles() {
     };
   }, []);
 
-  // Filter by category and show fallbacks when empty
-  const displayArticles = (() => {
-    const filtered = selectedCategory === 'All'
-      ? articles
-      : articles.filter((a) => {
-          const cat = (a.category || '').toLowerCase();
-          const sel = selectedCategory.toLowerCase();
-          return cat === sel ||
-            (sel === 'tech' && cat === 'technology') ||
-            (sel === 'technology' && cat === 'tech');
-        });
-    return filtered.length > 0 ? filtered : fallbackArticles.filter((a) =>
-      selectedCategory === 'All' ||
-      (a.category || '').toLowerCase() === selectedCategory.toLowerCase()
-    );
-  })();
+  const displayArticles = articles.length > 0 ? articles : fallbackArticles;
 
   return (
     <section className="py-16 bg-gradient-to-b from-black to-gray-900">
@@ -260,20 +244,16 @@ export default function TrendingArticles() {
         >
           {categories.map((category) => {
             const Icon = category.icon;
-            const isActive = selectedCategory === category.name;
+            const categoryParam = category.name === 'All' ? '' : category.name.toLowerCase();
             return (
-              <button
+              <Link
                 key={category.name}
-                onClick={() => setSelectedCategory(category.name)}
-                className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
-                  isActive
-                    ? 'bg-blue-600/30 border-blue-500/50 text-white'
-                    : 'bg-gray-800 border-gray-700 hover:border-blue-500/30 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20'
-                }`}
+                href={categoryParam ? `/articles?category=${encodeURIComponent(categoryParam)}` : '/articles'}
+                className="group flex items-center gap-2 px-4 py-2 rounded-full border transition-all bg-gray-800 border-gray-700 hover:border-blue-500/30 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20"
               >
                 <Icon className="w-4 h-4 text-gray-400 group-hover:text-white" />
                 <span className="font-medium text-gray-300 group-hover:text-white">{category.name}</span>
-              </button>
+              </Link>
             );
           })}
         </motion.div>

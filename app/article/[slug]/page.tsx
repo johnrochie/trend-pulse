@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, TrendingUp, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
 import { getArticleImage, getImageAltText } from '@/lib/images';
@@ -248,25 +248,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           ]}
         />
         <div className="mb-12">
-          {(article.updatedAt || article.publishedAt) && (
-            <p className="text-sm text-gray-500 mb-4">
-              Published {format(parseISO(article.publishedAt), 'MMMM d, yyyy')}
-              {article.updatedAt && article.updatedAt !== article.publishedAt && (
-                <> · Last updated {format(parseISO(article.updatedAt), 'MMMM d, yyyy')}</>
-              )}
-            </p>
-          )}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Eye className="w-4 h-4" />
-              {article.views.toLocaleString()} views
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <TrendingUp className="w-4 h-4" />
-              {article.trendingScore} trending score
-            </div>
-          </div>
-          
           <h1 className="font-space text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
             {article.title}
           </h1>
@@ -331,26 +312,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="bg-gray-800 border border-gray-700 rounded-2xl p-8 mb-12">
           <h3 className="font-space text-2xl font-bold text-white mb-6">Article Insights</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div className="text-center p-6 bg-gray-900 rounded-xl">
-              <div className="text-3xl font-bold text-green-400 mb-2">
-                {article.views.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-400">Total Views</div>
-            </div>
-            
-            <div className="text-center p-6 bg-gray-900 rounded-xl">
+          <div className="flex justify-center mb-8">
+            <div className="text-center p-6 bg-gray-900 rounded-xl min-w-[140px]">
               <div className="text-3xl font-bold text-blue-400 mb-2">
                 {article.readTime}
               </div>
               <div className="text-sm text-gray-400">Read Time</div>
-            </div>
-            
-            <div className="text-center p-6 bg-gray-900 rounded-xl">
-              <div className="text-3xl font-bold text-purple-400 mb-2">
-                {article.trendingScore}
-              </div>
-              <div className="text-sm text-gray-400">Trending Score</div>
             </div>
           </div>
           

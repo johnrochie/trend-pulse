@@ -3,7 +3,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { appendAffiliateTag } from '@/lib/amazon-affiliate';
+import { appendAffiliateTag, getAmazonAffiliateUrl } from '@/lib/amazon-affiliate';
+import { injectProductLinks } from '@/lib/product-asin-map';
 
 interface MarkdownRendererProps {
   content: string;
@@ -11,6 +12,10 @@ interface MarkdownRendererProps {
 }
 
 export default function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {
+  const processedContent = injectProductLinks(content, (asin) =>
+    getAmazonAffiliateUrl(asin)
+  );
+
   return (
     <div className={`prose prose-lg prose-invert max-w-none ${className}`}>
       <ReactMarkdown
@@ -79,7 +84,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
           ),
         }}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   );
