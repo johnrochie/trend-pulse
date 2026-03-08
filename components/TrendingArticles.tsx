@@ -171,7 +171,10 @@ export default function TrendingArticles() {
         }
       } catch (err) {
         console.error('Error fetching articles:', err);
-        // Keep fallback articles if fetch fails
+        // Use fallback articles if fetch fails
+        if (mounted) {
+          setArticles(fallbackArticles);
+        }
       } finally {
         if (mounted) {
           setLoading(false);
@@ -191,7 +194,7 @@ export default function TrendingArticles() {
   }, []);
 
   // Show fallback articles immediately while loading
-  const displayArticles = articles;
+  const displayArticles = articles.length > 0 ? articles : fallbackArticles;
 
   return (
     <section className="py-16 bg-gradient-to-b from-black to-gray-900">
