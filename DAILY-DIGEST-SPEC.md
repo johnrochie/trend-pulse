@@ -77,3 +77,43 @@ Bullet points (`•` or `-`) in `content` are used for "Today's Highlights" on t
 - Individual digest: `/daily-digest/YYYY-MM-DD` (e.g. `/daily-digest/2026-03-06`)
 
 The date segment comes from `slug.replace('daily-digest-', '')`.
+
+---
+
+## Scripts (trend-pulse repo)
+
+Two scripts are provided to generate and merge daily digests:
+
+### 1. Generate digest
+
+```bash
+# Requires DEEPSEEK_API_KEY in env
+node scripts/generate-daily-digest.js
+
+# Optional: specific date, local articles file, output file
+node scripts/generate-daily-digest.js --date 2026-03-06
+node scripts/generate-daily-digest.js --articles-url ./automation-output.json
+node scripts/generate-daily-digest.js --output ./digest-today.json
+```
+
+### 2. Merge digest into articles
+
+```bash
+# Stdin: articles JSON  |  output: merged JSON
+node scripts/generate-daily-digest.js --output /tmp/digest.json
+cat automation-output.json | node scripts/merge-digest-into-articles.js /tmp/digest.json > automation-output-new.json
+
+# Or with file args
+node scripts/merge-digest-into-articles.js digest.json automation-output.json > merged.json
+```
+
+### 3. Integration with trend-pulse-automation
+
+Add a daily step (e.g. cron at 6 PM UTC):
+
+1. Fetch current `automation-output.json` from GitHub (or use local output).
+2. Run `node scripts/generate-daily-digest.js` (or call from automation dir if scripts are copied).
+3. Run `merge-digest-into-articles.js` to merge digest + articles.
+4. Commit and push `automation-output.json` to GitHub.
+
+Alternatively, copy `scripts/generate-daily-digest.js` into trend-pulse-automation and call it from `index.js` during the publish step, then merge the result before pushing.

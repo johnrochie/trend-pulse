@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron/send-daily-digest",
+      "schedule": "5 18 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
