@@ -11,6 +11,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grant write permission to GITHUB_TOKEN
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,5 +44,6 @@ jobs:
             echo "No digest changes to commit"
           else
             git commit -m "chore: add daily digest $(date -u +%Y-%m-%d)"
-            git push
+            # Push using the token
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           fi
