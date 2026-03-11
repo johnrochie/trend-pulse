@@ -1,0 +1,89 @@
+# Debug workflow for Daily Digest
+# This will help us identify where the failure is happening
+
+name: Debug Daily Digest
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          
+      - name: Check Node.js version
+        run: |
+          echo "Node.js version:"
+          node --version
+          echo "npm version:"
+          npm --version
+          
+      - name: List files in scripts directory
+        run: |
+          echo "Scripts directory:"
+          ls -la scripts/
+          
+      - name: Test script syntax
+        run: |
+          echo "Testing script syntax..."
+          node -c scripts/generate-daily-digest.js
+          node -c scripts/merge-digest-into-articles.js
+          echo "✅ Scripts have valid syntax"
+          
+      - name: Test with mock API key (should fail gracefully)
+        run: |
+          echo "Testing with invalid API key (should show error)..."
+          DEEPSEEK_API_KEY=invalid-key node scripts/generate-daily-digest.js --output /tmp/debug.json 2>&1 | head -20 || true
+          
+      - name: Check if DEEPSEEK_API_KEY secret is set
+        run: |
+          echo "Checking if DEEPSEEK_API_KEY is available..."
+          if [ -n "$DEEPSEEK_API_KEY" ]; then
+            echo "✅ DEEPSEEK_API_KEY is set in environment"
+            echo "First few chars: ${DEEPSEEK_API_KEY:0:10}..."
+          else
+            echo "❌ DEEPSEEK_API_KEY is NOT set in environment"
+            echo "Make sure it's added to GitHub Secrets"
+          fi
+          
+      - name: Test network connectivity
+        run: |
+          echo "Testing network connectivity..."
+          curl -s -I https://raw.githubusercontent.com/johnrochie/trend-pulse/main/automation-output.json | head -5
+          
+      - name: Run actual test (if key is set)
+        if: env.DEEPSEEK_API_KEY != ''
+        run: |
+          echo "Running actual test with real API key..."
+          node scripts/generate-daily-digest.js --output /tmp/real-digest.json
+          echo "✅ Script completed successfully"
+          echo "Generated digest:"
+          jq '.title, .slug' /tmp/real-digest.json
+          
+      - name: Show final status
+        run: |
+          echo "=== DEBUG SUMMARY ==="
+          echo ""
+          if [ -f "/tmp/real-digest.json" ]; then
+            echo "✅ SUCCESS: Script works in GitHub Actions"
+            echo "Next: Check merge and push steps"
+          else
+            echo "❌ ISSUE: Script didn't generate output"
+            echo "Possible causes:"
+            echo "1. DEEPSEEK_API_KEY not set in GitHub Secrets"
+            echo "2. API key invalid or expired"
+            echo "3. Network issues"
+            echo "4. Script errors"
+          fi
