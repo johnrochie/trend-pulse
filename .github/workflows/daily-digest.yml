@@ -1,0 +1,46 @@
+# Daily Digest: generate at 6 PM GMT, merge, push to GitHub
+# Publishes to site automatically (Vercel redeploys on push)
+
+name: Daily Digest
+
+on:
+  schedule:
+    - cron: '0 18 * * *'  # 6 PM GMT (UTC) daily
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Generate daily digest
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          ARTICLES_URL: https://raw.githubusercontent.com/${{ github.repository }}/main/automation-output.json
+        run: |
+          node scripts/generate-daily-digest.js --output /tmp/digest.json
+
+      - name: Merge digest into articles
+        run: |
+          node scripts/merge-digest-into-articles.js /tmp/digest.json automation-output.json > automation-output-new.json
+          mv automation-output-new.json automation-output.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add automation-output.json
+          if git diff --staged --quiet; then
+            echo "No digest changes to commit"
+          else
+            git commit -m "chore: add daily digest $(date -u +%Y-%m-%d)"
+            git push
+          fi

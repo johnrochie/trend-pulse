@@ -7,6 +7,14 @@ export async function GET() {
   const res = await fetchArticles({ limit: 50 });
   const articles = res.success && res.data?.length ? res.data : [];
 
+  const getItemLink = (a: { type?: string; slug?: string }) => {
+    if ((a as { type?: string }).type === 'daily-digest' && a.slug) {
+      const date = a.slug.replace('daily-digest-', '');
+      return `${baseUrl}/daily-digest/${date}`;
+    }
+    return `${baseUrl}/article/${a.slug}`;
+  };
+
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -21,10 +29,10 @@ export async function GET() {
         (a) => `
     <item>
       <title>${escapeXml(a.title)}</title>
-      <link>${baseUrl}/article/${a.slug}</link>
+      <link>${getItemLink(a)}</link>
       <description>${escapeXml(a.excerpt || '')}</description>
       <pubDate>${new Date(a.publishedAt).toUTCString()}</pubDate>
-      <guid isPermaLink="true">${baseUrl}/article/${a.slug}</guid>
+      <guid isPermaLink="true">${getItemLink(a)}</guid>
     </item>`
       )
       .join('')}
