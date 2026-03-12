@@ -2,7 +2,17 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { TrendingUp, Zap, Clock } from 'lucide-react';
+
+const heroCategories = [
+  { label: 'Technology', slug: 'technology' },
+  { label: 'Business', slug: 'business' },
+  { label: 'Entertainment', slug: 'entertainment' },
+  { label: 'Lifestyle', slug: 'lifestyle' },
+  { label: 'Politics', slug: 'politics' },
+  { label: 'Science', slug: 'science' },
+];
 
 export default function Hero() {
   return (
@@ -83,13 +93,14 @@ export default function Hero() {
           transition={{ delay: 0.3 }}
           className="flex flex-wrap justify-center gap-4 mb-12"
         >
-          {['Technology', 'Business', 'Entertainment', 'Lifestyle', 'Politics', 'Science'].map((category) => (
-            <button
-              key={category}
+          {heroCategories.map(({ label, slug }) => (
+            <Link
+              key={slug}
+              href={`/articles?category=${encodeURIComponent(slug)}`}
               className="px-6 py-3 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white font-medium transition-colors border border-gray-700 hover:border-blue-500/30"
             >
-              {category}
-            </button>
+              {label}
+            </Link>
           ))}
         </motion.div>
 

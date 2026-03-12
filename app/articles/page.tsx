@@ -16,7 +16,12 @@ export default async function AllArticlesPage({
 }) {
   const { category } = await searchParams;
   const response = await fetchArticles({ limit: 500 });
-  const initialArticles = response.success && response.data ? response.data : [];
+  const allItems = response.success && response.data ? response.data : [];
+  // Exclude daily digests – they have their own archive at /daily-digest
+  const initialArticles = allItems.filter(
+    (a: { type?: string; slug?: string }) =>
+      a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 py-12">
@@ -25,7 +30,7 @@ export default async function AllArticlesPage({
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">All Articles</h1>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            Browse our complete archive of {54}+ news articles across all categories. 
+            Browse our complete archive of {initialArticles.length}+ news articles across all categories. 
             Stay informed with our latest analysis and insights.
           </p>
           <div className="flex items-center justify-center space-x-4 mt-6">

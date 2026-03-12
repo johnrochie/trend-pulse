@@ -83,7 +83,9 @@ export default function AllArticlesComponent({
       article.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    const matchesCategory = selectedCategory === 'All' || article.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === 'All' ||
+      (article.category || '').toLowerCase() === (selectedCategory || '').toLowerCase();
     
     return matchesSearch && matchesCategory;
   });
