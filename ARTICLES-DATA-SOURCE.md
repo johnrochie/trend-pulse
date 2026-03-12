@@ -8,8 +8,7 @@ This document clarifies how Trend Pulse gets its articles and daily digests.
 |------|---------------|--------------|
 | **Article storage** | GitHub (`automation-output.json`) | Single source of truth; all articles live here |
 | **Website** | Vercel (trendpulse.life) | Reads from GitHub via `/api/articles`; no local storage |
-| **Article creation** | `trend-pulse-automation` (separate repo) | Runs on a server or local machine on a schedule (e.g. every 6 hours) |
-| **Daily digest** | GitHub Actions (this repo) | Runs at 6 PM GMT; generates digest, merges, pushes to GitHub |
+| **Article creation + Daily digest** | `trend-pulse-automation` (separate repo) | **Single writer** – articles and digest, pushes to GitHub |
 
 ---
 
@@ -17,8 +16,7 @@ This document clarifies how Trend Pulse gets its articles and daily digests.
 
 ```
 [NewsAPI + DeepSeek]  →  trend-pulse-automation  →  Pushes to GitHub  →  trend-pulse (Vercel) reads
-                                                          ↑
-[Daily digest script]  →  GitHub Actions 6 PM GMT  ───────┘
+       (articles + daily digest at 6 PM GMT)              (single writer)
 ```
 
 ## 1. Regular news articles
@@ -35,15 +33,14 @@ This document clarifies how Trend Pulse gets its articles and daily digests.
 
 ## 2. Daily digests
 
-- **Produced by:** `scripts/generate-daily-digest.js` in this repo
-- **Where it runs:** GitHub Actions on a schedule (6 PM GMT) – no local or Vercel server required
+- **Produced by:** `trend-pulse-automation` (same repo as articles)
+- **Where it runs:** Same server/machine, on a daily cron (e.g. 6 PM GMT)
 - **Steps:**
-  1. GitHub Actions runs the script
-  2. Script pulls articles from the GitHub raw URL
-  3. Calls DeepSeek to build the digest
-  4. Merges into `automation-output.json` and pushes to GitHub
+  1. Run digest script (copy `scripts/generate-daily-digest.js` and `scripts/merge-digest-into-articles.js` from this repo)
+  2. Merge digest into articles output
+  3. Push to GitHub (or include in existing publish step)
 
-- **Config:** GitHub repo secret `DEEPSEEK_API_KEY`.
+- **Config:** Same `.env` as articles (`DEEPSEEK_API_KEY`).
 
 ## 3. How the website gets articles
 
@@ -67,5 +64,8 @@ The Vercel site does not run the automation or digest generation; it only reads 
 |----------|--------|
 | Is there an API on the site? | Yes – `/api/articles` fetches from GitHub and serves the data |
 | Are articles stored in a database? | No – only in `automation-output.json` in GitHub |
-| Where does automation run? | Outside this repo: `trend-pulse-automation` (server or local machine) |
-| Where does daily digest run? | In this repo – GitHub Actions at 6 PM GMT |
+| Where does all content come from? | `trend-pulse-automation` – articles and daily digest are produced there, pushed to GitHub |
+
+## GitHub Actions (optional fallback)
+
+The `.github/workflows/daily-digest.yml` workflow in this repo can run the digest if `trend-pulse-automation` is unavailable. Once digest generation is integrated into `trend-pulse-automation`, you can disable that workflow in GitHub → Actions → Daily Digest → Disable workflow.
