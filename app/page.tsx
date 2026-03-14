@@ -9,7 +9,7 @@ import { fetchArticles } from '@/lib/articles-api';
 
 export default async function Home() {
   // Fetch article count for Hero (excludes daily digests)
-  const response = await fetchArticles({ limit: 500 });
+  const response = await fetchArticles({ limit: 100 });
   const allItems = response.success && response.data ? response.data : [];
   const articleCount = allItems.filter(
     (a: { type?: string; slug?: string }) =>

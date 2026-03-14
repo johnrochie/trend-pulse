@@ -15,7 +15,7 @@ export default async function AllArticlesPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const response = await fetchArticles({ limit: 500 });
+  const response = await fetchArticles({ limit: 100 });
   const allItems = response.success && response.data ? response.data : [];
   // Exclude daily digests – they have their own archive at /daily-digest
   const initialArticles = allItems.filter(

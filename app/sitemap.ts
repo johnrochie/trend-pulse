@@ -87,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let articlePages: MetadataRoute.Sitemap = []
   let digestPages: MetadataRoute.Sitemap = []
   try {
-    const res = await fetchArticles({ limit: 1000 })
+    const res = await fetchArticles({ limit: 100 })
     if (res.success && res.data?.length) {
       const articles = res.data.filter((a: { slug?: string }) => !a.slug?.startsWith('daily-digest-'))
       const digests = res.data.filter((a: { slug?: string; type?: string }) =>

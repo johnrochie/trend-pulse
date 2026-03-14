@@ -63,7 +63,7 @@ export default function AnalyticsDashboard() {
       // Fetch actual article count (excludes daily digests)
       let articleCount = 50;
       try {
-        const articlesRes = await fetch('/api/articles?limit=500');
+        const articlesRes = await fetch('/api/articles?limit=100');
         const articlesData = await articlesRes.json();
         if (articlesData.success && articlesData.data?.length) {
           articleCount = articlesData.data.filter(

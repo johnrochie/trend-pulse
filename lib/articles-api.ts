@@ -55,7 +55,7 @@ export async function fetchArticles(options: {
   slug?: string;
   type?: string;
 } = {}): Promise<ApiResponse> {
-  const { limit = 500, category, id, slug, type } = options;
+  const { limit = 100, category, id, slug, type } = options;
   
   try {
     const githubData = await fetchFromGitHub();
@@ -281,7 +281,7 @@ function getMockArticles(options: {
     );
   }
 
-  filtered = filtered.slice(0, options.limit || 500);
+  filtered = filtered.slice(0, options.limit || 100);
 
   return {
     success: true,
@@ -333,7 +333,7 @@ function filterArticles(
     );
   }
 
-  filtered = filtered.slice(0, options.limit || 500);
+  filtered = filtered.slice(0, options.limit || 100);
 
   return {
     ...response,

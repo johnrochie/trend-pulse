@@ -56,7 +56,7 @@ export default function AllArticlesComponent({
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/articles?limit=500');
+        const response = await fetch('/api/articles?limit=100');
         const data = await response.json();
         
         if (data.success && data.data?.length) {
