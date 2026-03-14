@@ -5,6 +5,24 @@
       "schedule": "5 18 * * *"
     }
   ],
+  "redirects": [
+    {
+      "source": "/ads.txt",
+      "destination": "https://www.trendpulse.life/ads.txt",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "trendpulse.life"
+        }
+      ],
+      "destination": "https://www.trendpulse.life/:splat",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
