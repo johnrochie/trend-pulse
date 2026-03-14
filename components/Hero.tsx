@@ -5,6 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { TrendingUp, Zap, Clock } from 'lucide-react';
 
+interface HeroProps {
+  articleCount?: number;
+}
+
 const heroCategories = [
   { label: 'Technology', slug: 'technology' },
   { label: 'Business', slug: 'business' },
@@ -14,7 +18,7 @@ const heroCategories = [
   { label: 'Science', slug: 'science' },
 ];
 
-export default function Hero() {
+export default function Hero({ articleCount }: HeroProps = {}) {
   return (
     <section className="py-12 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
       {/* Background image with overlay */}
@@ -48,7 +52,7 @@ export default function Hero() {
             transition={{ delay: 0.1 }}
             className="text-2xl text-gray-300 max-w-3xl mx-auto mb-8"
           >
-            Real-time news and analysis
+            Real-Time news and analysis
           </motion.p>
           
           {/* Simple stats */}
@@ -70,7 +74,7 @@ export default function Hero() {
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <TrendingUp className="w-5 h-5 text-green-400" />
-                <div className="text-3xl font-bold text-white">54</div>
+                <div className="text-3xl font-bold text-white">{articleCount ?? '50'}+</div>
               </div>
               <div className="text-sm text-gray-400">Articles Published</div>
             </div>
@@ -121,11 +125,11 @@ export default function Hero() {
             <div className="flex flex-wrap justify-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-sm text-gray-400">Real-time monitoring</span>
+                <span className="text-sm text-gray-400">real-time monitoring</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-                <span className="text-sm text-gray-400">Real-time analysis</span>
+                <span className="text-sm text-gray-400">real-time analysis</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>

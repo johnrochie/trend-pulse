@@ -22,6 +22,9 @@ export default async function AllArticlesPage({
     (a: { type?: string; slug?: string }) =>
       a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
   );
+  const categoryCount = new Set(
+    initialArticles.map((a: { category?: string }) => (a.category || '').trim()).filter(Boolean)
+  ).size;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 py-12">
@@ -41,7 +44,7 @@ export default async function AllArticlesPage({
             <span className="text-gray-500">•</span>
             <span className="text-sm text-gray-400">{initialArticles.length}+ Articles</span>
             <span className="text-gray-500">•</span>
-            <span className="text-sm text-gray-400">8 Categories</span>
+            <span className="text-sm text-gray-400">{categoryCount} Categories</span>
           </div>
         </div>
 

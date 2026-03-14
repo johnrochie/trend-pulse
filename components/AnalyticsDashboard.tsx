@@ -60,6 +60,19 @@ export default function AnalyticsDashboard() {
     try {
       setLoading(true);
       
+      // Fetch actual article count (excludes daily digests)
+      let articleCount = 50;
+      try {
+        const articlesRes = await fetch('/api/articles?limit=500');
+        const articlesData = await articlesRes.json();
+        if (articlesData.success && articlesData.data?.length) {
+          articleCount = articlesData.data.filter(
+            (a: { type?: string; slug?: string }) =>
+              a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
+          ).length;
+        }
+      } catch { /* use fallback */ }
+      
       // Calculate realistic stats based on site age (launched ~today)
       const siteAgeDays = 1; // Site just launched
       const baseVisitors = Math.max(10, Math.floor(siteAgeDays * 15)); // ~15 visitors per day for new site
@@ -73,7 +86,7 @@ export default function AnalyticsDashboard() {
           pageViews,
           avgTimeOnSite: 1.8, // Lower for new site, will increase as content grows
           bounceRate: 65, // Higher for new site, will decrease as UX improves
-          articlesPublished: 54, // Actual article count
+          articlesPublished: articleCount,
           automationRuns: 4 // ~4 runs since launch
         },
         topArticles: [
@@ -94,7 +107,7 @@ export default function AnalyticsDashboard() {
         ],
         automationStats: {
           lastRun: '2026-02-23T22:00:00.000Z', // Fixed timestamp
-          articlesGenerated: 54,
+          articlesGenerated: articleCount,
           successRate: 100,
           nextRun: '2026-02-24T04:00:00.000Z' // Fixed: 6 hours later
         }

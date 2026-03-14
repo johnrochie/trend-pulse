@@ -60,7 +60,11 @@ export default function AllArticlesComponent({
         const data = await response.json();
         
         if (data.success && data.data?.length) {
-          setArticles(data.data);
+          const filtered = data.data.filter(
+            (a: { type?: string; slug?: string }) =>
+              a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
+          );
+          setArticles(filtered);
         } else if (initialArticles.length === 0) {
           setError('Failed to load articles');
         }

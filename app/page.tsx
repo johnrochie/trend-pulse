@@ -5,8 +5,16 @@ import FeaturesSection from '@/components/FeaturesSection';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { config } from '@/lib/config';
 import { generateAiFaqSchema } from '@/lib/ai-search';
+import { fetchArticles } from '@/lib/articles-api';
 
-export default function Home() {
+export default async function Home() {
+  // Fetch article count for Hero (excludes daily digests)
+  const response = await fetchArticles({ limit: 500 });
+  const allItems = response.success && response.data ? response.data : [];
+  const articleCount = allItems.filter(
+    (a: { type?: string; slug?: string }) =>
+      a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
+  ).length;
   // Structured data for homepage
   const structuredData = {
     '@context': 'https://schema.org',
@@ -43,7 +51,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aiFaqSchema) }}
       />
       
-      <Hero />
+      <Hero articleCount={articleCount} />
       <TrendingArticles />
       <DailyDigestSection />
       <FeaturesSection />
