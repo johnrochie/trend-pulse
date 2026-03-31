@@ -71,40 +71,74 @@ function pickTopArticles(articles, limit = 10) {
 function buildPrompt(articles, dateStr, datePretty) {
   const summaries = articles.map(
     (a, i) =>
-      `${i + 1}. [${a.category}] ${a.title}\n   ${(a.excerpt || '').slice(0, 200)}...`
+      `${i + 1}. [${a.category.toUpperCase()}] ${a.title}\n${(a.content || a.excerpt || '').slice(0, 500)}`
   );
 
-  return `You are a professional news editor creating a daily digest for Trend Pulse. Create an AI-powered summary of the top stories for ${datePretty}.
+  return `You are a senior news editor and analyst at Trend Pulse. Your job is to write a comprehensive daily briefing that goes beyond the headlines — providing original context, analysis, and insight that readers cannot get from just reading individual articles.
 
-Here are today's top articles (title + excerpt):
+Today's date: ${datePretty}
 
-${summaries.join('\n\n')}
+Below are today's top stories with their key details:
 
-Write a digest in the following EXACT format. Use the markers exactly as shown. Keep each section concise (2-4 sentences). Include 3-5 bullet points with • for Today's Highlights.
+${summaries.join('\n\n---\n\n')}
 
-**DAILY DIGEST:** ${datePretty}
+Write a substantive daily briefing (minimum 900 words) using the EXACT section markers below. Every section must provide original analysis, not just a re-summary. Explain WHY stories matter and what they mean for readers. Include specific names, numbers, and facts from the articles. Do not use vague filler language.
 
-🔥 **TOP STORY:**
-[Summarize the single most important/impactful story in 2-4 sentences]
+---
 
-• [Key highlight 1]
-• [Key highlight 2]
-• [Key highlight 3]
+**DAILY DIGEST — ${datePretty}**
 
-📈 **MARKET MOVERS:**
-[Brief summary of any business/finance/market news from the articles - 2-3 sentences. If none, write "Markets had a quiet day with no major moves reported."]
+## 🔥 Top Story
 
-💡 **TECH SPOTLIGHT:**
-[Summarize the main technology stories - 2-3 sentences]
+[Write 4-6 sentences on the single most important story of the day. State the key facts, then explain why this story matters — what it signals for the industry, consumers, or the economy. Include at least one specific number or statistic.]
 
-🌍 **GLOBAL WATCH:**
-[Summarize international/global stories - 2-3 sentences. If none, write a brief note on global context from the stories.]
+## 📰 Today's Key Stories
 
-🔮 **TOMORROW'S OUTLOOK:**
-[1-2 sentences on what to watch next or expected developments]
+**[Story 2 headline]**
+[3-4 sentences: what happened, why it matters, what happens next]
 
-📖 **READ THE FULL ARTICLES:**
-- ${articles.map((a) => a.title).join('\n- ')}`;
+**[Story 3 headline]**
+[3-4 sentences: what happened, why it matters, what happens next]
+
+**[Story 4 headline]**
+[3-4 sentences: what happened, why it matters, what happens next]
+
+## 📈 Market & Business Pulse
+
+[4-5 sentences synthesizing all business/finance/market news from today's stories. Identify the common thread or trend across business stories. If no business news, discuss the business implications of today's top stories.]
+
+## 💡 Tech & Innovation Watch
+
+[4-5 sentences on the technology stories. What patterns are emerging? What does this mean for consumers, workers, or companies? Be specific.]
+
+## 🔑 Key Takeaways
+
+Distill today's news into 5 actionable insights:
+
+• [Takeaway 1 — one specific, non-obvious insight from today's stories]
+• [Takeaway 2 — one specific, non-obvious insight]
+• [Takeaway 3 — one specific, non-obvious insight]
+• [Takeaway 4 — one specific, non-obvious insight]
+• [Takeaway 5 — what to watch in the next 24-48 hours]
+
+## ❓ Frequently Asked Questions
+
+**Q: [Question a reader would ask about today's top story]**
+A: [2-3 sentence answer with specific facts]
+
+**Q: [Question about the broader trend these stories represent]**
+A: [2-3 sentence answer explaining the bigger picture]
+
+**Q: [Question about what readers should do or watch next]**
+A: [2-3 sentence forward-looking answer]
+
+## 🔮 Tomorrow's Outlook
+
+[3-4 sentences on what to watch next. Name specific upcoming events, decisions, or releases that are relevant. Give readers a reason to come back tomorrow.]
+
+---
+
+📖 **Full Coverage:** ${articles.map((a) => a.title).join(' | ')}`;
 }
 
 async function callDeepSeek(prompt, apiKey) {
@@ -120,12 +154,12 @@ async function callDeepSeek(prompt, apiKey) {
         {
           role: 'system',
           content:
-            'You are a professional news editor. Output only the digest content, no extra commentary. Use the exact section markers provided.',
+            'You are a senior news editor and analyst. Write substantive, analytical content with specific facts and genuine insight. Never use vague filler phrases like "it is worth noting" or "this is significant because". Output only the briefing content using the exact section markers provided — no preamble, no closing commentary.',
         },
         { role: 'user', content: prompt },
       ],
-      temperature: 0.5,
-      max_tokens: 2000,
+      temperature: 0.6,
+      max_tokens: 4000,
     }),
   });
 
@@ -152,13 +186,17 @@ function buildDigestArticle(content, dateStr, datePretty, topArticle) {
 
   const id = 900000 + parseInt(dateStr.replace(/-/g, '').slice(0, 8), 10);
 
+  // Estimate read time: ~200 words per minute
+  const wordCount = content.split(/\s+/).length;
+  const readMinutes = Math.max(5, Math.round(wordCount / 200));
+
   return {
     id,
-    title: `Daily Digest: ${datePretty} - Top Stories Summary`,
+    title: `Daily Briefing: ${datePretty} — Top Stories, Analysis & Key Takeaways`,
     excerpt: excerpt.slice(0, 200) + (excerpt.length > 200 ? '...' : ''),
     content,
     category: 'General',
-    readTime: '5 min',
+    readTime: `${readMinutes} min`,
     views: 0,
     trendingScore: 90,
     tags: ['Daily Digest', 'AI Summary', 'News'],
