@@ -79,9 +79,8 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
     const response = await fetch(githubUrl, {
       headers: {
         'Accept': 'application/json',
-        'Cache-Control': 'no-cache'
       },
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 300 } // Revalidate every 5 minutes
     });
     
     if (!response.ok) {
