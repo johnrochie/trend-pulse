@@ -80,7 +80,7 @@ async function fetchFromGitHub(): Promise<ApiResponse> {
       headers: {
         'Accept': 'application/json',
       },
-      next: { revalidate: 300 } // Revalidate every 5 minutes
+      cache: 'no-store' // Always fetch fresh — page-level ISR handles caching
     });
     
     if (!response.ok) {

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchArticles } from '@/lib/articles-api';
 
+// Always run dynamically — never cache this route at the edge
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     // Parse query parameters

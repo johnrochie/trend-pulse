@@ -53,7 +53,7 @@ async function getArticle(slug: string): Promise<Article | null> {
 }
 
 // ISR: Revalidate cached article pages every hour for fresher content
-export const revalidate = 3600;
+export const revalidate = 300;
 
 // Generate metadata for the article page
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

@@ -7,6 +7,9 @@ import { config } from '@/lib/config';
 import { generateAiFaqSchema } from '@/lib/ai-search';
 import { fetchArticles } from '@/lib/articles-api';
 
+// Regenerate every 5 minutes so new articles appear promptly after each automation run
+export const revalidate = 300;
+
 export default async function Home() {
   // Fetch article count for Hero (excludes daily digests)
   const response = await fetchArticles({ limit: 100 });
