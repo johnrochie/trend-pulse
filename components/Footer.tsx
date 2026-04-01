@@ -10,7 +10,7 @@ const footerLinks = {
   newsCategories: [
     { name: 'Tech News', href: '/articles?category=technology' },
     { name: 'Business', href: '/articles?category=business' },
-    { name: 'Finance', href: '/articles?category=finance' },
+    { name: 'Science', href: '/articles?category=science' },
     { name: 'Lifestyle', href: '/articles?category=lifestyle' },
     { name: 'Entertainment', href: '/articles?category=entertainment' },
   ],
@@ -67,12 +67,12 @@ export default function Footer() {
                   <h2 className="font-space text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
                     Trend Pulse
                   </h2>
-                  <p className="text-sm text-gray-400">Turn trends into profits</p>
+                  <p className="text-sm text-gray-400">Real-time news & trend analysis</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6">
-                AI-powered trend intelligence for tech, marketing, and business growth.
-                Daily insights to help you monetize trends faster.
+                AI-powered news and trend analysis covering tech, business, entertainment, and more.
+                Stay informed with daily insights from around the world.
               </p>
             </div>
 

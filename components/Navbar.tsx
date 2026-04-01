@@ -69,9 +69,9 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div>
-                  <h1 className="font-space text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                  <span className="font-space text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
                     Trend Pulse
-                  </h1>
+                  </span>
                   <p className="text-xs text-gray-400">Real-Time News & Analysis</p>
                 </div>
               </Link>

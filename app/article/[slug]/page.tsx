@@ -40,6 +40,31 @@ interface Article {
   updatedAt?: string;
 }
 
+/**
+ * Strip source name suffix from article titles (e.g. "Story - IGN" → "Story")
+ * NewsAPI often appends the source name to the title with " - " or " | "
+ */
+function cleanTitle(title: string, sourceName?: string): string {
+  if (!title) return title;
+  // If we have the exact source name, try to strip it specifically
+  if (sourceName) {
+    const suffixDash = ` - ${sourceName}`;
+    const suffixPipe = ` | ${sourceName}`;
+    if (title.endsWith(suffixDash)) return title.slice(0, -suffixDash.length).trim();
+    if (title.endsWith(suffixPipe)) return title.slice(0, -suffixPipe.length).trim();
+  }
+  // Generic: if the last segment after " - " or " | " looks like a source name
+  // (short, ≤40 chars, no sentence structure), strip it
+  const dashParts = title.split(' - ');
+  if (dashParts.length >= 2) {
+    const lastPart = dashParts[dashParts.length - 1];
+    if (lastPart.length <= 40 && !lastPart.includes(' the ') && !lastPart.includes(' and ')) {
+      return dashParts.slice(0, -1).join(' - ').trim();
+    }
+  }
+  return title;
+}
+
 async function getArticle(slug: string): Promise<Article | null> {
   try {
     const response = await fetchArticles({ slug, limit: 1 });
@@ -68,7 +93,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   
   // Use SEO-enhanced data from API if available, otherwise generate
-  const title = article.seoTitle || `${article.title} | ${article.category} News - Trend Pulse`;
+  const cleanedTitle = cleanTitle(article.title, article.sourceName);
+  const title = article.seoTitle || `${cleanedTitle} | ${article.category} News - Trend Pulse`;
   const description = article.metaDescription || article.excerpt || `Read our latest ${article.category} news: ${article.title}. Stay informed with Trend Pulse.`;
   const canonicalUrl = article.canonicalUrl || generateCanonicalUrl(`/article/${article.slug}`);
   const rawImage = article.ogImage || article.imageUrl;
@@ -189,7 +215,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   };
   
   const categoryColor = getColorForCategory(article.category);
-  
+  const displayTitle = cleanTitle(article.title, article.sourceName);
+
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Structured data for SEO */}
@@ -244,12 +271,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           items={[
             { label: 'Home', href: '/' },
             { label: 'Articles', href: '/articles' },
-            { label: article.title },
+            { label: displayTitle },
           ]}
         />
         <div className="mb-12">
           <h1 className="font-space text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            {article.title}
+            {displayTitle}
           </h1>
           
           <p className="text-xl text-gray-300 mb-8 leading-relaxed">

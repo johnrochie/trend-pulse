@@ -31,29 +31,22 @@ export const metadata: Metadata = {
     url: config.site.url,
     title: `${config.site.name} | Real-Time News & Trend Analysis`,
     description: config.site.description,
-    images: [`${config.site.url}/og-image.jpg`],
+    images: ["https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop&crop=entropy&q=80&auto=format"],
   },
   twitter: {
     card: "summary_large_image",
     title: config.site.name,
     description: config.site.description,
-    images: [`${config.site.url}/twitter-image.jpg`],
+    images: ["https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop&crop=entropy&q=80&auto=format"],
     creator: "@trendpulse",
   },
   icons: {
     icon: [
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/brand/favicon.ico", type: "image/x-icon" },
+      { url: "/logo-simple.svg", type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-    other: [
-      {
-        rel: "mask-icon",
-        url: "/safari-pinned-tab.svg",
-        color: "#3B82F6",
-      },
+      { url: "/brand/favicon.ico" },
     ],
   },
   manifest: "/site.webmanifest",
@@ -68,11 +61,8 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* Favicons and icons */}
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3B82F6" />
+        <link rel="icon" href="/brand/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/logo-simple.svg" />
         
         {/* PWA and mobile meta tags */}
         <meta name="application-name" content="Trend Pulse" />
@@ -89,11 +79,13 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-9658578792001646" />
         
         {/* Social media meta tags */}
+        <meta property="og:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop&crop=entropy&q=80&auto=format" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Trend Pulse - Real-Time News & Analysis" />
         <meta property="og:type" content="website" />
-        
+
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop&crop=entropy&q=80&auto=format" />
         <meta name="twitter:image:alt" content="Trend Pulse - Real-Time News & Analysis" />
         <meta name="twitter:site" content="@trendpulse" />
         

@@ -169,9 +169,9 @@ export default async function DailyDigestPage({ params }: { params: Promise<{ da
               <Newspaper className="w-8 h-8" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold text-purple-400 uppercase tracking-wider">
+              <span className="text-sm font-semibold text-purple-400 uppercase tracking-wider">
                 Daily Digest
-              </h1>
+              </span>
               <p className="text-gray-400">AI-powered news summary</p>
             </div>
           </div>
