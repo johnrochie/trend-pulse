@@ -25,6 +25,12 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
+      - name: Fetch latest automation-output.json
+        run: |
+          echo "Fetching latest articles (so we merge into current state, not stale checkout)..."
+          curl -sL "https://raw.githubusercontent.com/${{ github.repository }}/main/automation-output.json" -o automation-output.json
+          test -s automation-output.json || (echo "ERROR: automation-output.json empty or missing" && exit 1)
+
       - name: Generate daily digest
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
@@ -38,6 +44,7 @@ jobs:
         run: |
           node scripts/merge-digest-into-articles.js /tmp/digest.json automation-output.json > automation-output-new.json
           mv automation-output-new.json automation-output.json
+          echo "Merged digest successfully"
 
       - name: Commit and push
         run: |
