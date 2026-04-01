@@ -12,14 +12,14 @@
       "permanent": true
     },
     {
-      "source": "/(.*)",
+      "source": "/:splat*",
       "has": [
         {
           "type": "host",
           "value": "trendpulse.life"
         }
       ],
-      "destination": "https://www.trendpulse.life/:splat",
+      "destination": "https://www.trendpulse.life/:splat*",
       "permanent": true
     }
   ],
