@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 
 export interface RelatedArticle {
   id: number;
@@ -51,9 +50,8 @@ export default function RelatedArticles({ articles, currentCategory }: RelatedAr
             className="group block bg-gray-800 border border-gray-700 rounded-xl overflow-hidden hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all"
           >
             <div className="relative h-48 bg-gradient-to-br from-gray-800 to-gray-900">
-              <Image
-                src={getArticleImage(article)}
-                alt={getImageAltText(article)}
+              <ArticleImage
+                article={article}
                 width={400}
                 height={225}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

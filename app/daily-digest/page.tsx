@@ -6,7 +6,8 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import DigestNewsletterCTA from '@/components/DigestNewsletterCTA';
 import { format, parseISO, subDays } from 'date-fns';
 import { getArticles } from '@/lib/api';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import { getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 import { config } from '@/lib/config';
 
 interface DailyDigest {
@@ -254,9 +255,8 @@ export default async function DailyDigestArchivePage() {
                     >
                       {/* Image */}
                       <div className="relative h-48">
-                        <Image
-                          src={getArticleImage(digest)}
-                          alt={getImageAltText(digest)}
+                        <ArticleImage
+                          article={digest}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

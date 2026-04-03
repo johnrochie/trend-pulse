@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import { getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
 import { config } from '@/lib/config';
@@ -297,9 +297,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Hero Image */}
         <div className="mb-12 rounded-xl overflow-hidden">
           <div className="relative h-64 md:h-96 w-full bg-gradient-to-br from-gray-800 to-gray-900">
-            <Image
-              src={getArticleImage(article)}
-              alt={getImageAltText(article)}
+            <ArticleImage
+              article={article}
               width={1200}
               height={600}
               className="w-full h-full object-cover"

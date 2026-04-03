@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Search, Loader2, FileText } from 'lucide-react';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 
 interface Article {
   id: number;
@@ -123,9 +122,8 @@ export default function SearchClient() {
                   >
                     <div className="flex gap-6">
                       <div className="relative w-32 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-800">
-                        <Image
-                          src={getArticleImage(article)}
-                          alt={getImageAltText(article)}
+                        <ArticleImage
+                          article={article}
                           width={128}
                           height={96}
                           className="w-full h-full object-cover"

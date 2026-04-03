@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, Newspaper, Zap, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 
 interface DailyDigest {
   id: string;
@@ -107,9 +106,8 @@ export default function DailyDigestSection() {
           <div className="md:flex">
             {/* Image */}
             <div className="md:w-2/5 relative h-64 md:h-auto">
-              <Image
-                src={getArticleImage(digest)}
-                alt={getImageAltText(digest)}
+              <ArticleImage
+                article={digest}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 40vw"

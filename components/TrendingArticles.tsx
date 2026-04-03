@@ -2,11 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { TrendingUp, Eye, DollarSign, ExternalLink, Zap, BarChart, Users } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 
 // Type for API article
 interface Article {
@@ -272,9 +271,8 @@ export default function TrendingArticles() {
               <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl overflow-hidden hover:border-gray-600 transition-all h-full">
                 {/* Article Image */}
                 <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
-                  <Image
-                    src={getArticleImage(article)}
-                    alt={getImageAltText(article)}
+                  <ArticleImage
+                    article={article}
                     width={400}
                     height={225}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

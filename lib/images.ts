@@ -193,10 +193,9 @@ const UNSPLASH: Record<string, string[]> = {
 };
 
 /**
- * Returns the best available image URL for an article.
- * Priority:
- *   1. article.imageUrl — the actual image from the news source (unique per article)
- *   2. Curated Unsplash pool — deterministic selection based on title + id
+ * Returns the article's source imageUrl if valid, otherwise the Unsplash fallback.
+ * NOTE: source images may be blocked by hotlink protection — use ArticleImage
+ * component instead of <Image> directly so onError can switch to the fallback.
  */
 export function getArticleImage(article: any): string {
   // Use the article's own image if it looks like a real HTTP URL
@@ -208,6 +207,14 @@ export function getArticleImage(article: any): string {
   }
 
   // Fallback: pick from the curated Unsplash pool
+  return getUnsplashFallback(article);
+}
+
+/**
+ * Always returns the Unsplash fallback (no hotlink risk).
+ * Used as the onError replacement in the ArticleImage component.
+ */
+export function getArticleFallbackImage(article: any): string {
   return getUnsplashFallback(article);
 }
 

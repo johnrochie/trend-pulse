@@ -1,13 +1,13 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar, Eye, TrendingUp, ExternalLink, ArrowLeft, Share2, Bookmark, Newspaper, Zap, Globe, TrendingUp as TrendingUpIcon, Lightbulb } from 'lucide-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import DigestNewsletterCTA from '@/components/DigestNewsletterCTA';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
-import { getArticleImage, getImageAltText } from '@/lib/images';
+import { getImageAltText } from '@/lib/images';
+import ArticleImage from '@/components/ArticleImage';
 import { generateCanonicalUrl, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { config } from '@/lib/config';
 
@@ -202,9 +202,8 @@ export default async function DailyDigestPage({ params }: { params: Promise<{ da
           
           {/* Featured Image */}
           <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden mb-8">
-            <Image
-              src={getArticleImage(digest)}
-              alt={getImageAltText(digest)}
+            <ArticleImage
+              article={digest}
               fill
               className="object-cover"
               priority
