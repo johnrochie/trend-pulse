@@ -11,13 +11,16 @@ import { fetchArticles } from '@/lib/articles-api';
 export const revalidate = 300;
 
 export default async function Home() {
-  // Fetch article count for Hero (excludes daily digests)
+  // Fetch articles for Hero featured section + count
   const response = await fetchArticles({ limit: 100 });
   const allItems = response.success && response.data ? response.data : [];
-  const articleCount = allItems.filter(
+  const articles = allItems.filter(
     (a: { type?: string; slug?: string }) =>
       a.type !== 'daily-digest' && !a.slug?.startsWith('daily-digest-')
-  ).length;
+  );
+  const articleCount = articles.length;
+  // Top 4 most recent for the hero featured section
+  const featuredArticles = articles.slice(0, 4);
   // Structured data for homepage
   const structuredData = {
     '@context': 'https://schema.org',
@@ -54,7 +57,7 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aiFaqSchema) }}
       />
       
-      <Hero articleCount={articleCount} />
+      <Hero articleCount={articleCount} featuredArticles={featuredArticles} />
       <TrendingArticles />
       <DailyDigestSection />
       <FeaturesSection />

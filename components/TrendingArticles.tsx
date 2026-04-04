@@ -196,7 +196,7 @@ export default function TrendingArticles() {
   const displayArticles = articles.length > 0 ? articles : fallbackArticles;
 
   return (
-    <section className="py-16 bg-gradient-to-b from-black to-gray-900">
+    <section className="pt-4 pb-16 bg-gradient-to-b from-black to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center justify-between mb-8">
