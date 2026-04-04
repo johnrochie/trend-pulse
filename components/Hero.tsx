@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { TrendingUp, Zap, Clock, ArrowRight, Calendar } from 'lucide-react';
+import { TrendingUp, Zap, ArrowRight, Calendar } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import ArticleImage from '@/components/ArticleImage';
 
@@ -86,10 +86,6 @@ export default function Hero({ articleCount, featuredArticles = [] }: HeroProps)
               <div className="flex items-center gap-1.5 text-gray-400">
                 <TrendingUp className="w-4 h-4 text-green-400" />
                 <span>{articleCount ?? '50'}+ articles</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-gray-400">
-                <Clock className="w-4 h-4 text-purple-400" />
-                <span>Updated every 6h</span>
               </div>
             </motion.div>
           </div>
