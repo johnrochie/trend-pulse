@@ -25,3 +25,32 @@ self.addEventListener('fetch', (e) => {
   }
   e.respondWith(fetch(e.request));
 });
+
+// Push notification handler
+self.addEventListener('push', (e) => {
+  const data = e.data?.json() ?? {};
+  const title = data.title || 'Trend Pulse';
+  const options = {
+    body: data.body || 'New articles are available',
+    icon: '/brand/favicon.ico',
+    badge: '/brand/favicon.ico',
+    tag: data.tag || 'trend-pulse-news',
+    renotify: true,
+    data: { url: data.url || '/' },
+  };
+  e.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Notification click — open the linked article
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = e.notification.data?.url || '/';
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      for (const client of windowClients) {
+        if (client.url === url && 'focus' in client) return client.focus();
+      }
+      return clients.openWindow(url);
+    })
+  );
+});

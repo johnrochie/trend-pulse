@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { fetchArticles } from '@/lib/articles-api'
+import { tagToSlug } from '@/lib/tag-utils'
 import { config } from '@/lib/config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -83,13 +84,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // Article pages + Daily Digest pages
+  // Article pages + Daily Digest pages + Topic pages
   let articlePages: MetadataRoute.Sitemap = []
   let digestPages: MetadataRoute.Sitemap = []
+  let topicPages: MetadataRoute.Sitemap = []
   try {
-    const res = await fetchArticles({ limit: 100 })
+    const res = await fetchArticles({ limit: 200 })
     if (res.success && res.data?.length) {
-      const articles = res.data.filter((a: { slug?: string }) => !a.slug?.startsWith('daily-digest-'))
+      const articles = res.data.filter((a: { slug?: string; type?: string }) =>
+        !a.slug?.startsWith('daily-digest-') && a.type !== 'daily-digest'
+      )
       const digests = res.data.filter((a: { slug?: string; type?: string }) =>
         a.slug?.startsWith('daily-digest-') || a.type === 'daily-digest'
       )
@@ -108,10 +112,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.7,
         }
       })
+
+      // Collect unique tag slugs from all non-digest articles
+      const tagSlugSet = new Set<string>()
+      for (const article of articles) {
+        if (!Array.isArray((article as any).tags)) continue
+        for (const tag of (article as any).tags as string[]) {
+          const slug = tagToSlug(tag)
+          if (slug) tagSlugSet.add(slug)
+        }
+      }
+      topicPages = [
+        {
+          url: `${baseUrl}/topic`,
+          lastModified: now,
+          changeFrequency: 'daily' as const,
+          priority: 0.7,
+        },
+        ...Array.from(tagSlugSet).map((slug) => ({
+          url: `${baseUrl}/topic/${slug}`,
+          lastModified: now,
+          changeFrequency: 'weekly' as const,
+          priority: 0.6,
+        })),
+      ]
     }
   } catch {
     // ignore
   }
 
-  return [...staticPages, ...articlePages, ...digestPages]
+  return [...staticPages, ...articlePages, ...digestPages, ...topicPages]
 }

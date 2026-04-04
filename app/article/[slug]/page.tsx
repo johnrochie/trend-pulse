@@ -13,6 +13,9 @@ import RelatedArticles from '@/components/RelatedArticles';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import ArticleActions from '@/components/ArticleActions';
+import ReadingProgress from '@/components/ReadingProgress';
+import TrendingSidebar from '@/components/TrendingSidebar';
+import { tagToSlug } from '@/lib/tag-utils';
 
 interface Article {
   id: number;
@@ -184,6 +187,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (!article) notFound();
 
   const relatedArticles = await getRelatedArticles(article, 3);
+
+  // Fetch top articles for sidebar (reuse category fetch + a broader fetch)
+  const sidebarResponse = await fetchArticles({ limit: 20 });
+  const allArticlesForSidebar = sidebarResponse.success && sidebarResponse.data?.length
+    ? sidebarResponse.data.map((a) => ({
+        id: a.id,
+        title: a.title,
+        category: a.category,
+        slug: a.slug,
+        publishedAt: a.publishedAt,
+        trendingScore: a.trendingScore ?? 0,
+        imageUrl: a.imageUrl,
+        sourceName: a.sourceName,
+      }))
+    : [];
   
   // Generate structured data for SEO (with article URL for mainEntityOfPage)
   const articleUrl = `${config.site.url}/article/${article.slug}`;
@@ -229,6 +247,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="min-h-screen bg-gray-900">
+      <ReadingProgress />
       {/* Structured data for SEO */}
       <script
         type="application/ld+json"
@@ -276,7 +295,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </header>
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-8">
+        <div>
         <Breadcrumbs
           items={[
             { label: 'Home', href: '/' },
@@ -320,12 +341,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {Array.isArray(article.tags) && article.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">
             {article.tags.map((tag) => (
-              <span
+              <Link
                 key={tag}
-                className="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-sm hover:bg-gray-700 transition-colors"
+                href={`/topic/${tagToSlug(tag)}`}
+                className="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-sm hover:bg-blue-600/20 hover:text-blue-300 transition-colors"
               >
-                {tag}
-              </span>
+                #{tag}
+              </Link>
             ))}
           </div>
         )}
@@ -431,6 +453,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             Discover more trending news and analysis on our homepage
           </p>
         </div>
+        </div>{/* end left column */}
+
+        <aside className="hidden lg:block">
+          <TrendingSidebar
+            currentSlug={article.slug}
+            articles={allArticlesForSidebar}
+            currentCategory={article.category}
+          />
+        </aside>
+        </div>{/* end grid */}
       </main>
       
       {/* Footer Note */}

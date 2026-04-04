@@ -24,6 +24,7 @@ export interface Article {
   imageUrl: string;
   sourceName: string;
   slug: string;
+  type?: string;
   // SEO fields
   seoTitle?: string;
   metaDescription?: string;

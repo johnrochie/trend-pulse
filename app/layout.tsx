@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AnalyticsGate from "@/components/AnalyticsGate";
 import SwRegister from "@/components/SwRegister";
+import PushPrompt from "@/components/PushPrompt";
 import { config } from "@/lib/config";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo";
 
@@ -125,6 +126,7 @@ export default function RootLayout({
         <CookieConsentBanner />
         <AnalyticsGate />
         <SwRegister />
+        <PushPrompt />
       </body>
     </html>
   );
