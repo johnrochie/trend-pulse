@@ -6,7 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import DigestNewsletterCTA from '@/components/DigestNewsletterCTA';
 import { format, parseISO } from 'date-fns';
 import { getArticles } from '@/lib/api';
-import { getImageAltText } from '@/lib/images';
+import { getImageAltText, getArticleFallbackImage } from '@/lib/images';
 import ArticleImage from '@/components/ArticleImage';
 import { generateCanonicalUrl, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { config } from '@/lib/config';
@@ -107,7 +107,7 @@ export default async function DailyDigestPage({ params }: { params: Promise<{ da
   const publishedDate = parseISO(digest.publishedAt);
   const formattedDate = format(publishedDate, 'EEEE, MMMM d, yyyy');
   const digestUrl = `${config.site.url}/daily-digest/${date}`;
-  const digestImageUrl = (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : getArticleImage(digest);
+  const digestImageUrl = (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : getArticleFallbackImage(digest);
   const breadcrumbSchema = generateBreadcrumbSchemaFromItems([
     { name: 'Home', url: '/' },
     { name: 'Daily Digest', url: '/daily-digest' },

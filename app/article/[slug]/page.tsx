@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
-import { getImageAltText } from '@/lib/images';
+import { getImageAltText, getArticleFallbackImage } from '@/lib/images';
 import ArticleImage from '@/components/ArticleImage';
 import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
@@ -189,7 +189,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const articleUrl = `${config.site.url}/article/${article.slug}`;
   const articleImageUrl = (() => {
     const img = article.ogImage || article.imageUrl;
-    return img && img.startsWith('http') ? img : getArticleImage(article);
+    return img && img.startsWith('http') ? img : getArticleFallbackImage(article);
   })();
   const structuredData = generateNewsArticleSchemaWithUrl(
     article.title,
