@@ -5,12 +5,6 @@ import webpush from 'web-push';
 
 export const dynamic = 'force-dynamic';
 
-webpush.setVapidDetails(
-  process.env.VAPID_SUBJECT!,
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!,
-);
-
 const SUBS_FILE = join(process.cwd(), 'data', 'push-subscriptions.json');
 
 function loadSubs(): any[] {
@@ -31,6 +25,13 @@ export async function POST(req: NextRequest) {
   if (auth !== `Bearer ${process.env.PUSH_API_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  // Set VAPID details at request time so missing env vars don't break the build
+  webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT!,
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!,
+  );
 
   const { title, body, url } = await req.json();
   const payload = JSON.stringify({ title, body, url, tag: 'trend-pulse-news' });
