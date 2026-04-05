@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Clock, Eye, Calendar, ExternalLink } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
 import { getImageAltText, getArticleFallbackImage } from '@/lib/images';
@@ -287,9 +287,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             
             <div className="flex items-center gap-4">
               <ArticleActions title={article.title} url={`/article/${article.slug}`} />
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${categoryColor} text-white`}>
-                {article.category}
-              </span>
             </div>
           </div>
         </div>
@@ -305,14 +302,57 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             { label: displayTitle },
           ]}
         />
-        <div className="mb-12">
-          <h1 className="font-space text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+        <div className="mb-10">
+          {/* Category + Breaking badge */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${categoryColor} text-white`}>
+              {article.category}
+            </span>
+            {article.breaking && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">
+                BREAKING
+              </span>
+            )}
+          </div>
+
+          <h1 className="font-space text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
             {displayTitle}
           </h1>
-          
-          <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+
+          <p className="text-lg text-gray-300 mb-6 leading-relaxed">
             {article.excerpt}
           </p>
+
+          {/* Article metadata bar */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-400 pb-6 border-b border-gray-800">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-gray-500" />
+              <time dateTime={article.publishedAt}>
+                {format(parseISO(article.publishedAt), 'MMMM d, yyyy')}
+              </time>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <span>{article.readTime} read</span>
+            </div>
+            {article.views > 0 && (
+              <div className="flex items-center gap-1.5">
+                <Eye className="w-4 h-4 text-gray-500" />
+                <span>{article.views.toLocaleString()} views</span>
+              </div>
+            )}
+            {article.sourceName && article.url && (
+              <a
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition-colors ml-auto"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>{article.sourceName}</span>
+              </a>
+            )}
+          </div>
         </div>
         
         {/* Hero Image */}
@@ -326,11 +366,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               priority
               sizes="(max-width: 1200px) 100vw, 1200px"
             />
-            <div className="absolute bottom-4 left-4">
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-gray-900/80 backdrop-blur-sm text-white`}>
-                {article.category}
-              </span>
-            </div>
           </div>
           <figure className="bg-gray-800/50 p-4 text-sm text-gray-400 italic">
             <figcaption>{getImageAltText(article)}</figcaption>
@@ -353,18 +388,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         )}
         
         {/* Article Content */}
-        <div className="prose prose-lg prose-invert max-w-none">
-          <article className="bg-gray-800 border border-gray-700 rounded-2xl p-8 mb-8">
-            {article.content ? (
-              <MarkdownRenderer content={stripAiFooter(article.content)} />
-            ) : (
-              <div className="text-gray-400 text-center py-12">
-                <p>Content is being prepared. Check back soon for the full article.</p>
-                <p className="text-sm mt-2">In the meantime, explore more stories in the related articles below.</p>
-              </div>
-            )}
-          </article>
-        </div>
+        <article className="bg-gray-800/60 border border-gray-700/60 rounded-2xl px-6 py-8 sm:px-10 mb-8">
+          {article.content ? (
+            <MarkdownRenderer content={stripAiFooter(article.content)} />
+          ) : (
+            <div className="text-gray-400 text-center py-12">
+              <p>Content is being prepared. Check back soon for the full article.</p>
+              <p className="text-sm mt-2">In the meantime, explore more stories in the related articles below.</p>
+            </div>
+          )}
+        </article>
 
         {/* Source Attribution */}
         {article.sourceName && article.url && (
@@ -393,46 +426,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         )}
-        
-        {/* Article Insights */}
-        <div className="bg-gray-800 border border-gray-700 rounded-2xl p-8 mb-12">
-          <h3 className="font-space text-2xl font-bold text-white mb-6">Article Insights</h3>
-          
-          <div className="flex justify-center mb-8">
-            <div className="text-center p-6 bg-gray-900 rounded-xl min-w-[140px]">
-              <div className="text-3xl font-bold text-blue-400 mb-2">
-                {article.readTime}
-              </div>
-              <div className="text-sm text-gray-400">Read Time</div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-700 pt-8">
-            <h4 className="font-bold text-white mb-4">About This Content</h4>
-            <div className="space-y-4">
-              <p className="text-gray-300">
-                This article was prepared by our news team, which continuously monitors 
-                trending topics to deliver comprehensive, well-researched content.
-              </p>
-              <p className="text-gray-300">
-                We analyze multiple news sources to provide balanced perspectives and 
-                up-to-date information on emerging stories.
-              </p>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span>Real-time coverage</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-                <span>Multiple source analysis</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
-                <span>Quality assurance</span>
-              </div>
-            </div>
-          </div>
-        </div>
         
         {/* Related Articles (Internal Linking for SEO) */}
         <RelatedArticles
