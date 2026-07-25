@@ -39,14 +39,24 @@ export default function SearchClient() {
         return;
       }
       const ql = q.toLowerCase().trim();
-      const matched = data.data.filter(
-        (a: Article & { tags?: string[] }) =>
-          a.title?.toLowerCase().includes(ql) ||
-          a.excerpt?.toLowerCase().includes(ql) ||
-          a.category?.toLowerCase().includes(ql) ||
-          (Array.isArray(a.tags) && a.tags.some((t: string) => t.toLowerCase().includes(ql)))
-      );
-      setResults(matched.slice(0, 24));
+      // Match at word boundaries (start of a word) rather than any substring,
+      // so a short query like "AI" doesn't match inside unrelated words like "trailer".
+      const escaped = ql.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = new RegExp(`\\b${escaped}`, 'i');
+      const titleMatches: (Article & { tags?: string[] })[] = [];
+      const otherMatches: (Article & { tags?: string[] })[] = [];
+      for (const a of data.data as (Article & { tags?: string[] })[]) {
+        if (pattern.test(a.title || '')) {
+          titleMatches.push(a);
+        } else if (
+          pattern.test(a.excerpt || '') ||
+          pattern.test(a.category || '') ||
+          (Array.isArray(a.tags) && a.tags.some((t: string) => pattern.test(t)))
+        ) {
+          otherMatches.push(a);
+        }
+      }
+      setResults([...titleMatches, ...otherMatches].slice(0, 24));
     } catch {
       setResults([]);
     } finally {
