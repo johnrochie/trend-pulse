@@ -7,11 +7,6 @@
   ],
   "redirects": [
     {
-      "source": "/ads.txt",
-      "destination": "https://www.trendpulse.life/ads.txt",
-      "permanent": true
-    },
-    {
       "source": "/:splat*",
       "has": [
         {
