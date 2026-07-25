@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -78,7 +79,15 @@ export default function RootLayout({
         
         {/* AdSense Verification - Add your Publisher ID after ca-pub- */}
         <meta name="google-adsense-account" content="ca-pub-9658578792001646" />
-        
+
+        {/* AdSense loader — required on every page per Google's AdSense code snippet */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9658578792001646"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         {/* Social media meta tags */}
         <meta property="og:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=630&fit=crop&crop=entropy&q=80&auto=format" />
         <meta property="og:image:width" content="1200" />
