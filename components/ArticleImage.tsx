@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { getArticleFallbackImage, getImageAltText } from '@/lib/images';
 
 interface ArticleImageProps {
@@ -15,8 +14,9 @@ interface ArticleImageProps {
 }
 
 /**
- * Renders the article's source image, falling back to a curated Unsplash
- * photo if the source URL fails (hotlink blocked, 404, etc.).
+ * Renders a curated Unsplash photo for the article's category. We don't use
+ * the source outlet's own image (article.imageUrl) — we don't hold rights to
+ * republish their editorial photos, and hotlinking is unreliable besides.
  */
 export default function ArticleImage({
   article,
@@ -27,13 +27,8 @@ export default function ArticleImage({
   priority,
   sizes,
 }: ArticleImageProps) {
-  const [src, setSrc] = useState<string>(article.imageUrl?.startsWith('http') ? article.imageUrl : getArticleFallbackImage(article));
-
+  const src = getArticleFallbackImage(article);
   const alt = getImageAltText(article);
-
-  const handleError = () => {
-    setSrc(getArticleFallbackImage(article));
-  };
 
   if (fill) {
     return (
@@ -44,7 +39,6 @@ export default function ArticleImage({
         className={className}
         priority={priority}
         sizes={sizes}
-        onError={handleError}
         unoptimized={!src.includes('unsplash.com')}
       />
     );
@@ -59,7 +53,6 @@ export default function ArticleImage({
       className={className}
       priority={priority}
       sizes={sizes}
-      onError={handleError}
       unoptimized={!src.includes('unsplash.com')}
     />
   );

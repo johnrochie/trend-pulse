@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <h1 className="font-space text-4xl sm:text-5xl font-bold text-white mb-6">
             Privacy Policy
           </h1>
-          <p className="text-gray-400 text-sm">Last updated: March 2026</p>
+          <p className="text-gray-400 text-sm">Last updated: July 2026</p>
         </div>
 
         <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 space-y-6 text-gray-300">
@@ -86,6 +86,48 @@ export default function PrivacyPage() {
               We use the information you provide to send you newsletter updates,
               respond to enquiries, and improve our website. We do not sell or share your personal data with
               third parties for marketing purposes.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-white mt-8 mb-4">
+              Advertising
+            </h2>
+            <p>
+              We use Google AdSense to serve ads on this Site. Google and its
+              advertising partners may use cookies and similar technologies to
+              serve ads based on your prior visits to this and other websites,
+              and to measure ad performance. For details, see{' '}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                How Google uses information from sites or apps that use our services
+              </a>
+              .
+            </p>
+            <p>
+              You can control personalized advertising using{' '}
+              <a
+                href="https://adssettings.google.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                Google&apos;s Ads Settings
+              </a>{' '}
+              or{' '}
+              <a
+                href="https://www.aboutads.info/choices/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                www.aboutads.info/choices
+              </a>
+              .
             </p>
           </section>
 

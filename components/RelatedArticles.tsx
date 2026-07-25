@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Calendar, Eye, TrendingUp, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 
 export interface RelatedArticle {
   id: number;
@@ -14,6 +15,7 @@ export interface RelatedArticle {
   publishedAt: string;
   slug: string;
   imageUrl: string;
+  sourceName?: string;
 }
 
 interface RelatedArticlesProps {
@@ -66,7 +68,7 @@ export default function RelatedArticles({ articles, currentCategory }: RelatedAr
 
             <div className="p-5">
               <h4 className="font-semibold text-white mb-2 line-clamp-2 group-hover:text-blue-400 transition-colors">
-                {article.title}
+                {cleanTitle(article.title, article.sourceName)}
               </h4>
 
               <p className="text-sm text-gray-400 mb-4 line-clamp-2">

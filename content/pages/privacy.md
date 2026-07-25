@@ -7,7 +7,7 @@ order: 3
 
 # Privacy Policy
 
-*Last updated: March 2026*
+*Last updated: July 2026*
 
 ## Introduction
 
@@ -101,7 +101,12 @@ These third parties have access to your personal information only to perform the
 When you accept analytics/performance cookies, we use Vercel Web Analytics and Google Analytics to collect anonymised usage data (e.g. page views). IP anonymisation is enabled. Data is aggregated and not sold to third parties. For how Google processes data, see [Google's Privacy Policy](https://policies.google.com/privacy). You can withdraw consent at any time via "Cookie preferences" in the footer.
 
 ### Advertising
-We may use third-party advertising partners to serve ads. These partners may use cookies and similar technologies.
+We use Google AdSense to serve ads on this Site. Google and its advertising partners may use cookies and similar technologies to serve ads based on your prior visits to this and other websites, and to measure ad performance. For details on how Google uses this data, see [How Google uses information from sites or apps that use our services](https://policies.google.com/technologies/partner-sites).
+
+You can control personalized advertising using Google's own settings:
+
+- [Google's Ads Settings](https://adssettings.google.com/) — opt out of personalized ads from Google.
+- [www.aboutads.info/choices](https://www.aboutads.info/choices/) — opt out of personalized ads from other participating vendors.
 
 ## Children's Privacy
 

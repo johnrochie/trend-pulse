@@ -19,31 +19,31 @@ async function getPageContent() {
       title: 'About Trend Pulse',
       content: `# About Trend Pulse
 
-Trend Pulse is a real-time news and analysis platform dedicated to keeping you informed about the latest developments across technology, business, and entertainment.
+Trend Pulse is an AI-assisted news analysis platform that helps you keep up with what's happening across technology, business, entertainment, science, and health.
 
 ## Our Mission
 
-Our mission is simple: deliver timely, accurate, and comprehensive news coverage as events unfold. We believe that staying informed shouldn't require sifting through endless sources or waiting for traditional media cycles.
+Staying informed shouldn't mean sifting through dozens of outlets or waiting for a slow news cycle. Trend Pulse tracks breaking stories from established news sources as they happen and turns them into clear, structured analysis: what happened, why it matters, and what to watch next.
 
 ## How We Work
 
 ### 1. Real-Time Monitoring
-We continuously monitor news sources, social media, and data feeds to identify emerging stories and trending topics.
+We continuously monitor established news sources across our coverage categories to identify emerging stories.
 
-### 2. Comprehensive Analysis
-Our team and systems analyze developments from multiple angles to provide context and insight beyond the headlines.
+### 2. AI-Generated Analysis
+Each article on Trend Pulse is written by an AI system, using the original reporting as its source material. It adds structure — key facts, context, and takeaways — rather than simply repeating the source. We do not maintain a traditional newsroom of staff reporters.
 
 ### 3. Rapid Publishing
-We deliver news quickly, often publishing articles within minutes of major developments.
+Because the process is automated, we can publish analysis within minutes of a story breaking.
 
-### 4. Quality Focus
-Every article undergoes review to ensure accuracy, readability, and value for our readers.
+### 4. Source Attribution
+Every article links back to the original reporting it's based on, so you can always read the primary source.
 
 ## Contact Us
 
 Have questions or feedback? [Contact us](/contact) via our form, or find us on Twitter [@trendpulse](https://twitter.com/trendpulse) and [LinkedIn](https://linkedin.com/company/trendpulse).
 
-*Last updated: February 2026*`
+*Last updated: July 2026*`
     };
   }
 }

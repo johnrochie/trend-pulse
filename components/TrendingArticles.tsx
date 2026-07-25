@@ -6,6 +6,7 @@ import { TrendingUp, Eye, DollarSign, ExternalLink, Zap, BarChart, Users } from 
 import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 
 // Type for API article
 interface Article {
@@ -289,7 +290,7 @@ export default function TrendingArticles() {
                 <div className="p-4">
                   {/* Title - Clean and simple */}
                   <h3 className="font-medium text-lg text-white mb-3 group-hover:text-blue-300 transition-colors line-clamp-3">
-                    <Link href={`/article/${article.slug}`}>{article.title}</Link>
+                    <Link href={`/article/${article.slug}`}>{cleanTitle(article.title, article.sourceName)}</Link>
                   </h3>
 
                   {/* Excerpt - Clean and concise */}

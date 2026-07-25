@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { TrendingUp, Zap, ArrowRight, Calendar } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 
 interface Article {
   id: number | string;
@@ -152,7 +153,7 @@ export default function Hero({ articleCount, featuredArticles = [] }: HeroProps)
                       {featured.category}
                     </span>
                     <h2 className="font-space text-2xl sm:text-3xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors line-clamp-3">
-                      {featured.title}
+                      {cleanTitle(featured.title, featured.sourceName)}
                     </h2>
                     {featured.excerpt && (
                       <p className="text-gray-300 text-sm line-clamp-2 mb-3 hidden sm:block">
@@ -201,7 +202,7 @@ export default function Hero({ articleCount, featuredArticles = [] }: HeroProps)
                         {article.category}
                       </span>
                       <h3 className="text-sm font-semibold text-white group-hover:text-blue-300 transition-colors line-clamp-3 leading-snug">
-                        {article.title}
+                        {cleanTitle(article.title, article.sourceName)}
                       </h3>
                     </div>
                     <p className="text-xs text-gray-500 mt-1">{formatDate(article.publishedAt)}</p>

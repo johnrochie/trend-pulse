@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Clock, Eye, Tag, ChevronRight, Filter, Search, Grid, List } from 'lucide-react';
+import { cleanTitle } from '@/lib/text';
 
 interface Article {
   id: number;
@@ -17,6 +18,7 @@ interface Article {
   imageUrl: string;
   color: string;
   slug: string;
+  sourceName?: string;
 }
 
 interface AllArticlesComponentProps {
@@ -246,7 +248,7 @@ export default function AllArticlesComponent({
               {/* Content */}
               <div className="p-4">
                 <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
-                  {article.title}
+                  {cleanTitle(article.title, article.sourceName)}
                 </h3>
                 <p className="text-gray-400 text-sm mb-4 line-clamp-3">
                   {article.excerpt}
@@ -314,7 +316,7 @@ export default function AllArticlesComponent({
                   </div>
                   
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                    {article.title}
+                    {cleanTitle(article.title, article.sourceName)}
                   </h3>
                   
                   <p className="text-gray-400 mb-4">

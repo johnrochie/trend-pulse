@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Eye, Calendar, ExternalLink } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { fetchArticles } from '@/lib/articles-api';
 import { getImageAltText, getArticleFallbackImage } from '@/lib/images';
+import { cleanTitle } from '@/lib/text';
 import ArticleImage from '@/components/ArticleImage';
 import { generateCanonicalUrl, generateOpenGraphTags, generateTwitterCardTags, generateNewsArticleSchemaWithUrl, generateBreadcrumbSchemaFromItems } from '@/lib/seo';
 import { generateAiArticleSchema, generateAiFaqSchema, generateAiOptimizedContent } from '@/lib/ai-search';
@@ -43,31 +44,6 @@ interface Article {
   updatedAt?: string;
 }
 
-/**
- * Strip source name suffix from article titles (e.g. "Story - IGN" → "Story")
- * NewsAPI often appends the source name to the title with " - " or " | "
- */
-function cleanTitle(title: string, sourceName?: string): string {
-  if (!title) return title;
-  // If we have the exact source name, try to strip it specifically
-  if (sourceName) {
-    const suffixDash = ` - ${sourceName}`;
-    const suffixPipe = ` | ${sourceName}`;
-    if (title.endsWith(suffixDash)) return title.slice(0, -suffixDash.length).trim();
-    if (title.endsWith(suffixPipe)) return title.slice(0, -suffixPipe.length).trim();
-  }
-  // Generic: if the last segment after " - " or " | " looks like a source name
-  // (short, ≤40 chars, no sentence structure), strip it
-  const dashParts = title.split(' - ');
-  if (dashParts.length >= 2) {
-    const lastPart = dashParts[dashParts.length - 1];
-    if (lastPart.length <= 40 && !lastPart.includes(' the ') && !lastPart.includes(' and ')) {
-      return dashParts.slice(0, -1).join(' - ').trim();
-    }
-  }
-  return title;
-}
-
 async function getArticle(slug: string): Promise<Article | null> {
   try {
     const response = await fetchArticles({ slug, limit: 1 });
@@ -100,10 +76,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const title = article.seoTitle || `${cleanedTitle} | ${article.category} News - Trend Pulse`;
   const description = article.metaDescription || article.excerpt || `Read our latest ${article.category} news: ${article.title}. Stay informed with Trend Pulse.`;
   const canonicalUrl = article.canonicalUrl || generateCanonicalUrl(`/article/${article.slug}`);
-  const rawImage = article.ogImage || article.imageUrl;
-  const imageUrl = rawImage && rawImage.startsWith('http')
-    ? rawImage
-    : `${config.site.url}/og-image.jpg`;
+  const imageUrl = article.ogImage && article.ogImage.startsWith('http')
+    ? article.ogImage
+    : getArticleFallbackImage(article);
   
   // Generate Open Graph and Twitter tags
   const ogTags = generateOpenGraphTags(title, description, imageUrl, `/article/${article.slug}`);
@@ -205,12 +180,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   
   // Generate structured data for SEO (with article URL for mainEntityOfPage)
   const articleUrl = `${config.site.url}/article/${article.slug}`;
-  const articleImageUrl = (() => {
-    const img = article.ogImage || article.imageUrl;
-    return img && img.startsWith('http') ? img : getArticleFallbackImage(article);
-  })();
+  const articleImageUrl = article.ogImage && article.ogImage.startsWith('http')
+    ? article.ogImage
+    : getArticleFallbackImage(article);
+  const displayTitle = cleanTitle(article.title, article.sourceName);
   const structuredData = generateNewsArticleSchemaWithUrl(
-    article.title,
+    displayTitle,
     article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
     articleImageUrl,
     article.publishedAt,
@@ -218,12 +193,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     articleUrl,
     'Trend Pulse'
   );
-  
+
   // Generate AI search optimized schema
   const aiArticleSchema = generateAiArticleSchema(
-    article.title,
+    displayTitle,
     article.excerpt || article.metaDescription || `Read our latest ${article.category} news and analysis.`,
-    article.content || generateAiOptimizedContent(article.category, article.title),
+    article.content || generateAiOptimizedContent(article.category, displayTitle),
     article.publishedAt,
     article.updatedAt || article.publishedAt
   );
@@ -243,7 +218,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   };
   
   const categoryColor = getColorForCategory(article.category);
-  const displayTitle = cleanTitle(article.title, article.sourceName);
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -267,7 +241,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             generateBreadcrumbSchemaFromItems([
               { name: 'Home', url: '/' },
               { name: 'Articles', url: '/articles' },
-              { name: article.title, url: `/article/${article.slug}` },
+              { name: displayTitle, url: `/article/${article.slug}` },
             ])
           ),
         }}
@@ -286,7 +260,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </Link>
             
             <div className="flex items-center gap-4">
-              <ArticleActions title={article.title} url={`/article/${article.slug}`} />
+              <ArticleActions title={displayTitle} url={`/article/${article.slug}`} />
             </div>
           </div>
         </div>

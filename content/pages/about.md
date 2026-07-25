@@ -7,66 +7,50 @@ order: 1
 
 # About Trend Pulse
 
-Trend Pulse is a real-time news and analysis platform dedicated to keeping you informed about the latest developments across technology, business, and entertainment.
+Trend Pulse is an AI-assisted news analysis platform that helps you keep up with what's happening across technology, business, entertainment, science, and health.
 
 ## Our Mission
 
-Our mission is simple: deliver timely, accurate, and comprehensive news coverage as events unfold. We believe that staying informed shouldn't require sifting through endless sources or waiting for traditional media cycles.
+Staying informed shouldn't mean sifting through dozens of outlets or waiting for a slow news cycle. Trend Pulse tracks breaking stories from established news sources as they happen and turns them into clear, structured analysis: what happened, why it matters, and what to watch next.
 
 ## How We Work
 
 ### 1. Real-Time Monitoring
-We continuously monitor news sources, social media, and data feeds to identify emerging stories and trending topics.
+We continuously monitor established news sources across our coverage categories to identify emerging stories.
 
-### 2. Comprehensive Analysis
-Our team and systems analyze developments from multiple angles to provide context and insight beyond the headlines.
+### 2. AI-Generated Analysis
+Each article on Trend Pulse is written by an AI system, using the original reporting as its source material. It adds structure — key facts, context, and takeaways — rather than simply repeating the source. We do not maintain a traditional newsroom of staff reporters.
 
 ### 3. Rapid Publishing
-We deliver news quickly, often publishing articles within minutes of major developments.
+Because the process is automated, we can publish analysis within minutes of a story breaking.
 
-### 4. Quality Focus
-Every article undergoes review to ensure accuracy, readability, and value for our readers.
+### 4. Source Attribution
+Every article links back to the original reporting it's based on, so you can always read the primary source.
 
 ## Our Values
 
-### Accuracy First
-We prioritize factual accuracy and source verification in all our reporting.
-
-### Reader Focus
-We design our content and platform with our readers' needs in mind.
-
 ### Transparency
-We're clear about our sources and methods, building trust through openness.
+We're upfront that our content is AI-generated from third-party reporting, not original newsgathering. You should always know what you're reading and where it came from.
 
-### Innovation
-We leverage technology to enhance our news gathering and delivery capabilities.
+### Source Attribution
+We credit and link to the original outlets whose reporting our analysis is based on.
 
-## Technology & Innovation
+### Accuracy
+Our system is prompted to stick to facts present in the source material and avoid invented quotes or claims. Automated content can still make mistakes — if you spot one, please [let us know](/contact).
 
-While we maintain traditional journalistic standards, we embrace modern technology to enhance our capabilities:
+### Continuous Improvement
+We refine our process over time based on reader feedback and our own review of output quality.
 
-- **Real-time data processing** to identify trends as they emerge
-- **Automated monitoring** of thousands of news sources
-- **Advanced analytics** to provide deeper insights
-- **Scalable infrastructure** to handle breaking news events
+## Technology
 
-## Editorial Standards
+- **Real-time monitoring** of news feeds across our coverage categories
+- **AI-generated analysis** built on top of original reporting
+- **Automated publishing** so coverage goes live quickly
+- **Source-linked articles** so you can always verify against the original
 
-### Fact-Checking
-All articles undergo verification before publication.
+## Corrections
 
-### Source Transparency
-We clearly attribute information to its original sources.
-
-### Correction Policy
-We promptly correct any errors and clearly mark corrections.
-
-### Ethical Reporting
-We adhere to journalistic ethics and standards in all our coverage.
-
-## Team
-
-Trend Pulse is built by a team of journalists, analysts, and technologists passionate about delivering quality news coverage. While much of our content is generated through automated systems, our editorial team oversees all output to ensure quality and accuracy.
+If you believe an article contains an error, [contact us](/contact) with a link to the piece and a description of the issue. We'll review and correct or remove it as appropriate.
 
 ## Contact Us
 
@@ -82,4 +66,4 @@ We're committed to being a reliable source of news and analysis. Our readers tru
 
 ---
 
-*Last updated: February 2026*
+*Last updated: July 2026*

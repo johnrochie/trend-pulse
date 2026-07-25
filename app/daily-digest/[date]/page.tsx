@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
       tags: digest.tags,
       images: [
         {
-          url: (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : `${siteUrl}/og-image.jpg`,
+          url: getArticleFallbackImage(digest),
           width: 1200,
           height: 630,
           alt: getImageAltText(digest),
@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
       card: 'summary_large_image',
       title: digest.title,
       description: digest.excerpt,
-      images: [(digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : `${siteUrl}/og-image.jpg`],
+      images: [getArticleFallbackImage(digest)],
     },
     alternates: {
       canonical: canonical,
@@ -107,7 +107,7 @@ export default async function DailyDigestPage({ params }: { params: Promise<{ da
   const publishedDate = parseISO(digest.publishedAt);
   const formattedDate = format(publishedDate, 'EEEE, MMMM d, yyyy');
   const digestUrl = `${config.site.url}/daily-digest/${date}`;
-  const digestImageUrl = (digest.imageUrl && digest.imageUrl.startsWith('http')) ? digest.imageUrl : getArticleFallbackImage(digest);
+  const digestImageUrl = getArticleFallbackImage(digest);
   const breadcrumbSchema = generateBreadcrumbSchemaFromItems([
     { name: 'Home', url: '/' },
     { name: 'Daily Digest', url: '/daily-digest' },

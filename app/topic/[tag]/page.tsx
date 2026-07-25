@@ -5,6 +5,7 @@ import { fetchArticles, Article } from '@/lib/articles-api';
 import { tagToSlug, slugToTag } from '@/lib/tag-utils';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 import { Hash, TrendingUp, Clock } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
@@ -116,7 +117,7 @@ export default async function TagPage({ params }: Props) {
 
                   <div className="p-4 flex flex-col flex-1">
                     <h2 className="font-medium text-lg text-white mb-2 group-hover:text-blue-300 transition-colors line-clamp-3 flex-1">
-                      <Link href={`/article/${article.slug}`}>{article.title}</Link>
+                      <Link href={`/article/${article.slug}`}>{cleanTitle(article.title, article.sourceName)}</Link>
                     </h2>
 
                     <p className="text-gray-400 text-sm mb-4 line-clamp-2">{article.excerpt}</p>

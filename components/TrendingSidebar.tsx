@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { TrendingUp } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 
 interface Article {
   id: number | string;
@@ -73,7 +74,7 @@ export default function TrendingSidebar({ currentSlug, articles, currentCategory
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-gray-200 font-medium line-clamp-2 group-hover:text-blue-300 transition-colors leading-snug mb-1">
-                    {article.title}
+                    {cleanTitle(article.title, article.sourceName)}
                   </p>
                   <div className="flex items-center gap-2 flex-wrap">
                     <CategoryBadge category={article.category} />
@@ -109,7 +110,7 @@ export default function TrendingSidebar({ currentSlug, articles, currentCategory
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-200 font-medium line-clamp-2 group-hover:text-blue-300 transition-colors leading-snug mb-1">
-                      {article.title}
+                      {cleanTitle(article.title, article.sourceName)}
                     </p>
                     {article.publishedAt && (
                       <span className="text-xs text-gray-500">{formatDate(article.publishedAt)}</span>

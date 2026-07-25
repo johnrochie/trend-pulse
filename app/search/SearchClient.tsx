@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Search, Loader2, FileText } from 'lucide-react';
 import ArticleImage from '@/components/ArticleImage';
+import { cleanTitle } from '@/lib/text';
 
 interface Article {
   id: number;
@@ -13,6 +14,7 @@ interface Article {
   slug: string;
   publishedAt: string;
   imageUrl: string;
+  sourceName?: string;
 }
 
 export default function SearchClient() {
@@ -132,7 +134,7 @@ export default function SearchClient() {
                       <div className="flex-1 min-w-0">
                         <span className="text-xs font-medium text-blue-400">{article.category}</span>
                         <h2 className="text-lg font-semibold text-white mt-1 line-clamp-2">
-                          {article.title}
+                          {cleanTitle(article.title, article.sourceName)}
                         </h2>
                         <p className="text-gray-400 text-sm mt-2 line-clamp-2">{article.excerpt}</p>
                       </div>
