@@ -68,10 +68,28 @@ function pickTopArticles(articles, limit = 10) {
     .slice(0, limit);
 }
 
+// Source content is often hard-truncated mid-sentence. Cut at the last full
+// sentence instead so the model isn't fed a dangling fragment it might
+// over-interpret (e.g. inventing meaning from a cut-off phrase).
+function truncateAtSentence(text, maxLength) {
+  if (!text) return '';
+  const trimmed = text.trim();
+  if (trimmed.length <= maxLength) return trimmed;
+  const truncated = trimmed.slice(0, maxLength);
+  const lastSentenceEnd = Math.max(
+    truncated.lastIndexOf('. '),
+    truncated.lastIndexOf('! '),
+    truncated.lastIndexOf('? ')
+  );
+  return lastSentenceEnd > maxLength * 0.4
+    ? truncated.slice(0, lastSentenceEnd + 1)
+    : truncated;
+}
+
 function buildPrompt(articles, dateStr, datePretty) {
   const summaries = articles.map(
     (a, i) =>
-      `${i + 1}. [${a.category.toUpperCase()}] ${a.title}\n${(a.content || a.excerpt || '').slice(0, 500)}`
+      `${i + 1}. [${a.category.toUpperCase()}] ${a.title}\n${truncateAtSentence(a.content || a.excerpt || '', 500)}`
   );
 
   return `You are a senior news editor and analyst at Trend Pulse. Your job is to write a comprehensive daily briefing that goes beyond the headlines — providing original context, analysis, and insight that readers cannot get from just reading individual articles.
@@ -82,7 +100,7 @@ Below are today's top stories with their key details:
 
 ${summaries.join('\n\n---\n\n')}
 
-Write a substantive daily briefing (minimum 900 words) using the EXACT section markers below. Every section must provide original analysis, not just a re-summary. Explain WHY stories matter and what they mean for readers. Include specific names, numbers, and facts from the articles. Do not use vague filler language.
+Write a substantive daily briefing (minimum 900 words) using the EXACT section markers below. Every section must provide original analysis, not just a re-summary. Explain WHY stories matter and what they mean for readers. Include specific names, numbers, and facts from the articles. Do not use vague filler language. If any story summary above is incomplete or cuts off mid-sentence, ignore the cut-off fragment — do not speculate about or draw conclusions from text that isn't there.
 
 ---
 
