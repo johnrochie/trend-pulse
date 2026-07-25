@@ -27,30 +27,11 @@ export default function QuizPage() {
             <span className="text-gray-500">•</span>
             <span className="text-sm text-gray-400">Updated weekly</span>
             <span className="text-gray-500">•</span>
-            <span className="text-sm text-gray-400">10 questions</span>
+            <span className="text-sm text-gray-400">20 questions</span>
           </div>
         </div>
 
-        {/* Quiz Stats - Will be populated by EnhancedQuizComponent */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">—</div>
-            <div className="text-gray-400">Players This Week</div>
-            <div className="text-xs text-gray-500 mt-1">Live stats loading...</div>
-          </div>
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">—</div>
-            <div className="text-gray-400">Average Score</div>
-            <div className="text-xs text-gray-500 mt-1">Updated in real-time</div>
-          </div>
-          <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-            <div className="text-3xl font-bold text-white mb-2">—</div>
-            <div className="text-gray-400">Time Remaining</div>
-            <div className="text-xs text-gray-500 mt-1">Until next quiz</div>
-          </div>
-        </div>
-
-        {/* Quiz Component */}
+        {/* Quiz Component (renders its own live stats) */}
         <EnhancedQuizComponent />
 
         {/* How It Works */}
@@ -63,7 +44,7 @@ export default function QuizPage() {
               </div>
               <h3 className="font-bold text-white">Take the Quiz</h3>
               <p className="text-gray-400 text-sm">
-                Answer 10 questions about this week's trending news topics.
+                Answer 20 questions about this week's trending news topics.
               </p>
             </div>
             <div className="space-y-3">

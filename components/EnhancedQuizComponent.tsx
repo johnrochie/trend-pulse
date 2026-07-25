@@ -429,20 +429,27 @@ export default function EnhancedQuizComponent() {
   const progress = quizStarted && quizData ? ((currentQuestion + 1) / quizData.questionCount) * 100 : 0;
 
   // Utility functions
+  const SITE_LAUNCH_DATE = new Date('2026-02-23T00:00:00.000Z');
+
   const getWeekNumber = () => {
-    // Fixed week number for SSR consistency (week 8 of 2026)
-    return 8;
+    // Weeks since site launch, so "Week 1" starts the launch week
+    const now = new Date();
+    const diffDays = Math.floor((now.getTime() - SITE_LAUNCH_DATE.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.max(1, Math.floor(diffDays / 7) + 1);
   };
 
   const getNextThursday = () => {
-    // Fixed next Thursday for SSR consistency (2026-02-27)
-    return new Date('2026-02-27T00:00:00.000Z');
+    const now = new Date();
+    const day = now.getUTCDay(); // 0 = Sunday, 4 = Thursday
+    let daysUntilThursday = (4 - day + 7) % 7;
+    if (daysUntilThursday === 0) daysUntilThursday = 7; // if today is Thursday, target next week's
+    const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysUntilThursday, 23, 59, 59));
+    return next;
   };
 
   const getSiteAgeDays = () => {
-    // Site launched approximately on 2026-02-23
-    // Return fixed value for SSR consistency
-    return 1; // Fixed: site is 1 day old
+    const now = new Date();
+    return Math.max(1, Math.floor((now.getTime() - SITE_LAUNCH_DATE.getTime()) / (1000 * 60 * 60 * 24)));
   };
 
   const formatTimeRemaining = () => {
