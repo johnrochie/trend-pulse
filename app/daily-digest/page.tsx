@@ -53,6 +53,8 @@ async function getDailyDigests(): Promise<DailyDigest[]> {
   }
 }
 
+export const revalidate = 300;
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Daily Digest Archive - AI-Powered News Summaries | Trend Pulse',

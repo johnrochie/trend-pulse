@@ -48,6 +48,8 @@ async function getDailyDigest(date: string): Promise<DailyDigest | null> {
   }
 }
 
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: { params: Promise<{ date: string }> }): Promise<Metadata> {
   const { date } = await params;
   const digest = await getDailyDigest(date);
