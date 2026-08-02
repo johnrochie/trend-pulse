@@ -1,6 +1,29 @@
 {
   "articles": [
     {
+      "id": 1785675618632,
+      "sourceId": "science_41f4ed33",
+      "title": "Protect your eyes while enjoying the spectacle of a total solar eclipse - CNN",
+      "excerpt": "> On August 12, 2026, a total solar eclipse will sweep across Greenland, Iceland, and Spain — the first total eclipse visible from much of western Europe since 1999. Viewing it without certified ISO 1...",
+      "content": "## TL;DR\n\n> On **August 12, 2026**, a total solar eclipse will sweep across Greenland, Iceland, and Spain — the first total eclipse visible from much of western Europe since 1999. Viewing it without certified **ISO 12312-2** solar filters can permanently destroy retinal cells in seconds, with no pain to warn you. With the event just days away, securing proper eye protection now is a matter of sight, not spectacle.\n\n## What Happened\n\nThe countdown is on for the **August 12, 2026 total solar eclipse**, and public health authorities are bracing for a surge of eye injuries and fake-glasses sales. Millions of travelers and locals across the **Iberian Peninsula, Iceland, and Greenland** will watch the Moon slide in front of the Sun — but every second of partial phase demands certified filtration or thousands of retinas will be silently burned in a moment of curiosity.\n\n## Key Facts\n\n- **August 12, 2026** marks the first total solar eclipse visible from continental western Europe since **August 11, 1999** — a gap of 27 years.\n- The path of totality crosses **Greenland, western Iceland, and northern and central Spain**, including cities such as **Bilbao, Burgos, Valencia, and Palma de Mallorca**.\n- Maximum totality lasts **2 minutes 18 seconds** over the North Atlantic, while Spanish viewers will see roughly **1 to 2 minutes** of darkness near sunset.\n- **ISO 12312-2** is the internationally recognized safety standard for eclipse glasses and handheld solar viewers; filters must block almost all ultraviolet, visible, and infrared light.\n- Viewing the uneclipsed Sun directly can cause **solar retinopathy** — a thermal burn of the retina that produces **no immediate pain** and often no awareness until vision deteriorates hours later.\n- The only moment it is safe to view with the naked eye is **total totality**, when the Moon fully covers the solar disk and the corona is visible.\n- Fake or counterfeited eclipse glasses lacking certification marks are a documented problem at major eclipse events, with the **American Astronomical Society** and **NASA** issuing repeated warnings.\n\n## Breaking It Down\n\n> The human retina contains **no pain receptors** — a person can stare at the Sun for several seconds, receive a permanent thermal burn of the macula, and feel absolutely nothing until central vision blurs or darkens.\n\nThat silent damage is the core anxiety behind every eclipse safety campaign. Solar retinopathy occurs when the eye's lens focuses sunlight into a concentrated spot on the **macula**, the central region of the retina responsible for sharp vision. The energy kills photoreceptor cells, creating a blind spot (scotoma) that can be permanent. Because the process is painless, young children are especially vulnerable — they may gaze at the Sun out of curiosity and wander away without complaint, only to be diagnosed with vision loss days or weeks later. There is no treatment. Glucocorticoids have been tried in clinical settings without robust proof of benefit; the retinal scarring that appears within weeks or months is generally permanent.\n\nThe safest practice for the **August 12 eclipse** is to distinguish sharply between the partial and total phases. From the moment the Moon first touches the Sun's edge through the final sliver of sunlight after totality, certified **ISO 12312-2** filters are mandatory. But the crucial nuance is that totality itself is a window of exceptional privilege: during those breathtaking minutes, the solar disk is completely covered, and direct naked-eye viewing is safe and utterly safe only then. The danger is",
+      "url": "https://www.cnn.com/2026/08/01/science/eye-safety-total-solar-eclipse",
+      "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/c-gettyimages-2147619303.jpg?c=16x9&q=w_800,c_fill",
+      "sourceName": "CNN",
+      "category": "science",
+      "publishedAt": "2026-08-01T10:30:28Z",
+      "publishedAtSite": "2026-08-02T13:00:18.604Z",
+      "tags": [
+        "science",
+        "news",
+        "analysis"
+      ],
+      "readTime": "3 min",
+      "views": 0,
+      "trendingScore": 0,
+      "slug": "protect-your-eyes-while-enjoying-the-spectacle-of-a-total-so",
+      "color": "from-indigo-600 to-violet-600"
+    },
+    {
       "id": 1785657983304,
       "sourceId": "entertainment_6f19479",
       "title": "Horoscope for Saturday, August 01, 2026 - Chicago Sun-Times",
@@ -2369,29 +2392,6 @@
       "color": "from-indigo-600 to-violet-600"
     },
     {
-      "id": 1785070708311,
-      "sourceId": "technology_57d4d1c5",
-      "title": "OpenAI confirms ChatGPT is down worldwide - BleepingComputer",
-      "excerpt": "> ChatGPT suffered a global service outage on Saturday, July 25, 2026, confirmed by OpenAI. The disruption halted access for hundreds of millions of users across free and paid tiers, underscoring the ...",
-      "content": "## TL;DR\n> ChatGPT suffered a global service outage on Saturday, July 25, 2026, confirmed by OpenAI. The disruption halted access for hundreds of millions of users across free and paid tiers, underscoring the acute dependence of enterprises and individuals on a single AI platform for daily operations.\n\n## What Happened\n**ChatGPT**, OpenAI’s flagship conversational AI, went offline worldwide on **July 25, 2026**, triggering immediate alarms across business, education, and consumer sectors. First reported by BleepingComputer, the outage was acknowledged by OpenAI on its status page within minutes, but no root cause or estimated resolution time was provided for several hours.\n\n## Key Facts\n- **OpenAI** confirmed the outage was **global** and affected all ChatGPT interfaces, including web, mobile, and API.\n- The disruption began in the early afternoon Eastern Time, with users reporting error messages indicating \"Unable to load conversation\" or \"Service Unavailable\".\n- As of OpenAI’s most recent public update in early 2026, ChatGPT served **over 200 million** weekly active users worldwide.\n- Both **free** users and **paid** subscribers—including **ChatGPT Plus** ($20/month) and **Team** plans—were impacted, leading to an immediate spike in complaints on social media.\n- Competitor platforms such as **Google Gemini**, **Anthropic’s Claude**, and **Microsoft Copilot** reported increased traffic as users sought alternatives.\n- Previous major ChatGPT outages occurred in **November 2023** (a 2-hour API failure) and **June 2024** (a multi-hour data-center issue), each taking at least 4 hours to fully resolve.\n- OpenAI’s status page updated the incident from \"Investigating\" to \"Identified\" within two hours, but as of the time of this article, no service restoration timeline had been announced.\n\n## Breaking It Down\n\nThis is not just a consumer inconvenience. ChatGPT has become deeply embedded in professional workflows—writing code, drafting legal documents, generating marketing copy, and powering customer-service chatbots through its API. A global shutdown of this magnitude directly halts productivity for millions of knowledge workers and",
-      "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-confirms-chatgpt-is-down-worldwide/",
-      "imageUrl": "https://www.bleepstatic.com/content/hl-images/2023/03/24/ChatGPT-logo.jpg",
-      "sourceName": "BleepingComputer",
-      "category": "technology",
-      "publishedAt": "2026-07-25T09:31:09Z",
-      "publishedAtSite": "2026-07-26T12:58:27.632Z",
-      "tags": [
-        "technology",
-        "news",
-        "analysis"
-      ],
-      "readTime": "3 min",
-      "views": 0,
-      "trendingScore": 0,
-      "slug": "openai-confirms-chatgpt-is-down-worldwide-bleepingcomputer",
-      "color": "from-blue-600 to-cyan-600"
-    },
-    {
       "id": 21160730,
       "title": "Daily Briefing: Thursday, July 30, 2026 — Top Stories, Analysis & Key Takeaways",
       "excerpt": "The KOSPI collapse is not an isolated event — it is a direct consequence of Korea’s unique retail-investor structure, which amplifies selloffs. Global portfolio managers should reweight emerging-marke...",
@@ -2530,7 +2530,7 @@
       "type": "daily-digest"
     }
   ],
-  "lastUpdated": "2026-08-02T08:07:17.754Z",
+  "lastUpdated": "2026-08-02T13:00:52.432Z",
   "count": 106,
   "source": "Trend Pulse Automation"
 }
