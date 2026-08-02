@@ -1,6 +1,29 @@
 {
   "articles": [
     {
+      "id": 1785696919010,
+      "sourceId": "technology_4362e01b",
+      "title": "Review: Xenoblade Chronicles 2: Does Switch 2's Power Finally Fix This Ambitious Open-World RPG? - Digital Foundry",
+      "excerpt": "> Digital Foundry's technical review, published Saturday, August 1, 2026, puts Xenoblade Chronicles 2 on the Switch 2 under a microscope, asking whether the new hardware finally fixes the 2017 RPG's i...",
+      "content": "## TL;DR\n> **Digital Foundry's technical review, published Saturday, August 1, 2026, puts Xenoblade Chronicles 2 on the Switch 2 under a microscope, asking whether the new hardware finally fixes the 2017 RPG's infamous performance problems.** The analysis centres on Nintendo's docked 4K 60fps promise, making this a defining test of how the Switch 2 handles one of the most demanding open-world games of the previous generation.\n\n## What Happened\n**Digital Foundry** published a full technical review of **Xenoblade Chronicles 2** running on the **Switch 2** on August 1, 2026, going directly at the question: does the new console's power finally stabilise an open-world RPG that stretched the original Switch hardware to its limits? The headline claim being tested is the promised **4K 60fps** performance in docked mode, a target the original hardware never came close to achieving in a stable form.\n\n## Key Facts\n- **Digital Foundry** released the review on **August 1, 2026**, specifically analysing the Switch 2 version of Xenoblade Chronicles 2.\n- The game originally launched on **December 1, 2017** for Nintendo Switch, developed by **Monolith Soft** and published by **Nintendo**.\n- The review frames the core question as whether **Switch 2's power** can finally fix the game's long-documented technical issues.\n- A central claim under scrutiny is the promised **4K 60fps** docked experience — a target the original Switch version never held.\n- Xenoblade Chronicles 2 is an **ambitious open-world RPG**, whose vast environments and draw distances were historically the main source of its frame-rate instability.\n- The original Switch release became a frequently cited example of **hardware limits vs. game scale**, with extensive use of dynamic resolution scaling.\n- The review arrives amid broader **backwards-compatibility testing** of Switch 1 titles on the new console, a key selling point for Nintendo's successor hardware.",
+      "url": "https://www.digitalfoundry.net/reviews/xenoblade-chronicles-2-does-switch-2s-power-finally-fix-this-ambitious-open-world-rpg",
+      "imageUrl": "https://images.digitalfoundry.net/9a564eb281c2e/large.jpg",
+      "sourceName": "Digitalfoundry.net",
+      "category": "technology",
+      "publishedAt": "2026-08-01T15:06:00Z",
+      "publishedAtSite": "2026-08-02T18:55:18.768Z",
+      "tags": [
+        "technology",
+        "news",
+        "analysis"
+      ],
+      "readTime": "3 min",
+      "views": 0,
+      "trendingScore": 0,
+      "slug": "review-xenoblade-chronicles-2-does-switch-2s-power-finally-f",
+      "color": "from-blue-600 to-cyan-600"
+    },
+    {
       "id": 1785675618632,
       "sourceId": "science_41f4ed33",
       "title": "Protect your eyes while enjoying the spectacle of a total solar eclipse - CNN",
@@ -2369,29 +2392,6 @@
       "color": "from-blue-600 to-cyan-600"
     },
     {
-      "id": 1785092299789,
-      "sourceId": "science_77417a8b",
-      "title": "Woman Transforms IKEA Wooden Bowls Into Gorgeous Side Table - Dengarden",
-      "excerpt": "> A single DIY project published on Dengarden demonstrates how everyday IKEA items can be reconfigured into sturdy, attractive furniture using basic materials science principles. The transformation of...",
-      "content": "## TL;DR\n> A single DIY project published on Dengarden demonstrates how everyday IKEA items can be reconfigured into sturdy, attractive furniture using basic materials science principles. The transformation of wooden bowls into a side table matters because it represents a growing consumer-driven movement that challenges conventional manufacturing by proving that waste-stream objects can meet structural demands with minimal tooling.\n\n## What Happened\nOn July 25, 2026, Dengarden.com published a detailed tutorial showing how **a woman** transformed **IKEA wooden bowls** into a functional side table. The project, which uses only off-the-shelf adhesives and finishes, turns what would typically be simple serving vessels into a load-bearing piece of furniture, raising questions about the engineering limits of repurposed household goods.\n\n## Key Facts\n- The tutorial was published by **Dengarden**, a home improvement and crafts website, on **July 25, 2026**.\n- The project uses **multiple IKEA wooden bowls**—a product line that typically costs between **$5 and $15 per bowl** depending on size and wood species.\n- The designer employed **adhesive bonding** and **mechanical fastening** to join the bowls into a stable column, supported by a flat top and base.\n- The finished piece measures approximately **18–24 inches in diameter** and **20–28 inches in height**, suitable for use as a side or end table.\n- The article includes **step-by-step instructions**, material lists, and finishing recommendations, making it accessible to **beginner-level DIYers**.\n- No specialized power tools are required beyond a **drill, clamps, and sandpaper**, keeping the barrier to entry extremely low.\n- The project was categorized under **“science”** on Dengarden, highlighting the technical considerations—such as bowl curvature, adhesive shear strength, and load distribution—inherent in the build.\n\n## Breaking It Down\n\nThe core of this project is not just aesthetic—it’s an exercise in **structural engineering** applied to objects never designed to bear weight. Each IKEA wooden bowl is a thin-walled, curved shell made from **birch or acacia veneer**, optimized for holding food, not supporting a 40-pound lamp or a stack of books. To turn a stack of bowls into a table, the builder must overcome a fundamental geometry problem: curved surfaces resist stacking unless they are aligned precisely, and adhesive joints under shear stress will fail if the contact area is insufficient.\n\n> The typical IKEA wooden bowl has a wall thickness of only **3–5 millimeters**, meaning that the glued interface between two stacked bowls is a ring of wood less than half a centimeter wide. Against vertical loads, that joint can hold surprisingly well—hand-glued **PVA wood glue** has a tensile strength around **3,000–4,000 psi** when properly cured—but lateral forces (like a person bumping the table) create leverage that multiplies stress at the glue line.\n\nThe design logic of the side table likely counters this vulnerability. By using a **central bolt or threaded rod** running through the bowls’ center holes (most IKEA wooden bowls have a small dimple or through-hole from manufacturing), the builder can clamp the stack together under compression. This converts the adhesive joints from a shear-dominant to a compression-dominant loading state, dramatically increasing the structure’s tolerance for accidental bumps. The flat top and base pieces—probably cut from a **pine or plywood board**—then distribute point loads across the entire bowl stack, preventing any single joint from seeing peak stress.\n\nFrom a **materials science** perspective, the choice of glue matters as much as the geometry. Epoxy adhesives, which have gap-filling properties and cure to a rigid, high-strength bond, would be ideal for the uneven bowl surfaces. But the tutorial likely recommends **PVA or polyurethane glue** because they are cheaper, more forgiving, and require less precise application—an important factor for a beginner-facing project. The **coefficient of thermal expansion** difference between wood and metal fasteners also matters: if the builder uses a steel threaded rod, wood shrinkage in dry indoor air could loosen the clamp over time, requiring periodic retightening.\n\nThe project also touches on **finishing science**. Raw wood bowls left untreated will absorb moisture and oils from the environment, leading to warping and cracking. A coat of **polyurethane, shellac, or Danish oil** seals the surface, reduces moisture exchange, and adds UV protection if the table is placed near a window. The finish choice affects not only durability but also the friction at the glue joint—a too-slick finish on the bowl rims could weaken the adhesive bond, which is why the tutorial likely instructs builders to sand the contact areas back to bare wood before gluing.\n\n## What Comes Next\n\nThe Dengarden bowl table tutorial is part of a larger wave of **IKEA hacking** content that has exploded on platforms like Pinterest, YouTube, and Instructables since the early 2020s. What happens next depends on several near-term developments:\n\n1. **IKEA’s product response**: IKEA has historically maintained a neutral-to-positive stance on hacking, but as projects like this one demonstrate structural loads on their products, the company may issue updated **warnings or liability disclaimers** for specific product lines. Watch for new **care and use labels** on BLANDA BLANK and other bowl sets by **early 2027**.\n2. **DIY science verification**: Expect independent testing by makers or engineering blogs—like **Woodworking Network** or **Tested.com**—which may publish load-test results for bowl tables within **3–6 months**. A documented failure at 50+ pounds would reshape recommendations.\n3. **Tool and adhesive marketing**: Brands such as **Gorilla Glue, Titebond, and 3M** may launch targeted campaigns for “upcycling furniture” adhesives, highlighting shear strength and gap-filling data. Look for new product SKUs by **spring 2027**.\n4. **Regulatory implications**: If bowl tables gain significant traction, consumer safety regulators (e.g., **CPSC** in the U.S.) could examine whether repurposed IKEA products intended for serving meet furniture stability standards. A **voluntary standard proposal** might appear within 18 months, especially if injury reports surface.\n\n## The Big",
-      "url": "https://dengarden.com/design/ikea-bowl-side-table-diy-hack",
-      "imageUrl": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&auto=format&fit=crop",
-      "sourceName": "Dengarden.com",
-      "category": "science",
-      "publishedAt": "2026-07-25T12:55:59Z",
-      "publishedAtSite": "2026-07-26T18:58:18.949Z",
-      "tags": [
-        "science",
-        "news",
-        "analysis"
-      ],
-      "readTime": "5 min",
-      "views": 0,
-      "trendingScore": 0,
-      "slug": "woman-transforms-ikea-wooden-bowls-into-gorgeous-side-table",
-      "color": "from-indigo-600 to-violet-600"
-    },
-    {
       "id": 21160730,
       "title": "Daily Briefing: Thursday, July 30, 2026 — Top Stories, Analysis & Key Takeaways",
       "excerpt": "The KOSPI collapse is not an isolated event — it is a direct consequence of Korea’s unique retail-investor structure, which amplifies selloffs. Global portfolio managers should reweight emerging-marke...",
@@ -2530,7 +2530,7 @@
       "type": "daily-digest"
     }
   ],
-  "lastUpdated": "2026-08-02T13:00:52.432Z",
+  "lastUpdated": "2026-08-02T18:57:13.658Z",
   "count": 106,
   "source": "Trend Pulse Automation"
 }
