@@ -1,6 +1,29 @@
 {
   "articles": [
     {
+      "id": 21160803,
+      "title": "Daily Briefing: Monday, August 3, 2026 — Top Stories, Analysis & Key Takeaways",
+      "excerpt": "Your AI-powered summary of today's top stories across tech, business, and markets.",
+      "content": "**DAILY DIGEST — Monday, August 3, 2026**\n\n## 🔥 Top Story\n\nAmazon and Apple delivered a one-two punch of earnings drama on August 2, 2026, closing out a brutal July for U.S. markets, according to The Wall Street Journal. As the two most heavily weighted stocks in the U.S. market, their results carry outsize influence over index returns and investor sentiment. The stakes are enormous: because so many index funds and ETFs hold both names, any disappointment in revenue, guidance, or a key business segment can trigger hundreds of billions in combined market value shifts. The framing — \"drama\" capping a \"turbulent month\" — suggests the reports did not offer investors an easy landing. This matters because Amazon and Apple are bellwethers for consumer spending, cloud infrastructure demand, and global supply chain health. Their performance is the clearest signal yet of whether the economic softness of July is spreading beyond rate-sensitive sectors into the companies that anchor the American economy.\n\n## 📰 Today's Key Stories\n\n**Xenoblade Chronicles 2 on Switch 2: A Defining Test of Nintendo's 4K/60fps Promise**\n\nDigital Foundry published a technical review on Saturday, August 1, 2026, putting Xenoblade Chronicles 2 on the Switch 2 under a microscope. The analysis centers on Nintendo's docked 4K 60fps promise, making this a benchmark for how the new hardware handles one of the most demanding open-world games of the previous generation. The original 2017 RPG was infamous for resolution drops and frame-pacing problems, so a clean performance now would be a strong signal for new Nintendo hardware and future third-party ports. The next question is portable mode: if the Switch 2 holds up there too, it reshapes expectations for console performance on the go.\n\n**Total Solar Eclipse on August 12: The Safety Warning That Can Save Your Sight**\n\nCNN is warning that the total solar eclipse sweeping across Greenland, Iceland, and Spain on August 12, 2026 — the first visible from much of western Europe since 1999 — will be extraordinarily dangerous to view without certified ISO 12312-2 solar filters. Looking at the sun without them can permanently destroy retinal cells in seconds, and critically, there is no pain to warn you. This matters because the eclipse path crosses heavily populated areas of Spain and will draw millions of casual viewers, many of whom will be first-time eclipse tourists. In the coming week, public health campaigns across Europe should prioritize distributing and verifying certified glasses over general spectacle hype.\n\n**Trump's Fight for 'Rocket Fuel' Rate Cuts Is Losing Altitude**\n\nPresident Donald Trump's months-long campaign to force the Federal Reserve into deep interest-rate cuts —",
+      "category": "General",
+      "readTime": "5 min",
+      "views": 0,
+      "trendingScore": 90,
+      "tags": [
+        "Daily Digest",
+        "AI Summary",
+        "News"
+      ],
+      "publishedAt": "2026-08-03T18:00:00.000Z",
+      "publishedAtSite": "2026-08-03T18:00:00.000Z",
+      "color": "from-purple-600 to-pink-600",
+      "url": "https://www.trendpulse.life/daily-digest/2026-08-03",
+      "imageUrl": "https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=800&auto=format&fit=crop",
+      "sourceName": "Trend Pulse AI",
+      "slug": "daily-digest-2026-08-03",
+      "type": "daily-digest"
+    },
+    {
       "id": 1785748950701,
       "sourceId": "business_433075d0",
       "title": "Amazon and Apple Deliver the Drama to Close a Turbulent Month - WSJ",
